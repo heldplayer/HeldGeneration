@@ -1,0 +1,5 @@
+name: HeldGeneration
+main: me.heldplayer.HeldGeneration.HeldGeneration
+version: 0.1.1
+description: Custom world generation plugin
+load: startup
