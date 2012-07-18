@@ -3,8 +3,8 @@ package me.heldplayer.HeldGeneration.generator.Components;
 import java.util.ArrayList;
 import java.util.Random;
 
-import me.heldplayer.HeldGeneration.BiomeHelper;
 import me.heldplayer.HeldGeneration.generator.Structures.StructureVillagePieceWeight;
+import me.heldplayer.HeldGeneration.helpers.BiomeHelper;
 
 public class ComponentVillageStartPiece extends ComponentVillageWell {
 	/** World terrain type, 0 for normal, 1 for flap map */

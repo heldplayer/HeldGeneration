@@ -1,4 +1,4 @@
-package me.heldplayer.HeldGeneration.generator.Populators;
+package me.heldplayer.HeldGeneration.helpers;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -2,16 +2,16 @@ package me.heldplayer.HeldGeneration.generator.MapGenerators;
 
 import java.util.Random;
 
-import me.heldplayer.HeldGeneration.BiomeHelp;
-import me.heldplayer.HeldGeneration.MathHelper;
-import me.heldplayer.HeldGeneration.generator.ChunkProviderGenerate;
+import me.heldplayer.HeldGeneration.generator.ChunkProvider;
+import me.heldplayer.HeldGeneration.helpers.BiomeHelp;
+import me.heldplayer.HeldGeneration.helpers.MathHelper;
 
 import org.bukkit.World;
 
 public class MapGenRavine extends MapGenBase {
 	private float[] field_35627_a = new float[1024];
 
-	protected void generateRavine(long seed, int cx, int cz, byte[] chunkBlocks, double par6, double par8, double par10, float par12, float par13, float par14, int par15, int par16, double par17, ChunkProviderGenerate provider) {
+	protected void generateRavine(long seed, int cx, int cz, byte[] chunkBlocks, double par6, double par8, double par10, float par12, float par13, float par14, int par15, int par16, double par17, ChunkProvider provider) {
 		Random var19 = new Random(seed);
 		double var20 = (cx * 16 + 8);
 		double var22 = (cz * 16 + 8);
@@ -149,7 +149,7 @@ public class MapGenRavine extends MapGenBase {
 													chunkBlocks[var47] = 0;
 
 													if (var48 && chunkBlocks[var47 - 1] == 3) {
-														chunkBlocks[var47 - 1] = (byte) BiomeHelp.getTopBlock(provider.helper.getBiomeAt(var41 + cx * 16, var44 + cz * 16));
+														chunkBlocks[var47 - 1] = (byte) BiomeHelp.getTopBlock(provider.generator.helper.getBiomeAt(var41 + cx * 16, var44 + cz * 16));
 													}
 												}
 											}
@@ -174,7 +174,7 @@ public class MapGenRavine extends MapGenBase {
 	 * Recursively called by generate() (generate) and optionally by itself.
 	 */
 	@Override
-	protected void recursiveGenerate(World par1World, int par2, int par3, int par4, int par5, byte[] par6ArrayOfByte, ChunkProviderGenerate provider) {
+	protected void recursiveGenerate(World par1World, int par2, int par3, int par4, int par5, byte[] par6ArrayOfByte, ChunkProvider provider) {
 		if (this.rand.nextInt(50) == 0) {
 			double var7 = (par2 * 16 + this.rand.nextInt(16));
 			double var9 = (this.rand.nextInt(this.rand.nextInt(40) + 8) + 20);

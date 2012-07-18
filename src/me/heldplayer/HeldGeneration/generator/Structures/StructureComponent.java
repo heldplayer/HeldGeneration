@@ -4,7 +4,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-import me.heldplayer.HeldGeneration.BlockHelper;
+import me.heldplayer.HeldGeneration.helpers.BlockHelper;
 
 import org.bukkit.Location;
 import org.bukkit.Material;

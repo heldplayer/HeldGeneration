@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-import me.heldplayer.HeldGeneration.MathHelper;
 import me.heldplayer.HeldGeneration.generator.Components.ComponentVillage;
 import me.heldplayer.HeldGeneration.generator.Components.ComponentVillageChurch;
 import me.heldplayer.HeldGeneration.generator.Components.ComponentVillageField;
@@ -20,6 +19,7 @@ import me.heldplayer.HeldGeneration.generator.Components.ComponentVillageStartPi
 import me.heldplayer.HeldGeneration.generator.Components.ComponentVillageTorch;
 import me.heldplayer.HeldGeneration.generator.Components.ComponentVillageWoodHut;
 import me.heldplayer.HeldGeneration.generator.MapGenerators.MapGenVillage;
+import me.heldplayer.HeldGeneration.helpers.MathHelper;
 
 public class StructureVillagePieces {
 	public static ArrayList<StructureVillagePieceWeight> getStructureVillageWeightedPieceList(Random rand, int par1) {

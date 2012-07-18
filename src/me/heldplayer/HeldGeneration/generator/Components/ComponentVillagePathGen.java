@@ -3,10 +3,10 @@ package me.heldplayer.HeldGeneration.generator.Components;
 import java.util.List;
 import java.util.Random;
 
-import me.heldplayer.HeldGeneration.MathHelper;
 import me.heldplayer.HeldGeneration.generator.Structures.StructureBoundingBox;
 import me.heldplayer.HeldGeneration.generator.Structures.StructureComponent;
 import me.heldplayer.HeldGeneration.generator.Structures.StructureVillagePieces;
+import me.heldplayer.HeldGeneration.helpers.MathHelper;
 
 import org.bukkit.World;
 

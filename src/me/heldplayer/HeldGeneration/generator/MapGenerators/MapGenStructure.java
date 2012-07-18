@@ -5,11 +5,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-import me.heldplayer.HeldGeneration.ChunkCoordIntPair;
-import me.heldplayer.HeldGeneration.generator.ChunkProviderGenerate;
+import me.heldplayer.HeldGeneration.generator.ChunkProvider;
 import me.heldplayer.HeldGeneration.generator.Structures.StructureBoundingBox;
 import me.heldplayer.HeldGeneration.generator.Structures.StructureComponent;
 import me.heldplayer.HeldGeneration.generator.Structures.StructureStart;
+import me.heldplayer.HeldGeneration.helpers.ChunkCoordIntPair;
 
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -18,7 +18,7 @@ public abstract class MapGenStructure extends MapGenBase {
 	protected HashMap<Long, StructureStart> coordMap = new HashMap<Long, StructureStart>();
 
 	@Override
-	public void generate(World world, int cx, int cz, byte[] chunkBlocks, ChunkProviderGenerate provider) {
+	public void generate(World world, int cx, int cz, byte[] chunkBlocks, ChunkProvider provider) {
 		super.generate(world, cx, cz, chunkBlocks, provider);
 	}
 
@@ -26,7 +26,7 @@ public abstract class MapGenStructure extends MapGenBase {
 	 * Recursively called by generate() (generate) and optionally by itself.
 	 */
 	@Override
-	protected void recursiveGenerate(World world, int cx, int cz, int ccx, int ccz, byte[] chunkBlocks, ChunkProviderGenerate provider) {
+	protected void recursiveGenerate(World world, int cx, int cz, int ccx, int ccz, byte[] chunkBlocks, ChunkProvider provider) {
 		if (!this.coordMap.containsKey(Long.valueOf(ChunkCoordIntPair.chunkXZ2Int(cx, cz)))) {
 			this.rand.nextInt();
 
@@ -41,7 +41,7 @@ public abstract class MapGenStructure extends MapGenBase {
 	 * Generates structures in specified chunk next to existing structures. Does
 	 * *not* generate StructureStarts.
 	 */
-	public boolean generateStructuresInChunk(World world, Random rand, int cx, int cz, ChunkProviderGenerate provider) {
+	public boolean generateStructuresInChunk(World world, Random rand, int cx, int cz, ChunkProvider provider) {
 		int centX = (cx << 4) + 8;
 		int centZ = (cz << 4) + 8;
 		boolean hasGenerated = false;
@@ -81,7 +81,7 @@ public abstract class MapGenStructure extends MapGenBase {
 	//		return false;
 	//	}
 
-	public Location getNearestInstance(World par1World, int par2, int par3, int par4, ChunkProviderGenerate provider) {
+	public Location getNearestInstance(World par1World, int par2, int par3, int par4, ChunkProvider provider) {
 		this.worldObj = par1World;
 		this.rand.setSeed(par1World.getSeed());
 		long var5 = this.rand.nextLong();
@@ -150,7 +150,7 @@ public abstract class MapGenStructure extends MapGenBase {
 		return null;
 	}
 
-	protected abstract boolean canSpawnStructureAtCoords(int cx, int cz, ChunkProviderGenerate provider);
+	protected abstract boolean canSpawnStructureAtCoords(int cx, int cz, ChunkProvider provider);
 
 	protected abstract StructureStart getStructureStart(int var1, int var2);
 }

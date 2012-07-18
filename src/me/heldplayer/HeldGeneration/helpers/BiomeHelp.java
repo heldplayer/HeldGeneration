@@ -1,4 +1,4 @@
-package me.heldplayer.HeldGeneration;
+package me.heldplayer.HeldGeneration.helpers;
 
 import org.bukkit.block.Biome;
 

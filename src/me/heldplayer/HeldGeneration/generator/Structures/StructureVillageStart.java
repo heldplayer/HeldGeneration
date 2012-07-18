@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
-import me.heldplayer.HeldGeneration.BiomeHelper;
 import me.heldplayer.HeldGeneration.generator.Components.ComponentVillageRoadPiece;
 import me.heldplayer.HeldGeneration.generator.Components.ComponentVillageStartPiece;
+import me.heldplayer.HeldGeneration.helpers.BiomeHelper;
 
 import org.bukkit.World;
 

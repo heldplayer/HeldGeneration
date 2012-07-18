@@ -1,6 +1,6 @@
 package me.heldplayer.HeldGeneration.GenLayers;
 
-import me.heldplayer.HeldGeneration.BiomeHelp;
+import me.heldplayer.HeldGeneration.helpers.BiomeHelp;
 
 public class GenLayerRiverMix extends GenLayer {
 	private GenLayer field_35512_b;

@@ -2,7 +2,7 @@ package me.heldplayer.HeldGeneration.generator.MapGenerators;
 
 import java.util.Random;
 
-import me.heldplayer.HeldGeneration.generator.ChunkProviderGenerate;
+import me.heldplayer.HeldGeneration.generator.ChunkProvider;
 
 import org.bukkit.World;
 
@@ -16,7 +16,7 @@ public class MapGenBase {
 	/** This world object. */
 	protected World worldObj;
 
-	public void generate(World world, int cx, int cz, byte[] chunkBlocks, ChunkProviderGenerate provider) {
+	public void generate(World world, int cx, int cz, byte[] chunkBlocks, ChunkProvider provider) {
 		int range = this.range;
 		this.worldObj = world;
 		this.rand.setSeed(world.getSeed());
@@ -36,6 +36,6 @@ public class MapGenBase {
 	/**
 	 * Recursively called by generate() (generate) and optionally by itself.
 	 */
-	protected void recursiveGenerate(World world, int ccx, int ccz, int cx, int cz, byte[] chunkBlocks, ChunkProviderGenerate provider) {
+	protected void recursiveGenerate(World world, int ccx, int ccz, int cx, int cz, byte[] chunkBlocks, ChunkProvider provider) {
 	}
 }

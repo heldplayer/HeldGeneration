@@ -4,10 +4,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-import me.heldplayer.HeldGeneration.BiomeHelper;
-import me.heldplayer.HeldGeneration.generator.ChunkProviderGenerate;
+import me.heldplayer.HeldGeneration.generator.ChunkProvider;
 import me.heldplayer.HeldGeneration.generator.Structures.StructureStart;
 import me.heldplayer.HeldGeneration.generator.Structures.StructureVillageStart;
+import me.heldplayer.HeldGeneration.helpers.BiomeHelper;
 
 import org.bukkit.block.Biome;
 
@@ -26,7 +26,7 @@ public class MapGenVillage extends MapGenStructure {
 	private final BiomeHelper helper;
 
 	@Override
-	protected boolean canSpawnStructureAtCoords(int cx, int cz, ChunkProviderGenerate provider) {
+	protected boolean canSpawnStructureAtCoords(int cx, int cz, ChunkProvider provider) {
 		byte var3 = 32;
 		byte var4 = 8;
 		int var5 = cx;
@@ -49,7 +49,7 @@ public class MapGenVillage extends MapGenStructure {
 		var8 += var9.nextInt(var3 - var4);
 
 		if (var5 == var7 && var6 == var8) {
-			boolean var10 = provider.helper.areBiomesViable(var5 * 16 + 8, var6 * 16 + 8, 0, villageSpawnBiomes);
+			boolean var10 = provider.generator.helper.areBiomesViable(var5 * 16 + 8, var6 * 16 + 8, 0, villageSpawnBiomes);
 
 			if (var10) {
 				return true;

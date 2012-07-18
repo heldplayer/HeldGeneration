@@ -2,7 +2,7 @@ package me.heldplayer.HeldGeneration.generator.Populators;
 
 import java.util.Random;
 
-import me.heldplayer.HeldGeneration.generator.ChunkProviderGenerate;
+import me.heldplayer.HeldGeneration.generator.ChunkProvider;
 import me.heldplayer.HeldGeneration.generator.WorldGenerators.WorldGenDungeons;
 import me.heldplayer.HeldGeneration.generator.WorldGenerators.WorldGenLakes;
 
@@ -12,9 +12,9 @@ import org.bukkit.block.Block;
 import org.bukkit.generator.BlockPopulator;
 
 public class ChunkPopulator extends BlockPopulator {
-	private ChunkProviderGenerate provider;
+	private ChunkProvider provider;
 
-	public ChunkPopulator(ChunkProviderGenerate provider) {
+	public ChunkPopulator(ChunkProvider provider) {
 		this.provider = provider;
 	}
 
@@ -37,7 +37,7 @@ public class ChunkPopulator extends BlockPopulator {
 
 		if (world.canGenerateStructures()) {
 			// Mineshaft gen
-			if (hasVillage = this.provider.villageGenerator.generateStructuresInChunk(world, rand, cx, cx, this.provider))
+			if (hasVillage = this.provider.generator.villageGenerator.generateStructuresInChunk(world, rand, cx, cx, this.provider))
 				System.out.println("Generated village " + cx + " " + cz);
 			// Stronghold gen
 		}

@@ -1,6 +1,6 @@
 package me.heldplayer.HeldGeneration.GenLayers;
 
-import me.heldplayer.HeldGeneration.BiomeHelp;
+import me.heldplayer.HeldGeneration.helpers.BiomeHelp;
 
 import org.bukkit.WorldType;
 import org.bukkit.block.Biome;

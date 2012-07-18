@@ -2,8 +2,8 @@ package me.heldplayer.HeldGeneration.generator.WorldGenerators;
 
 import java.util.Random;
 
-import me.heldplayer.HeldGeneration.BiomeHelp;
-import me.heldplayer.HeldGeneration.BlockHelper;
+import me.heldplayer.HeldGeneration.helpers.BiomeHelp;
+import me.heldplayer.HeldGeneration.helpers.BlockHelper;
 
 import org.bukkit.World;
 import org.bukkit.block.Biome;

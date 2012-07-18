@@ -1,26 +1,20 @@
 package me.heldplayer.HeldGeneration.generator;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
-import me.heldplayer.HeldGeneration.BiomeHelp;
-import me.heldplayer.HeldGeneration.BiomeHelper;
-import me.heldplayer.HeldGeneration.MathHelper;
 import me.heldplayer.HeldGeneration.generator.MapGenerators.MapGenBase;
 import me.heldplayer.HeldGeneration.generator.MapGenerators.MapGenCaves;
 import me.heldplayer.HeldGeneration.generator.MapGenerators.MapGenRavine;
 import me.heldplayer.HeldGeneration.generator.MapGenerators.MapGenVillage;
-import me.heldplayer.HeldGeneration.generator.Populators.ChunkPopulator;
+import me.heldplayer.HeldGeneration.helpers.BiomeHelp;
+import me.heldplayer.HeldGeneration.helpers.BiomeHelper;
+import me.heldplayer.HeldGeneration.helpers.MathHelper;
 
-import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Biome;
-import org.bukkit.block.Block;
-import org.bukkit.generator.BlockPopulator;
-import org.bukkit.generator.ChunkGenerator;
+import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
-public class ChunkProviderGenerate extends ChunkGenerator {
+public class ChunkProviderGenerate {
 	/** RNG. */
 	private Random rand;
 
@@ -78,6 +72,12 @@ public class ChunkProviderGenerate extends ChunkGenerator {
 	/** Holds Village Generator */
 	public MapGenVillage villageGenerator = new MapGenVillage(0, this.helper = new BiomeHelper());
 
+	private ChunkProvider provider;
+
+	public ChunkProviderGenerate(ChunkProvider provider) {
+		this.provider = provider;
+	}
+
 	private void setupNoiseGens() {
 		this.noiseGen1 = new NoiseGeneratorOctaves(this.rand, 16);
 		this.noiseGen2 = new NoiseGeneratorOctaves(this.rand, 16);
@@ -90,24 +90,7 @@ public class ChunkProviderGenerate extends ChunkGenerator {
 		this.helper.setSeed(this.seed);
 	}
 
-	@Override
-	public boolean canSpawn(World world, int x, int z) {
-		Block highest = world.getBlockAt(x, world.getHighestBlockYAt(x, z), z);
-
-		return highest.getType() != Material.AIR && highest.getType() != Material.WATER && highest.getType() != Material.LAVA;
-	}
-
-	@Override
-	public List<BlockPopulator> getDefaultPopulators(World world) {
-		List<BlockPopulator> populators = new ArrayList<BlockPopulator>();
-
-		populators.add(new ChunkPopulator(this));
-
-		return populators;
-	}
-
-	@Override
-	public byte[][] generateBlockSections(World world, Random random, int cx, int cz, BiomeGrid biomes) {
+	public byte[] generateBlockSections(World world, Random random, int cx, int cz, BiomeGrid biomes) {
 		if (this.rand == null) {
 			this.rand = new Random(world.getSeed());
 			this.seed = world.getSeed();
@@ -129,26 +112,16 @@ public class ChunkProviderGenerate extends ChunkGenerator {
 
 		replaceBlocksForBiome(cx, cz, chunkBlocks, this.biomesForGeneration);
 
-		this.caveGenerator.generate(world, cx, cz, chunkBlocks, this);
-		this.ravineGenerator.generate(world, cx, cz, chunkBlocks, this);
+		this.caveGenerator.generate(world, cx, cz, chunkBlocks, provider);
+		this.ravineGenerator.generate(world, cx, cz, chunkBlocks, provider);
 
 		if (world.canGenerateStructures()) {
-			//mineshaftGenerator.generate(world, cx, cz, chunkBlocks, this);
-			this.villageGenerator.generate(world, cx, cz, chunkBlocks, this);
-			//strongholdGenerator.generate(world, cx, cz, chunkBlocks, this);
+			//mineshaftGenerator.generate(world, cx, cz, chunkBlocks, provider);
+			this.villageGenerator.generate(world, cx, cz, chunkBlocks, provider);
+			//strongholdGenerator.generate(world, cx, cz, chunkBlocks, provider);
 		}
 
-		byte[][] result = new byte[16][4096];
-
-		for (int x = 0; x < 16; x++) {
-			for (int z = 0; z < 16; z++) {
-				for (int y = 0; y < 128; y++) {
-					result[y >> 4][((y & 0xF) << 8) | (z << 4) | x] = chunkBlocks[(x * 16 + z) * 128 + y];
-				}
-			}
-		}
-
-		return result;
+		return chunkBlocks;
 	}
 
 	private void generateTerrain(int cx, int cz, byte[] par3ArrayOfByte) {

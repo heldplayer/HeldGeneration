@@ -1,6 +1,6 @@
 package me.heldplayer.HeldGeneration;
 
-import me.heldplayer.HeldGeneration.generator.ChunkProviderGenerate;
+import me.heldplayer.HeldGeneration.generator.ChunkProvider;
 
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.PluginDescriptionFile;
@@ -27,6 +27,6 @@ public class HeldGeneration extends JavaPlugin {
 
 	@Override
 	public ChunkGenerator getDefaultWorldGenerator(String worldName, String id) {
-		return new ChunkProviderGenerate();
+		return new ChunkProvider();
 	}
 }

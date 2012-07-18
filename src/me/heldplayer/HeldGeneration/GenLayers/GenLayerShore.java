@@ -1,6 +1,6 @@
 package me.heldplayer.HeldGeneration.GenLayers;
 
-import me.heldplayer.HeldGeneration.BiomeHelp;
+import me.heldplayer.HeldGeneration.helpers.BiomeHelp;
 
 public class GenLayerShore extends GenLayer {
 	public GenLayerShore(long par1, GenLayer par3GenLayer) {

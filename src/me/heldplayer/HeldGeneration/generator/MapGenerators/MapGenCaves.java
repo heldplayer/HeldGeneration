@@ -2,9 +2,9 @@ package me.heldplayer.HeldGeneration.generator.MapGenerators;
 
 import java.util.Random;
 
-import me.heldplayer.HeldGeneration.BiomeHelp;
-import me.heldplayer.HeldGeneration.MathHelper;
-import me.heldplayer.HeldGeneration.generator.ChunkProviderGenerate;
+import me.heldplayer.HeldGeneration.generator.ChunkProvider;
+import me.heldplayer.HeldGeneration.helpers.BiomeHelp;
+import me.heldplayer.HeldGeneration.helpers.MathHelper;
 
 import org.bukkit.World;
 
@@ -12,14 +12,14 @@ public class MapGenCaves extends MapGenBase {
 	/**
 	 * Generates a larger initial cave node than usual. Called 25% of the time.
 	 */
-	protected void generateLargeCaveNode(long seed, int cx, int cz, byte[] chunkBlocks, double startX, double startY, double startZ, ChunkProviderGenerate provider) {
+	protected void generateLargeCaveNode(long seed, int cx, int cz, byte[] chunkBlocks, double startX, double startY, double startZ, ChunkProvider provider) {
 		generateCaveNode(seed, cx, cz, chunkBlocks, startX, startY, startZ, 1.0F + this.rand.nextFloat() * 6.0F, 0.0F, 0.0F, -1, -1, 0.5D, provider);
 	}
 
 	/**
 	 * Generates a node in the current cave system recursion tree.
 	 */
-	protected void generateCaveNode(long seed, int cx, int cz, byte[] chunkBlocks, double startX, double startY, double startZ, float exitX, float exitY, float exitZ, int par15, int par16, double par17, ChunkProviderGenerate provider) {
+	protected void generateCaveNode(long seed, int cx, int cz, byte[] chunkBlocks, double startX, double startY, double startZ, float exitX, float exitY, float exitZ, int par15, int par16, double par17, ChunkProvider provider) {
 		double centerChunkX = (cx * 16 + 8);
 		double centerChunkZ = (cz * 16 + 8);
 		float var23 = 0.0F;
@@ -159,7 +159,7 @@ public class MapGenCaves extends MapGenBase {
 													chunkBlocks[var48] = 0;
 
 													if (var49 && chunkBlocks[var48 - 1] == 0x3) {
-														chunkBlocks[var48 - 1] = (byte) BiomeHelp.getTopBlock(provider.helper.getBiomeAt(var42 + cx * 16, var45 + cz * 16));
+														chunkBlocks[var48 - 1] = (byte) BiomeHelp.getTopBlock(provider.generator.helper.getBiomeAt(var42 + cx * 16, var45 + cz * 16));
 													}
 												}
 											}
@@ -184,7 +184,7 @@ public class MapGenCaves extends MapGenBase {
 	 * Recursively called by generate() (generate) and optionally by itself.
 	 */
 	@Override
-	protected void recursiveGenerate(World world, int ccx, int ccz, int cx, int cz, byte[] chunkBlocks, ChunkProviderGenerate provider) {
+	protected void recursiveGenerate(World world, int ccx, int ccz, int cx, int cz, byte[] chunkBlocks, ChunkProvider provider) {
 		int totalStarts = this.rand.nextInt(this.rand.nextInt(this.rand.nextInt(40) + 1) + 1);
 
 		if (this.rand.nextInt(15) != 0) {
