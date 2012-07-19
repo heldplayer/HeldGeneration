@@ -39,11 +39,11 @@ public abstract class WorldGenerator {
 	/**
 	 * Sets the block in the world, notifying neighbors if enabled.
 	 */
-	protected void setBlockAndMetadata(World par1World, int x, int y, int z, int typeId, int data) {
+	protected void setBlockAndMetadata(World world, int x, int y, int z, int typeId, int data) {
 		if (this.doBlockNotify) {
-			par1World.getBlockAt(x, y, z).setTypeIdAndData(typeId, (byte) data, true);
+			world.getBlockAt(x, y, z).setTypeIdAndData(typeId, (byte) data, true);
 		} else {
-			par1World.getBlockAt(x, y, z).setTypeIdAndData(typeId, (byte) data, false);
+			world.getBlockAt(x, y, z).setTypeIdAndData(typeId, (byte) data, false);
 		}
 	}
 }

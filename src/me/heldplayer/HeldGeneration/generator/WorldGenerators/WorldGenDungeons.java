@@ -3,6 +3,7 @@ package me.heldplayer.HeldGeneration.generator.WorldGenerators;
 import java.util.Random;
 
 import me.heldplayer.HeldGeneration.helpers.BlockHelper;
+import me.heldplayer.HeldGeneration.helpers.Mat;
 
 import org.bukkit.World;
 import org.bukkit.block.Chest;
@@ -50,9 +51,9 @@ public class WorldGenDungeons extends WorldGenerator {
 							world.getBlockAt(var10, var11, var12).setTypeId(0);
 						} else if (BlockHelper.isSolid(world.getBlockTypeIdAt(var10, var11, var12))) {
 							if (var11 == y - 1 && rand.nextInt(4) != 0) {
-								world.getBlockAt(var10, var11, var12).setTypeId(48);
+								world.getBlockAt(var10, var11, var12).setTypeId(Mat.MossyCobblestone.id);
 							} else {
-								world.getBlockAt(var10, var11, var12).setTypeId(4);
+								world.getBlockAt(var10, var11, var12).setTypeId(Mat.Cobblestone.id);
 							}
 						}
 					}
@@ -90,7 +91,7 @@ public class WorldGenDungeons extends WorldGenerator {
 								}
 
 								if (var15 == 1) {
-									world.getBlockAt(var12, y, var14).setTypeId(54);
+									world.getBlockAt(var12, y, var14).setTypeId(Mat.Chest.id);
 									Chest lootChest = (Chest) world.getBlockAt(var12, y, var14).getState();
 
 									if (lootChest != null) {
@@ -117,7 +118,7 @@ public class WorldGenDungeons extends WorldGenerator {
 				}
 			}
 
-			world.getBlockAt(x, y, z).setTypeId(52);
+			world.getBlockAt(x, y, z).setTypeId(Mat.MobSpawner.id);
 			CreatureSpawner mobSpawner = (CreatureSpawner) world.getBlockAt(x, y, z).getState();
 
 			if (mobSpawner != null) {
