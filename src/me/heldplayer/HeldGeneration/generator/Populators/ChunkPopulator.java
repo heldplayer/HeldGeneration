@@ -78,6 +78,8 @@ public class ChunkPopulator extends BlockPopulator {
 
 		// Biome specific decorating gen
 		// Spawn animals according to biome
+		blockX += 8;
+		blockZ += 8;
 
 		for (lakeX = 0; lakeX < 16; ++lakeX) {
 			for (lakeY = 0; lakeY < 16; ++lakeY) {
