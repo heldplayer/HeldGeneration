@@ -43,7 +43,7 @@ public abstract class WorldGenerator {
 		if (this.doBlockNotify) {
 			par1World.getBlockAt(par2, par3, par4).setTypeIdAndData(par5, (byte) par6, true);
 		} else {
-			par1World.getBlockAt(par2, par3, par4).setTypeIdAndData(par5, (byte) par6, true);
+			par1World.getBlockAt(par2, par3, par4).setTypeIdAndData(par5, (byte) par6, false);
 		}
 	}
 }
