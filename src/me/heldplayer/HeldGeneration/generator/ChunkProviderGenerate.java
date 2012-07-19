@@ -117,7 +117,7 @@ public class ChunkProviderGenerate {
 
 		if (world.canGenerateStructures()) {
 			//mineshaftGenerator.generate(world, cx, cz, chunkBlocks, provider);
-			this.villageGenerator.generate(world, cx, cz, chunkBlocks, provider);
+			//this.villageGenerator.generate(world, cx, cz, chunkBlocks, provider);
 			//strongholdGenerator.generate(world, cx, cz, chunkBlocks, provider);
 		}
 
