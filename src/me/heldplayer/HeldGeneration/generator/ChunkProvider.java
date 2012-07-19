@@ -33,7 +33,7 @@ public class ChunkProvider extends ChunkGenerator {
 
 	@Override
 	public byte[][] generateBlockSections(World world, Random random, int cx, int cz, BiomeGrid biomes) {
-		byte[] chunkBlocks = generator.generateBlockSections(world, random, cx, cz, biomes);
+		byte[] chunkBlocks = generator.generate(world, random, cx, cz, biomes);
 
 		byte[][] result = new byte[16][4096];
 

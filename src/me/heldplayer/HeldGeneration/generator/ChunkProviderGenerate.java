@@ -90,7 +90,7 @@ public class ChunkProviderGenerate {
 		this.helper.setSeed(this.seed);
 	}
 
-	public byte[] generateBlockSections(World world, Random random, int cx, int cz, BiomeGrid biomes) {
+	public byte[] generate(World world, Random random, int cx, int cz, BiomeGrid biomes) {
 		if (this.rand == null) {
 			this.rand = new Random(world.getSeed());
 			this.seed = world.getSeed();
