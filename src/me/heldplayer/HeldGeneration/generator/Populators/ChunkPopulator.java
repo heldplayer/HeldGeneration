@@ -5,9 +5,9 @@ import java.util.Random;
 import me.heldplayer.HeldGeneration.generator.ChunkProvider;
 import me.heldplayer.HeldGeneration.generator.WorldGenerators.WorldGenDungeons;
 import me.heldplayer.HeldGeneration.generator.WorldGenerators.WorldGenLakes;
+import me.heldplayer.HeldGeneration.helpers.Mat;
 
 import org.bukkit.Chunk;
-import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.generator.BlockPopulator;
@@ -39,7 +39,7 @@ public class ChunkPopulator extends BlockPopulator {
 		if (world.canGenerateStructures()) {
 			// Mineshaft gen
 			//if (hasVillage = this.provider.generator.villageGenerator.generateStructuresInChunk(world, rand, cx, cx, this.provider))
-				//hasVillage = true;//System.out.println("Generated village " + cx + " " + cz);
+			//hasVillage = true;//System.out.println("Generated village " + cx + " " + cz);
 			// Stronghold gen
 		}
 
@@ -51,7 +51,7 @@ public class ChunkPopulator extends BlockPopulator {
 			lakeX = blockX + rand.nextInt(16 + 8);
 			lakeY = rand.nextInt(128);
 			lakeZ = blockZ + rand.nextInt(16) + 8;
-			if ((new WorldGenLakes(Material.STATIONARY_WATER.getId())).generate(world, rand, lakeX, lakeY, lakeZ))
+			if ((new WorldGenLakes(Mat.WaterStill.id)).generate(world, rand, lakeX, lakeY, lakeZ))
 				;//System.out.println("Generated water lake " + lakeX + " " + lakeY + " " + lakeZ);
 		}
 
@@ -61,7 +61,7 @@ public class ChunkPopulator extends BlockPopulator {
 			lakeZ = blockZ + rand.nextInt(16) + 8;
 
 			if (lakeY < 63 || rand.nextInt(10) == 0) {
-				if ((new WorldGenLakes(Material.STATIONARY_LAVA.getId())).generate(world, rand, lakeX, lakeY, lakeZ))
+				if ((new WorldGenLakes(Mat.LavaStill.id)).generate(world, rand, lakeX, lakeY, lakeZ))
 					;//System.out.println("Generated lava lake " + lakeX + " " + lakeY + " " + lakeZ);
 			}
 		}
@@ -84,15 +84,15 @@ public class ChunkPopulator extends BlockPopulator {
 				int highestY = world.getHighestBlockYAt(lakeX + blockX, lakeY + blockZ);
 				Block iceBlock = world.getBlockAt(lakeX + blockX, highestY - 1, lakeY + blockZ);
 
-				if ((iceBlock.getTypeId() == 8 || iceBlock.getTypeId() == 9) && iceBlock.getData() == 0 && iceBlock.getTemperature() < 0.15F) {
-					//iceBlock.setTypeId(Material.ICE.getId());
+				if ((iceBlock.getTypeId() == Mat.WaterMoving.id || iceBlock.getTypeId() == Mat.WaterStill.id) && iceBlock.getData() == 0 && iceBlock.getTemperature() < 0.15F) {
+					iceBlock.setTypeId(Mat.Ice.id);
 					continue;
 				}
 
 				Block snowBlock = world.getBlockAt(lakeX + blockX, highestY, lakeY + blockZ);
 
 				if (snowBlock.getTypeId() == 0 && snowBlock.getTemperature() < 0.15F) {
-					//snowBlock.setTypeId(Material.SNOW.getId());
+					snowBlock.setTypeId(Mat.Snow.id);
 				}
 			}
 		}

@@ -18,8 +18,8 @@ public class MapGenVillage extends MapGenStructure {
 	/** World terrain type, 0 for normal, 1 for flat map */
 	private final int terrainType;
 
-	public MapGenVillage(int par1, BiomeHelper helper) {
-		this.terrainType = par1;
+	public MapGenVillage(int terrainType, BiomeHelper helper) {
+		this.terrainType = terrainType;
 		this.helper = helper;
 	}
 

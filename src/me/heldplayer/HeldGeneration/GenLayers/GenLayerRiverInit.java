@@ -1,9 +1,9 @@
 package me.heldplayer.HeldGeneration.GenLayers;
 
 public class GenLayerRiverInit extends GenLayer {
-	public GenLayerRiverInit(long par1, GenLayer par3GenLayer) {
-		super(par1);
-		this.parent = par3GenLayer;
+	public GenLayerRiverInit(long seed, GenLayer parent) {
+		super(seed);
+		this.parent = parent;
 	}
 
 	/**
@@ -13,14 +13,14 @@ public class GenLayerRiverInit extends GenLayer {
 	 * subclass.
 	 */
 	@Override
-	public int[] getInts(int par1, int par2, int par3, int par4) {
-		int[] var5 = this.parent.getInts(par1, par2, par3, par4);
-		int[] var6 = IntCache.getIntCache(par3 * par4);
+	public int[] getInts(int startX, int startZ, int sizeX, int sizeZ) {
+		int[] var5 = this.parent.getInts(startX, startZ, sizeX, sizeZ);
+		int[] var6 = IntCache.getIntCache(sizeX * sizeZ);
 
-		for (int var7 = 0; var7 < par4; ++var7) {
-			for (int var8 = 0; var8 < par3; ++var8) {
-				initChunkSeed((var8 + par1), (var7 + par2));
-				var6[var8 + var7 * par3] = var5[var8 + var7 * par3] > 0 ? nextInt(2) + 2 : 0;
+		for (int var7 = 0; var7 < sizeZ; ++var7) {
+			for (int var8 = 0; var8 < sizeX; ++var8) {
+				initChunkSeed((var8 + startX), (var7 + startZ));
+				var6[var8 + var7 * sizeX] = var5[var8 + var7 * sizeX] > 0 ? nextInt(2) + 2 : 0;
 			}
 		}
 

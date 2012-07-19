@@ -19,12 +19,12 @@ public class NoiseGeneratorOctaves extends NoiseGenerator {
 		}
 	}
 
-	public double[] generateNoiseOctaves(double[] par1ArrayOfDouble, int par2, int par3, int par4, int par5, int par6, int par7, double par8, double par10, double par12) {
-		if (par1ArrayOfDouble == null) {
-			par1ArrayOfDouble = new double[par5 * par6 * par7];
+	public double[] generateNoiseOctaves(double[] noiseArray, int par2, int par3, int par4, int par5, int par6, int par7, double par8, double par10, double par12) {
+		if (noiseArray == null) {
+			noiseArray = new double[par5 * par6 * par7];
 		} else {
-			for (int var14 = 0; var14 < par1ArrayOfDouble.length; ++var14) {
-				par1ArrayOfDouble[var14] = 0.0D;
+			for (int var14 = 0; var14 < noiseArray.length; ++var14) {
+				noiseArray[var14] = 0.0D;
 			}
 		}
 
@@ -42,11 +42,11 @@ public class NoiseGeneratorOctaves extends NoiseGenerator {
 			var25 %= 16777216L;
 			var17 += var23;
 			var21 += var25;
-			this.generatorCollection[var16].func_805_a(par1ArrayOfDouble, var17, var19, var21, par5, par6, par7, par8 * var27, par10 * var27, par12 * var27, var27);
+			this.generatorCollection[var16].func_805_a(noiseArray, var17, var19, var21, par5, par6, par7, par8 * var27, par10 * var27, par12 * var27, var27);
 			var27 /= 2.0D;
 		}
 
-		return par1ArrayOfDouble;
+		return noiseArray;
 	}
 
 	/**

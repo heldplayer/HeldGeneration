@@ -32,34 +32,34 @@ public class IntCache {
 	 */
 	private static List inUseLargeArrays = new ArrayList();
 
-	public static int[] getIntCache(int par0) {
-		int[] var1;
+	public static int[] getIntCache(int size) {
+		int[] array;
 
-		if (par0 <= 256) {
+		if (size <= 256) {
 			if (freeSmallArrays.size() == 0) {
-				var1 = new int[256];
-				inUseSmallArrays.add(var1);
-				return var1;
+				array = new int[256];
+				inUseSmallArrays.add(array);
+				return array;
 			} else {
-				var1 = (int[]) freeSmallArrays.remove(freeSmallArrays.size() - 1);
-				inUseSmallArrays.add(var1);
-				return var1;
+				array = (int[]) freeSmallArrays.remove(freeSmallArrays.size() - 1);
+				inUseSmallArrays.add(array);
+				return array;
 			}
-		} else if (par0 > intCacheSize) {
-			intCacheSize = par0;
+		} else if (size > intCacheSize) {
+			intCacheSize = size;
 			freeLargeArrays.clear();
 			inUseLargeArrays.clear();
-			var1 = new int[intCacheSize];
-			inUseLargeArrays.add(var1);
-			return var1;
+			array = new int[intCacheSize];
+			inUseLargeArrays.add(array);
+			return array;
 		} else if (freeLargeArrays.size() == 0) {
-			var1 = new int[intCacheSize];
-			inUseLargeArrays.add(var1);
-			return var1;
+			array = new int[intCacheSize];
+			inUseLargeArrays.add(array);
+			return array;
 		} else {
-			var1 = (int[]) freeLargeArrays.remove(freeLargeArrays.size() - 1);
-			inUseLargeArrays.add(var1);
-			return var1;
+			array = (int[]) freeLargeArrays.remove(freeLargeArrays.size() - 1);
+			inUseLargeArrays.add(array);
+			return array;
 		}
 	}
 

@@ -1,9 +1,9 @@
 package me.heldplayer.HeldGeneration.GenLayers;
 
 public class GenLayerZoom extends GenLayer {
-	public GenLayerZoom(long par1, GenLayer par3GenLayer) {
-		super(par1);
-		super.parent = par3GenLayer;
+	public GenLayerZoom(long seed, GenLayer parent) {
+		super(seed);
+		super.parent = parent;
 	}
 
 	/**
@@ -13,11 +13,11 @@ public class GenLayerZoom extends GenLayer {
 	 * subclass.
 	 */
 	@Override
-	public int[] getInts(int par1, int par2, int par3, int par4) {
-		int var5 = par1 >> 1;
-		int var6 = par2 >> 1;
-		int var7 = (par3 >> 1) + 3;
-		int var8 = (par4 >> 1) + 3;
+	public int[] getInts(int startX, int startZ, int sizeX, int sizeZ) {
+		int var5 = startX >> 1;
+		int var6 = startZ >> 1;
+		int var7 = (sizeX >> 1) + 3;
+		int var8 = (sizeZ >> 1) + 3;
 		int[] var9 = this.parent.getInts(var5, var6, var7, var8);
 		int[] var10 = IntCache.getIntCache(var7 * 2 * var8 * 2);
 		int var11 = var7 << 1;
@@ -36,16 +36,16 @@ public class GenLayerZoom extends GenLayer {
 				var10[var14] = var15;
 				var10[var14++ + var11] = choose(var15, var16);
 				var10[var14] = choose(var15, var18);
-				var10[var14++ + var11] = func_35514_b(var15, var18, var16, var19);
+				var10[var14++ + var11] = chooseSmart(var15, var18, var16, var19);
 				var15 = var18;
 				var16 = var19;
 			}
 		}
 
-		int[] var20 = IntCache.getIntCache(par3 * par4);
+		int[] var20 = IntCache.getIntCache(sizeX * sizeZ);
 
-		for (var13 = 0; var13 < par4; ++var13) {
-			System.arraycopy(var10, (var13 + (par2 & 1)) * (var7 << 1) + (par1 & 1), var20, var13 * par3, par3);
+		for (var13 = 0; var13 < sizeZ; ++var13) {
+			System.arraycopy(var10, (var13 + (startZ & 1)) * (var7 << 1) + (startX & 1), var20, var13 * sizeX, sizeX);
 		}
 
 		return var20;
@@ -54,56 +54,56 @@ public class GenLayerZoom extends GenLayer {
 	/**
 	 * Chooses one of the two inputs randomly.
 	 */
-	protected int choose(int par1, int par2) {
-		return nextInt(2) == 0 ? par1 : par2;
+	protected int choose(int arg1, int arg2) {
+		return nextInt(2) == 0 ? arg1 : arg2;
 	}
 
-	protected int func_35514_b(int par1, int par2, int par3, int par4) {
-		if (par2 == par3 && par3 == par4) {
-			return par2;
-		} else if (par1 == par2 && par1 == par3) {
-			return par1;
-		} else if (par1 == par2 && par1 == par4) {
-			return par1;
-		} else if (par1 == par3 && par1 == par4) {
-			return par1;
-		} else if (par1 == par2 && par3 != par4) {
-			return par1;
-		} else if (par1 == par3 && par2 != par4) {
-			return par1;
-		} else if (par1 == par4 && par2 != par3) {
-			return par1;
-		} else if (par2 == par1 && par3 != par4) {
-			return par2;
-		} else if (par2 == par3 && par1 != par4) {
-			return par2;
-		} else if (par2 == par4 && par1 != par3) {
-			return par2;
-		} else if (par3 == par1 && par2 != par4) {
-			return par3;
-		} else if (par3 == par2 && par1 != par4) {
-			return par3;
-		} else if (par3 == par4 && par1 != par2) {
-			return par3;
-		} else if (par4 == par1 && par2 != par3) {
-			return par3;
-		} else if (par4 == par2 && par1 != par3) {
-			return par3;
-		} else if (par4 == par3 && par1 != par2) {
-			return par3;
+	protected int chooseSmart(int arg1, int arg2, int arg3, int arg4) {
+		if (arg2 == arg3 && arg3 == arg4) {
+			return arg2;
+		} else if (arg1 == arg2 && arg1 == arg3) {
+			return arg1;
+		} else if (arg1 == arg2 && arg1 == arg4) {
+			return arg1;
+		} else if (arg1 == arg3 && arg1 == arg4) {
+			return arg1;
+		} else if (arg1 == arg2 && arg3 != arg4) {
+			return arg1;
+		} else if (arg1 == arg3 && arg2 != arg4) {
+			return arg1;
+		} else if (arg1 == arg4 && arg2 != arg3) {
+			return arg1;
+		} else if (arg2 == arg1 && arg3 != arg4) {
+			return arg2;
+		} else if (arg2 == arg3 && arg1 != arg4) {
+			return arg2;
+		} else if (arg2 == arg4 && arg1 != arg3) {
+			return arg2;
+		} else if (arg3 == arg1 && arg2 != arg4) {
+			return arg3;
+		} else if (arg3 == arg2 && arg1 != arg4) {
+			return arg3;
+		} else if (arg3 == arg4 && arg1 != arg2) {
+			return arg3;
+		} else if (arg4 == arg1 && arg2 != arg3) {
+			return arg3;
+		} else if (arg4 == arg2 && arg1 != arg3) {
+			return arg3;
+		} else if (arg4 == arg3 && arg1 != arg2) {
+			return arg3;
 		} else {
 			int var5 = nextInt(4);
-			return var5 == 0 ? par1 : (var5 == 1 ? par2 : (var5 == 2 ? par3 : par4));
+			return var5 == 0 ? arg1 : (var5 == 1 ? arg2 : (var5 == 2 ? arg3 : arg4));
 		}
 	}
 
-	public static GenLayer func_35515_a(long par0, GenLayer par2GenLayer, int par3) {
-		Object var4 = par2GenLayer;
+	public static GenLayer zoom(long seed, GenLayer parentLayer, int factor) {
+		Object layerObj = parentLayer;
 
-		for (int var5 = 0; var5 < par3; ++var5) {
-			var4 = new GenLayerZoom(par0 + var5, (GenLayer) var4);
+		for (int var5 = 0; var5 < factor; ++var5) {
+			layerObj = new GenLayerZoom(seed + var5, (GenLayer) layerObj);
 		}
 
-		return (GenLayer) var4;
+		return (GenLayer) layerObj;
 	}
 }

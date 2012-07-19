@@ -8,6 +8,7 @@ import me.heldplayer.HeldGeneration.generator.MapGenerators.MapGenRavine;
 import me.heldplayer.HeldGeneration.generator.MapGenerators.MapGenVillage;
 import me.heldplayer.HeldGeneration.helpers.BiomeHelp;
 import me.heldplayer.HeldGeneration.helpers.BiomeHelper;
+import me.heldplayer.HeldGeneration.helpers.Mat;
 import me.heldplayer.HeldGeneration.helpers.MathHelper;
 
 import org.bukkit.World;
@@ -124,7 +125,7 @@ public class ChunkProviderGenerate {
 		return chunkBlocks;
 	}
 
-	private void generateTerrain(int cx, int cz, byte[] par3ArrayOfByte) {
+	private void generateTerrain(int cx, int cz, byte[] chunkBytes) {
 		byte var4 = 4;
 		byte var5 = 16;
 		byte var6 = 63;
@@ -164,11 +165,11 @@ public class ChunkProviderGenerate {
 
 							for (int var51 = 0; var51 < 4; ++var51) {
 								if ((var47 += var49) > 0.0D) {
-									par3ArrayOfByte[var43 += var44] = 0x1;
+									chunkBytes[var43 += var44] = Mat.Stone.id;
 								} else if (var12 * 8 + var31 < var6) {
-									par3ArrayOfByte[var43 += var44] = 0x9;
+									chunkBytes[var43 += var44] = Mat.WaterStill.id;
 								} else {
-									par3ArrayOfByte[var43 += var44] = 0;
+									chunkBytes[var43 += var44] = 0;
 								}
 							}
 
@@ -191,9 +192,9 @@ public class ChunkProviderGenerate {
 	 * [empty] noise array, the position, and the
 	 * size.
 	 */
-	private double[] initializeNoiseField(double[] par1ArrayOfDouble, int par2, int par3, int par4, int par5, int par6, int par7) {
-		if (par1ArrayOfDouble == null) {
-			par1ArrayOfDouble = new double[par5 * par6 * par7];
+	private double[] initializeNoiseField(double[] noiseArray, int par2, int par3, int par4, int par5, int par6, int par7) {
+		if (noiseArray == null) {
+			noiseArray = new double[par5 * par6 * par7];
 		}
 
 		if (this.field_35388_l == null) {
@@ -304,13 +305,13 @@ public class ChunkProviderGenerate {
 						var30 = var30 * (1.0D - var40) + -10.0D * var40;
 					}
 
-					par1ArrayOfDouble[var12] = var30;
+					noiseArray[var12] = var30;
 					++var12;
 				}
 			}
 		}
 
-		return par1ArrayOfDouble;
+		return noiseArray;
 	}
 
 	/**
@@ -323,18 +324,18 @@ public class ChunkProviderGenerate {
 
 		for (int var8 = 0; var8 < 16; ++var8) {
 			for (int var9 = 0; var9 < 16; ++var9) {
-				Biome var10 = biomes[var9 + var8 * 16];
-				float var11 = BiomeHelp.getTemperature(var10);
+				Biome biome = biomes[var9 + var8 * 16];
+				float temperature = BiomeHelp.getTemperature(biome);
 				int var12 = (int) (this.stoneNoise[var8 + var9 * 16] / 3.0D + 3.0D + this.rand.nextDouble() * 0.25D);
 				int var13 = -1;
-				byte var14 = (byte) BiomeHelp.getTopBlock(var10);
-				byte var15 = (byte) BiomeHelp.getFillerBlock(var10);
+				byte topBlock = (byte) BiomeHelp.getTopBlock(biome);
+				byte fillerBlock = (byte) BiomeHelp.getFillerBlock(biome);
 
 				for (int var16 = 127; var16 >= 0; --var16) {
 					int var17 = (var9 * 16 + var8) * 128 + var16;
 
 					if (var16 <= 0 + this.rand.nextInt(5)) {
-						chunkBlocks[var17] = 7;
+						chunkBlocks[var17] = Mat.Bedrock.id;
 					} else {
 						byte var18 = chunkBlocks[var17];
 
@@ -343,35 +344,35 @@ public class ChunkProviderGenerate {
 						} else if (var18 == 1) {
 							if (var13 == -1) {
 								if (var12 <= 0) {
-									var14 = 0;
-									var15 = (byte) 1;
+									topBlock = 0;
+									fillerBlock = (byte) 1;
 								} else if (var16 >= var5 - 4 && var16 <= var5 + 1) {
-									var14 = (byte) BiomeHelp.getTopBlock(var10);
-									var15 = (byte) BiomeHelp.getFillerBlock(var10);
+									topBlock = (byte) BiomeHelp.getTopBlock(biome);
+									fillerBlock = (byte) BiomeHelp.getFillerBlock(biome);
 								}
 
-								if (var16 < var5 && var14 == 0) {
-									if (var11 < 0.15F) {
-										var14 = (byte) 79;
+								if (var16 < var5 && topBlock == 0) {
+									if (temperature < 0.15F) {
+										topBlock = Mat.Snow.id;
 									} else {
-										var14 = (byte) 9;
+										topBlock = Mat.WaterStill.id;
 									}
 								}
 
 								var13 = var12;
 
 								if (var16 >= var5 - 1) {
-									chunkBlocks[var17] = var14;
+									chunkBlocks[var17] = topBlock;
 								} else {
-									chunkBlocks[var17] = var15;
+									chunkBlocks[var17] = fillerBlock;
 								}
 							} else if (var13 > 0) {
 								--var13;
-								chunkBlocks[var17] = var15;
+								chunkBlocks[var17] = fillerBlock;
 
-								if (var13 == 0 && var15 == 12) {
+								if (var13 == 0 && fillerBlock == Mat.Sand.id) {
 									var13 = this.rand.nextInt(4);
-									var15 = (byte) 24;
+									fillerBlock = Mat.Sandstone.id;
 								}
 							}
 						}

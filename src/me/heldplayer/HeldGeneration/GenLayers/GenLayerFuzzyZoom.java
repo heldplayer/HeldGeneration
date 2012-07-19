@@ -1,9 +1,9 @@
 package me.heldplayer.HeldGeneration.GenLayers;
 
 public class GenLayerFuzzyZoom extends GenLayer {
-	public GenLayerFuzzyZoom(long par1, GenLayer par3GenLayer) {
-		super(par1);
-		super.parent = par3GenLayer;
+	public GenLayerFuzzyZoom(long seed, GenLayer parent) {
+		super(seed);
+		super.parent = parent;
 	}
 
 	/**
@@ -13,11 +13,11 @@ public class GenLayerFuzzyZoom extends GenLayer {
 	 * subclass.
 	 */
 	@Override
-	public int[] getInts(int par1, int par2, int par3, int par4) {
-		int var5 = par1 >> 1;
-		int var6 = par2 >> 1;
-		int var7 = (par3 >> 1) + 3;
-		int var8 = (par4 >> 1) + 3;
+	public int[] getInts(int startX, int startZ, int sizeX, int sizeZ) {
+		int var5 = startX >> 1;
+		int var6 = startZ >> 1;
+		int var7 = (sizeX >> 1) + 3;
+		int var8 = (sizeZ >> 1) + 3;
 		int[] var9 = this.parent.getInts(var5, var6, var7, var8);
 		int[] var10 = IntCache.getIntCache(var7 * 2 * var8 * 2);
 		int var11 = var7 << 1;
@@ -42,10 +42,10 @@ public class GenLayerFuzzyZoom extends GenLayer {
 			}
 		}
 
-		int[] var20 = IntCache.getIntCache(par3 * par4);
+		int[] var20 = IntCache.getIntCache(sizeX * sizeZ);
 
-		for (var13 = 0; var13 < par4; ++var13) {
-			System.arraycopy(var10, (var13 + (par2 & 1)) * (var7 << 1) + (par1 & 1), var20, var13 * par3, par3);
+		for (var13 = 0; var13 < sizeZ; ++var13) {
+			System.arraycopy(var10, (var13 + (startZ & 1)) * (var7 << 1) + (startX & 1), var20, var13 * sizeX, sizeX);
 		}
 
 		return var20;
@@ -54,15 +54,15 @@ public class GenLayerFuzzyZoom extends GenLayer {
 	/**
 	 * randomly choose between the two args
 	 */
-	protected int choose(int par1, int par2) {
-		return nextInt(2) == 0 ? par1 : par2;
+	protected int choose(int arg1, int arg2) {
+		return nextInt(2) == 0 ? arg1 : arg2;
 	}
 
 	/**
 	 * randomly choose between the four args
 	 */
-	protected int choose(int par1, int par2, int par3, int par4) {
+	protected int choose(int arg1, int arg2, int arg3, int arg4) {
 		int var5 = nextInt(4);
-		return var5 == 0 ? par1 : (var5 == 1 ? par2 : (var5 == 2 ? par3 : par4));
+		return var5 == 0 ? arg1 : (var5 == 1 ? arg2 : (var5 == 2 ? arg3 : arg4));
 	}
 }

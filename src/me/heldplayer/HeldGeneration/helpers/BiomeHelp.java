@@ -19,8 +19,8 @@ public enum BiomeHelp {
 	ICE_MOUNTAINS(Biome.ICE_MOUNTAINS, 13, 0.2F, 1.2F, 0.0F, 0.5F),
 	MUSHROOM_ISLAND(Biome.MUSHROOM_ISLAND, 14, 0.9F, 1.0F, 0.9F, 1.0F),
 	MUSHROOM_ISLAND_SHORE(Biome.MUSHROOM_SHORE, 15, -1.0F, 0.1F, 0.9F, 1.0F),
-	BEACH(Biome.BEACH, 16, 0.0F, 0.1F, (short) 12, (short) 12, 0.8F, 0.4F),
-	DESERT_HILLS(Biome.DESERT_HILLS, 17, 0.2F, 0.7F, (short) 12, (short) 12, 2.0F, 0.0F),
+	BEACH(Biome.BEACH, 16, 0.0F, 0.1F, Mat.Sand.id, Mat.Sand.id, 0.8F, 0.4F),
+	DESERT_HILLS(Biome.DESERT_HILLS, 17, 0.2F, 0.7F, Mat.Sand.id, Mat.Sand.id, 2.0F, 0.0F),
 	FOREST_HILLS(Biome.FOREST_HILLS, 18, 0.2F, 0.6F, 0.7F, 0.8F),
 	TAIGA_HILLS(Biome.TAIGA_HILLS, 19, 0.2F, 0.7F, 0.05F, 0.8F),
 	EXTREME_HILLS_EDGE(Biome.SMALL_MOUNTAINS, 20, 0.2F, 0.8F, 0.2F, 0.3F),
@@ -45,15 +45,15 @@ public enum BiomeHelp {
 	}
 
 	private BiomeHelp(Biome biome, int id, float minH, float maxH, float temperature, float rainfall) {
-		this(biome, id, minH, maxH, (short) 2, (short) 3, temperature, rainfall);
+		this(biome, id, minH, maxH, Mat.Grass.id, Mat.Dirt.id, temperature, rainfall);
 	}
 
 	private BiomeHelp(Biome biome, int id, float minH, float maxH) {
-		this(biome, id, minH, maxH, (short) 2, (short) 3, 0.5F, 0.5F);
+		this(biome, id, minH, maxH, Mat.Grass.id, Mat.Dirt.id, 0.5F, 0.5F);
 	}
 
 	private BiomeHelp(Biome biome, int id) {
-		this(biome, id, 0.1F, 0.3F, (short) 2, (short) 3, 0.5F, 0.5F);
+		this(biome, id, 0.1F, 0.3F, Mat.Grass.id, Mat.Dirt.id, 0.5F, 0.5F);
 	}
 
 	public static Biome getBiome(int id) {

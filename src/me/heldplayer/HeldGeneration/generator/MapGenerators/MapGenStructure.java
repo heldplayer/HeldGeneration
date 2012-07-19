@@ -152,5 +152,5 @@ public abstract class MapGenStructure extends MapGenBase {
 
 	protected abstract boolean canSpawnStructureAtCoords(int cx, int cz, ChunkProvider provider);
 
-	protected abstract StructureStart getStructureStart(int var1, int var2);
+	protected abstract StructureStart getStructureStart(int cx, int cz);
 }

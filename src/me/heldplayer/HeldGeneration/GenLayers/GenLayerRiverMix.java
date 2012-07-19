@@ -3,13 +3,13 @@ package me.heldplayer.HeldGeneration.GenLayers;
 import me.heldplayer.HeldGeneration.helpers.BiomeHelp;
 
 public class GenLayerRiverMix extends GenLayer {
-	private GenLayer field_35512_b;
-	private GenLayer field_35513_c;
+	private GenLayer riverLayer;
+	private GenLayer hillsLayer;
 
-	public GenLayerRiverMix(long par1, GenLayer par3GenLayer, GenLayer par4GenLayer) {
-		super(par1);
-		this.field_35512_b = par3GenLayer;
-		this.field_35513_c = par4GenLayer;
+	public GenLayerRiverMix(long seed, GenLayer riverLayer, GenLayer hillsLayer) {
+		super(seed);
+		this.riverLayer = riverLayer;
+		this.hillsLayer = hillsLayer;
 	}
 
 	/**
@@ -18,10 +18,10 @@ public class GenLayerRiverMix extends GenLayer {
 	 * argument).
 	 */
 	@Override
-	public void initWorldGenSeed(long par1) {
-		this.field_35512_b.initWorldGenSeed(par1);
-		this.field_35513_c.initWorldGenSeed(par1);
-		super.initWorldGenSeed(par1);
+	public void initWorldGenSeed(long seed) {
+		this.riverLayer.initWorldGenSeed(seed);
+		this.hillsLayer.initWorldGenSeed(seed);
+		super.initWorldGenSeed(seed);
 	}
 
 	/**
@@ -31,12 +31,12 @@ public class GenLayerRiverMix extends GenLayer {
 	 * subclass.
 	 */
 	@Override
-	public int[] getInts(int par1, int par2, int par3, int par4) {
-		int[] var5 = this.field_35512_b.getInts(par1, par2, par3, par4);
-		int[] var6 = this.field_35513_c.getInts(par1, par2, par3, par4);
-		int[] var7 = IntCache.getIntCache(par3 * par4);
+	public int[] getInts(int startX, int startZ, int sizeX, int sizeZ) {
+		int[] var5 = this.riverLayer.getInts(startX, startZ, sizeX, sizeZ);
+		int[] var6 = this.hillsLayer.getInts(startX, startZ, sizeX, sizeZ);
+		int[] var7 = IntCache.getIntCache(sizeX * sizeZ);
 
-		for (int var8 = 0; var8 < par3 * par4; ++var8) {
+		for (int var8 = 0; var8 < sizeX * sizeZ; ++var8) {
 			if (var5[var8] == BiomeHelp.OCEAN.id) {
 				var7[var8] = var5[var8];
 			} else if (var6[var8] >= 0) {

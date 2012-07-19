@@ -1,9 +1,9 @@
 package me.heldplayer.HeldGeneration.GenLayers;
 
 public class GenLayerVoronoiZoom extends GenLayer {
-	public GenLayerVoronoiZoom(long par1, GenLayer par3GenLayer) {
-		super(par1);
-		super.parent = par3GenLayer;
+	public GenLayerVoronoiZoom(long seed, GenLayer parent) {
+		super(seed);
+		super.parent = parent;
 	}
 
 	/**
@@ -13,15 +13,15 @@ public class GenLayerVoronoiZoom extends GenLayer {
 	 * subclass.
 	 */
 	@Override
-	public int[] getInts(int par1, int par2, int par3, int par4) {
-		par1 -= 2;
-		par2 -= 2;
+	public int[] getInts(int startX, int startZ, int sizeX, int sizeZ) {
+		startX -= 2;
+		startZ -= 2;
 		byte var5 = 2;
 		int var6 = 1 << var5;
-		int var7 = par1 >> var5;
-		int var8 = par2 >> var5;
-		int var9 = (par3 >> var5) + 3;
-		int var10 = (par4 >> var5) + 3;
+		int var7 = startX >> var5;
+		int var8 = startZ >> var5;
+		int var9 = (sizeX >> var5) + 3;
+		int var10 = (sizeZ >> var5) + 3;
 		int[] var11 = this.parent.getInts(var7, var8, var9, var10);
 		int var12 = var9 << var5;
 		int var13 = var10 << var5;
@@ -75,10 +75,10 @@ public class GenLayerVoronoiZoom extends GenLayer {
 			}
 		}
 
-		int[] var50 = IntCache.getIntCache(par3 * par4);
+		int[] var50 = IntCache.getIntCache(sizeX * sizeZ);
 
-		for (var16 = 0; var16 < par4; ++var16) {
-			System.arraycopy(var14, (var16 + (par2 & var6 - 1)) * (var9 << var5) + (par1 & var6 - 1), var50, var16 * par3, par3);
+		for (var16 = 0; var16 < sizeZ; ++var16) {
+			System.arraycopy(var14, (var16 + (startZ & var6 - 1)) * (var9 << var5) + (startX & var6 - 1), var50, var16 * sizeX, sizeX);
 		}
 
 		return var50;

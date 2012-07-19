@@ -1,8 +1,8 @@
 package me.heldplayer.HeldGeneration.GenLayers;
 
 public class GenLayerIsland extends GenLayer {
-	public GenLayerIsland(long par1) {
-		super(par1);
+	public GenLayerIsland(long seed) {
+		super(seed);
 	}
 
 	/**
@@ -12,18 +12,18 @@ public class GenLayerIsland extends GenLayer {
 	 * subclass.
 	 */
 	@Override
-	public int[] getInts(int par1, int par2, int par3, int par4) {
-		int[] var5 = IntCache.getIntCache(par3 * par4);
+	public int[] getInts(int startX, int startZ, int sizeX, int sizeZ) {
+		int[] var5 = IntCache.getIntCache(sizeX * sizeZ);
 
-		for (int var6 = 0; var6 < par4; ++var6) {
-			for (int var7 = 0; var7 < par3; ++var7) {
-				initChunkSeed((par1 + var7), (par2 + var6));
-				var5[var7 + var6 * par3] = nextInt(10) == 0 ? 1 : 0;
+		for (int var6 = 0; var6 < sizeZ; ++var6) {
+			for (int var7 = 0; var7 < sizeX; ++var7) {
+				initChunkSeed((startX + var7), (startZ + var6));
+				var5[var7 + var6 * sizeX] = nextInt(10) == 0 ? 1 : 0;
 			}
 		}
 
-		if (par1 > -par3 && par1 <= 0 && par2 > -par4 && par2 <= 0) {
-			var5[-par1 + -par2 * par3] = 1;
+		if (startX > -sizeX && startX <= 0 && startZ > -sizeZ && startZ <= 0) {
+			var5[-startX + -startZ * sizeX] = 1;
 		}
 
 		return var5;

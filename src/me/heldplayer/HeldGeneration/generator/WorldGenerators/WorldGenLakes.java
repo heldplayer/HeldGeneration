@@ -4,6 +4,7 @@ import java.util.Random;
 
 import me.heldplayer.HeldGeneration.helpers.BiomeHelp;
 import me.heldplayer.HeldGeneration.helpers.BlockHelper;
+import me.heldplayer.HeldGeneration.helpers.Mat;
 
 import org.bukkit.World;
 import org.bukkit.block.Biome;
@@ -12,33 +13,33 @@ import org.bukkit.block.Block;
 public class WorldGenLakes extends WorldGenerator {
 	private int blockIndex;
 
-	public WorldGenLakes(int par1) {
-		this.blockIndex = par1;
+	public WorldGenLakes(int typeId) {
+		this.blockIndex = typeId;
 	}
 
 	@Override
-	public boolean generate(World par1World, Random par2Random, int par3, int par4, int par5) {
-		par3 -= 8;
+	public boolean generate(World world, Random rand, int x, int y, int z) {
+		x -= 8;
 
-		for (par5 -= 8; par4 > 5 && par1World.getBlockAt(par3, par4, par5).getTypeId() == 0; --par4) {
+		for (z -= 8; y > 5 && world.getBlockAt(x, y, z).getTypeId() == 0; --y) {
 			;
 		}
 
-		if (par4 <= 4) {
+		if (y <= 4) {
 			return false;
 		} else {
-			par4 -= 4;
+			y -= 4;
 			boolean[] var6 = new boolean[2048];
-			int var7 = par2Random.nextInt(4) + 4;
+			int var7 = rand.nextInt(4) + 4;
 			int var8;
 
 			for (var8 = 0; var8 < var7; ++var8) {
-				double var9 = par2Random.nextDouble() * 6.0D + 3.0D;
-				double var11 = par2Random.nextDouble() * 4.0D + 2.0D;
-				double var13 = par2Random.nextDouble() * 6.0D + 3.0D;
-				double var15 = par2Random.nextDouble() * (16.0D - var9 - 2.0D) + 1.0D + var9 / 2.0D;
-				double var17 = par2Random.nextDouble() * (8.0D - var11 - 4.0D) + 2.0D + var11 / 2.0D;
-				double var19 = par2Random.nextDouble() * (16.0D - var13 - 2.0D) + 1.0D + var13 / 2.0D;
+				double var9 = rand.nextDouble() * 6.0D + 3.0D;
+				double var11 = rand.nextDouble() * 4.0D + 2.0D;
+				double var13 = rand.nextDouble() * 6.0D + 3.0D;
+				double var15 = rand.nextDouble() * (16.0D - var9 - 2.0D) + 1.0D + var9 / 2.0D;
+				double var17 = rand.nextDouble() * (8.0D - var11 - 4.0D) + 2.0D + var11 / 2.0D;
+				double var19 = rand.nextDouble() * (16.0D - var13 - 2.0D) + 1.0D + var13 / 2.0D;
 
 				for (int var21 = 1; var21 < 15; ++var21) {
 					for (int var22 = 1; var22 < 15; ++var22) {
@@ -66,13 +67,13 @@ public class WorldGenLakes extends WorldGenerator {
 						var33 = !var6[(var8 * 16 + var32) * 8 + var10] && (var8 < 15 && var6[((var8 + 1) * 16 + var32) * 8 + var10] || var8 > 0 && var6[((var8 - 1) * 16 + var32) * 8 + var10] || var32 < 15 && var6[(var8 * 16 + var32 + 1) * 8 + var10] || var32 > 0 && var6[(var8 * 16 + (var32 - 1)) * 8 + var10] || var10 < 7 && var6[(var8 * 16 + var32) * 8 + var10 + 1] || var10 > 0 && var6[(var8 * 16 + var32) * 8 + (var10 - 1)]);
 
 						if (var33) {
-							short var12 = (short) par1World.getBlockAt(par3 + var8, par4 + var10, par5 + var32).getTypeId();
+							short var12 = (short) world.getBlockAt(x + var8, y + var10, z + var32).getTypeId();
 
 							if (var10 >= 4 && BlockHelper.isLiquid(var12)) {
 								return false;
 							}
 
-							if (var10 < 4 && !BlockHelper.isSolid(var12) && par1World.getBlockTypeIdAt(par3 + var8, par4 + var10, par5 + var32) != this.blockIndex) {
+							if (var10 < 4 && !BlockHelper.isSolid(var12) && world.getBlockTypeIdAt(x + var8, y + var10, z + var32) != this.blockIndex) {
 								return false;
 							}
 						}
@@ -84,7 +85,7 @@ public class WorldGenLakes extends WorldGenerator {
 				for (var32 = 0; var32 < 16; ++var32) {
 					for (var10 = 0; var10 < 8; ++var10) {
 						if (var6[(var8 * 16 + var32) * 8 + var10]) {
-							par1World.getBlockAt(par3 + var8, par4 + var10, par5 + var32).setTypeIdAndData(var10 >= 4 ? 0 : this.blockIndex, (byte) 0, false);
+							world.getBlockAt(x + var8, y + var10, z + var32).setTypeIdAndData(var10 >= 4 ? 0 : this.blockIndex, (byte) 0, false);
 						}
 					}
 				}
@@ -93,42 +94,42 @@ public class WorldGenLakes extends WorldGenerator {
 			for (var8 = 0; var8 < 16; ++var8) {
 				for (var32 = 0; var32 < 16; ++var32) {
 					for (var10 = 4; var10 < 8; ++var10) {
-						if (var6[(var8 * 16 + var32) * 8 + var10] && par1World.getBlockTypeIdAt(par3 + var8, par4 + var10 - 1, par5 + var32) == 3 && par1World.getBlockAt(par3 + var8, par4 + var10, par5 + var32).getLightFromSky() > 0) {
-							Biome var35 = par1World.getBiome(par3 + var8, par5 + var32);
+						if (var6[(var8 * 16 + var32) * 8 + var10] && world.getBlockTypeIdAt(x + var8, y + var10 - 1, z + var32) == 3 && world.getBlockAt(x + var8, y + var10, z + var32).getLightFromSky() > 0) {
+							Biome var35 = world.getBiome(x + var8, z + var32);
 
 							if (BiomeHelp.getTopBlock(var35) == 110) {
-								par1World.getBlockAt(par3 + var8, par4 + var10 - 1, par5 + var32).setTypeIdAndData(110, (byte) 0, false);
+								world.getBlockAt(x + var8, y + var10 - 1, z + var32).setTypeIdAndData(Mat.Mycelium.id, (byte) 0, false);
 							} else {
-								par1World.getBlockAt(par3 + var8, par4 + var10 - 1, par5 + var32).setTypeIdAndData(2, (byte) 0, false);
+								world.getBlockAt(x + var8, y + var10 - 1, z + var32).setTypeIdAndData(Mat.Grass.id, (byte) 0, false);
 							}
 						}
 					}
 				}
 			}
 
-			if (this.blockIndex == 10 || this.blockIndex == 11) {
+			if (this.blockIndex == Mat.LavaMoving.id || this.blockIndex == Mat.LavaStill.id) {
 				for (var8 = 0; var8 < 16; ++var8) {
 					for (var32 = 0; var32 < 16; ++var32) {
 						for (var10 = 0; var10 < 8; ++var10) {
 							var33 = !var6[(var8 * 16 + var32) * 8 + var10] && (var8 < 15 && var6[((var8 + 1) * 16 + var32) * 8 + var10] || var8 > 0 && var6[((var8 - 1) * 16 + var32) * 8 + var10] || var32 < 15 && var6[(var8 * 16 + var32 + 1) * 8 + var10] || var32 > 0 && var6[(var8 * 16 + (var32 - 1)) * 8 + var10] || var10 < 7 && var6[(var8 * 16 + var32) * 8 + var10 + 1] || var10 > 0 && var6[(var8 * 16 + var32) * 8 + (var10 - 1)]);
 
-							if (var33 && (var10 < 4 || par2Random.nextInt(2) != 0) && BlockHelper.isSolid(par1World.getBlockTypeIdAt(par3 + var8, par4 + var10, par5 + var32))) {
-								par1World.getBlockAt(par3 + var8, par4 + var10, par5 + var32).setTypeId(1);
+							if (var33 && (var10 < 4 || rand.nextInt(2) != 0) && BlockHelper.isSolid(world.getBlockTypeIdAt(x + var8, y + var10, z + var32))) {
+								world.getBlockAt(x + var8, y + var10, z + var32).setTypeId(Mat.Stone.id);
 							}
 						}
 					}
 				}
 			}
 
-			if (this.blockIndex == 8 || this.blockIndex == 9) {
+			if (this.blockIndex == Mat.WaterMoving.id || this.blockIndex == Mat.WaterStill.id) {
 				for (var8 = 0; var8 < 16; ++var8) {
 					for (var32 = 0; var32 < 16; ++var32) {
 						byte var34 = 4;
 
-						Block block = par1World.getBlockAt(par3 + var8, par4 + var34, par5 + var32);
+						Block block = world.getBlockAt(x + var8, y + var34, z + var32);
 
 						if ((block.getTypeId() == 8 || block.getTypeId() == 9) && block.getTemperature() < 0.15D) {
-							block.setTypeId(79);
+							block.setTypeId(Mat.Ice.id);
 						}
 					}
 				}
