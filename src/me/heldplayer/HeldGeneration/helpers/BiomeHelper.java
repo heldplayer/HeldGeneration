@@ -34,8 +34,6 @@ public final class BiomeHelper {
 
 		for (int i = 0; i < width * depth; ++i) {
 			biomes[i] = BiomeHelp.getBiome(ints[i]);
-			// TODO: debug code
-			biomes[i] = Biome.DESERT;
 		}
 
 		return biomes;
@@ -52,8 +50,6 @@ public final class BiomeHelper {
 
 		for (int i = 0; i < width * depth; ++i) {
 			biomes[i] = BiomeHelp.getBiome(ints[i]);
-			// TODO: debug code
-			biomes[i] = Biome.DESERT;
 		}
 
 		return biomes;
@@ -75,8 +71,7 @@ public final class BiomeHelper {
 			Biome var13 = BiomeHelp.getBiome(var11[var12]);
 
 			if (!par4List.contains(var13)) {
-				// TODO: debug code
-				//return false;
+				return false;
 			}
 		}
 
