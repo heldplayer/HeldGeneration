@@ -7,7 +7,7 @@ public enum Mat {
 	Dirt(3),
 	Cobblestone(4),
 	Wood(5),
-	// Empty space
+	Sapling(6),
 	Bedrock(7),
 	WaterMoving(8),
 	WaterStill(9),
@@ -75,7 +75,8 @@ public enum Mat {
 	// Empty space
 	SilverfishBlock(97),
 	StoneBrick(98),
-	// Empty space
+	GiantMushroomBrown(99),
+	GiantMushroomRed(100),
 	IronFence(101),
 	// Empty space
 	Vine(106),
