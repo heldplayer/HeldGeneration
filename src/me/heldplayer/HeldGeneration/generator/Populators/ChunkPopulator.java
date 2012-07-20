@@ -6,9 +6,11 @@ import me.heldplayer.HeldGeneration.generator.ChunkProvider;
 import me.heldplayer.HeldGeneration.generator.WorldGenerators.WorldGenDungeons;
 import me.heldplayer.HeldGeneration.generator.WorldGenerators.WorldGenLakes;
 import me.heldplayer.HeldGeneration.helpers.Mat;
+import me.heldplayer.HeldGeneration.helpers.PopulatorAssist;
 
 import org.bukkit.Chunk;
 import org.bukkit.World;
+import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
 import org.bukkit.generator.BlockPopulator;
 
@@ -31,8 +33,8 @@ public class ChunkPopulator extends BlockPopulator {
 		long randZ = rand.nextLong() / 2L * 2L + 1L;
 		rand.setSeed(cx * randX + cz * randZ ^ world.getSeed());
 
-		//Biome biome = world.getBiome(blockX + 16, blockZ + 16);
-		//PopulatorAssist assist = PopulatorAssist.getAssist(biome);
+		Biome biome = world.getBiome(blockX + 16, blockZ + 16);
+		PopulatorAssist assist = PopulatorAssist.getAssist(biome);
 
 		boolean hasVillage = false;
 
@@ -76,7 +78,7 @@ public class ChunkPopulator extends BlockPopulator {
 
 		}
 
-		// Biome specific decorating gen
+		PopulatorAssist.decorator.decorate(world, rand, blockX, blockZ, assist);
 		// Spawn animals according to biome
 		blockX += 8;
 		blockZ += 8;
@@ -87,14 +89,14 @@ public class ChunkPopulator extends BlockPopulator {
 				Block iceBlock = world.getBlockAt(lakeX + blockX, highestY - 1, lakeY + blockZ);
 
 				if ((iceBlock.getTypeId() == Mat.WaterMoving.id || iceBlock.getTypeId() == Mat.WaterStill.id) && iceBlock.getData() == 0 && iceBlock.getTemperature() < 0.15F) {
-					iceBlock.setTypeId(Mat.Ice.id);
+					//iceBlock.setTypeId(Mat.Ice.id);
 					continue;
 				}
 
 				Block snowBlock = world.getBlockAt(lakeX + blockX, highestY, lakeY + blockZ);
 
 				if (snowBlock.getTypeId() == 0 && snowBlock.getTemperature() < 0.15F) {
-					snowBlock.setTypeId(Mat.Snow.id);
+					//snowBlock.setTypeId(Mat.Snow.id);
 				}
 			}
 		}

@@ -2,6 +2,18 @@ package me.heldplayer.HeldGeneration.helpers;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
+
+import me.heldplayer.HeldGeneration.generator.Populators.BiomeDecorator;
+import me.heldplayer.HeldGeneration.generator.WorldGenerators.WorldGenBigTree;
+import me.heldplayer.HeldGeneration.generator.WorldGenerators.WorldGenForest;
+import me.heldplayer.HeldGeneration.generator.WorldGenerators.WorldGenHugeTrees;
+import me.heldplayer.HeldGeneration.generator.WorldGenerators.WorldGenShrub;
+import me.heldplayer.HeldGeneration.generator.WorldGenerators.WorldGenSwamp;
+import me.heldplayer.HeldGeneration.generator.WorldGenerators.WorldGenTaiga1;
+import me.heldplayer.HeldGeneration.generator.WorldGenerators.WorldGenTaiga2;
+import me.heldplayer.HeldGeneration.generator.WorldGenerators.WorldGenTrees;
+import me.heldplayer.HeldGeneration.generator.WorldGenerators.WorldGenerator;
 
 import org.bukkit.block.Biome;
 
@@ -30,11 +42,49 @@ public class PopulatorAssist {
 	public int bigMushroomsPerChunk = 0;
 	public boolean generateLakes = true;
 	public final Biome biome;
+	public static BiomeDecorator decorator = new BiomeDecorator();
+	public WorldGenTrees worldGenTrees = new WorldGenTrees(false);
+	public WorldGenBigTree worldGenBigTree = new WorldGenBigTree(false);
+	public WorldGenForest worldGenForest = new WorldGenForest(false);
+	public WorldGenSwamp worldGenSwamp = new WorldGenSwamp();
+	public WorldGenTaiga1 worldGenTaiga1 = new WorldGenTaiga1();
+	public WorldGenTaiga2 worldGenTaiga2 = new WorldGenTaiga2(false);
+	public WorldGenShrub worldGenShrub = new WorldGenShrub(3, 0);
 
 	private PopulatorAssist(Biome biome) {
 		this.biome = biome;
 
 		assistMap.put(biome, this);
+	}
+
+	public WorldGenerator getRandomTreeGen(Random rand) {
+		if (biome == Biome.FOREST || biome == Biome.FOREST_HILLS) {
+			if (rand.nextInt(5) == 0) {
+				return this.worldGenForest;
+			}
+		}
+
+		if (biome == Biome.SWAMPLAND) {
+			return worldGenSwamp;
+		}
+
+		if (biome == Biome.TAIGA || biome == Biome.TAIGA_HILLS) {
+			return (rand.nextInt(3) == 0 ? this.worldGenTaiga1 : this.worldGenTaiga2);
+		}
+
+		if (biome == Biome.JUNGLE || biome == Biome.JUNGLE_HILLS) {
+			if (rand.nextInt(10) == 0) {
+				return this.worldGenBigTree;
+			} else if (rand.nextInt(2) == 0) {
+				return this.worldGenShrub;
+			} else if (rand.nextInt(3) == 0) {
+				return new WorldGenHugeTrees(false, 10 + rand.nextInt(20), 3, 3);
+			} else {
+				return new WorldGenTrees(false, 4 + rand.nextInt(7), 3, 3, true);
+			}
+		}
+
+		return (rand.nextInt(10) == 0 ? this.worldGenBigTree : this.worldGenTrees);
 	}
 
 	static {
