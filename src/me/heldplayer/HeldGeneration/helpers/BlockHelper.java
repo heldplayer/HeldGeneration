@@ -159,12 +159,16 @@ public class BlockHelper {
 		case Pumpkin:
 			groundBlock = block.getRelative(BlockFace.DOWN);
 
-			return isSolid(groundBlock.getTypeId());
+			return isOpaqueCube(groundBlock.getTypeId());
 		case RedMushroom:
 		case BrownMushroom:
 			groundBlock = block.getRelative(BlockFace.DOWN);
 
-			return isSolid(groundBlock.getTypeId());
+			if (block.getLightFromSky() > 12) {
+				return false;
+			}
+
+			return isOpaqueCube(groundBlock.getTypeId());
 		case SugarCane:
 			groundBlock = block.getRelative(BlockFace.DOWN);
 
