@@ -159,13 +159,13 @@ public class BiomeDecorator {
 				return block.getY();
 			}
 
-			for (int y = block.getY(); y >= 0; y++) {
-				if ((block = world.getBlockAt(x, y, z)).getTypeId() != Mat.Leaves.id && BlockHelper.isSolid(block.getTypeId())) {
-					return y;
-				}
+			int y = block.getY();
+
+			while (y > 0 && (block = block.getRelative(0, 1, 0)).getTypeId() != Mat.Leaves.id && BlockHelper.isSolid(block.getTypeId())) {
+				y = block.getY();
 			}
 
-			return 0;
+			return y;
 		}
 		return 0;
 	}
