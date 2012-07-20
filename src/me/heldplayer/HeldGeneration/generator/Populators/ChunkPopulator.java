@@ -53,8 +53,7 @@ public class ChunkPopulator extends BlockPopulator {
 			lakeX = blockX + rand.nextInt(16 + 8);
 			lakeY = rand.nextInt(128);
 			lakeZ = blockZ + rand.nextInt(16) + 8;
-			if ((new WorldGenLakes(Mat.WaterStill.id)).generate(world, rand, lakeX, lakeY, lakeZ))
-				;//System.out.println("Generated water lake " + lakeX + " " + lakeY + " " + lakeZ);
+			(new WorldGenLakes(Mat.WaterStill.id)).generate(world, rand, lakeX, lakeY, lakeZ);
 		}
 
 		if (!hasVillage && rand.nextInt(8) == 0) {
@@ -63,8 +62,7 @@ public class ChunkPopulator extends BlockPopulator {
 			lakeZ = blockZ + rand.nextInt(16) + 8;
 
 			if (lakeY < 63 || rand.nextInt(10) == 0) {
-				if ((new WorldGenLakes(Mat.LavaStill.id)).generate(world, rand, lakeX, lakeY, lakeZ))
-					;//System.out.println("Generated lava lake " + lakeX + " " + lakeY + " " + lakeZ);
+				(new WorldGenLakes(Mat.LavaStill.id)).generate(world, rand, lakeX, lakeY, lakeZ);
 			}
 		}
 
@@ -73,8 +71,7 @@ public class ChunkPopulator extends BlockPopulator {
 			lakeZ = rand.nextInt(128);
 			int dungeonZ = blockZ + rand.nextInt(16) + 8;
 
-			if ((new WorldGenDungeons()).generate(world, rand, lakeY, lakeZ, dungeonZ))
-				;//System.out.println("Generated dungeon " + lakeY + " " + lakeZ + " " + dungeonZ);
+			(new WorldGenDungeons()).generate(world, rand, lakeY, lakeZ, dungeonZ);
 
 		}
 
@@ -89,14 +86,14 @@ public class ChunkPopulator extends BlockPopulator {
 				Block iceBlock = world.getBlockAt(lakeX + blockX, highestY - 1, lakeY + blockZ);
 
 				if ((iceBlock.getTypeId() == Mat.WaterMoving.id || iceBlock.getTypeId() == Mat.WaterStill.id) && iceBlock.getData() == 0 && iceBlock.getTemperature() < 0.15F) {
-					//iceBlock.setTypeId(Mat.Ice.id);
+					iceBlock.setTypeId(Mat.Ice.id);
 					continue;
 				}
 
 				Block snowBlock = world.getBlockAt(lakeX + blockX, highestY, lakeY + blockZ);
 
 				if (snowBlock.getTypeId() == 0 && snowBlock.getTemperature() < 0.15F) {
-					//snowBlock.setTypeId(Mat.Snow.id);
+					snowBlock.setTypeId(Mat.Snow.id);
 				}
 			}
 		}
