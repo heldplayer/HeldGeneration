@@ -85,9 +85,18 @@ public enum Mat {
 	// Empty space
 	EndPortalFrame(120);
 
-	public final byte id;
+	public final short id;
 
 	private Mat(int typeId) {
-		id = (byte) typeId;
+		id = (short) typeId;
+	}
+
+	public static Mat fromId(int id) {
+		for (Mat mat : values()) {
+			if (mat.id == id) {
+				return mat;
+			}
+		}
+		return null;
 	}
 }

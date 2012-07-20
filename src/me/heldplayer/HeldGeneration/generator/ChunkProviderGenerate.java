@@ -165,9 +165,9 @@ public class ChunkProviderGenerate {
 
 							for (int var51 = 0; var51 < 4; ++var51) {
 								if ((var47 += var49) > 0.0D) {
-									chunkBytes[var43 += var44] = Mat.Stone.id;
+									chunkBytes[var43 += var44] = (byte) Mat.Stone.id;
 								} else if (var12 * 8 + var31 < var6) {
-									chunkBytes[var43 += var44] = Mat.WaterStill.id;
+									chunkBytes[var43 += var44] = (byte) Mat.WaterStill.id;
 								} else {
 									chunkBytes[var43 += var44] = 0;
 								}
@@ -335,7 +335,7 @@ public class ChunkProviderGenerate {
 					int var17 = (var9 * 16 + var8) * 128 + var16;
 
 					if (var16 <= 0 + this.rand.nextInt(5)) {
-						chunkBlocks[var17] = Mat.Bedrock.id;
+						chunkBlocks[var17] = (byte) Mat.Bedrock.id;
 					} else {
 						byte var18 = chunkBlocks[var17];
 
@@ -353,9 +353,9 @@ public class ChunkProviderGenerate {
 
 								if (var16 < var5 && topBlock == 0) {
 									if (temperature < 0.15F) {
-										topBlock = Mat.Snow.id;
+										topBlock = (byte) Mat.Snow.id;
 									} else {
-										topBlock = Mat.WaterStill.id;
+										topBlock = (byte) Mat.WaterStill.id;
 									}
 								}
 
@@ -372,7 +372,7 @@ public class ChunkProviderGenerate {
 
 								if (var13 == 0 && fillerBlock == Mat.Sand.id) {
 									var13 = this.rand.nextInt(4);
-									fillerBlock = Mat.Sandstone.id;
+									fillerBlock = (byte) Mat.Sandstone.id;
 								}
 							}
 						}
