@@ -6,6 +6,7 @@ import me.heldplayer.HeldGeneration.generator.WorldGenerators.WorldGenBigMushroo
 import me.heldplayer.HeldGeneration.generator.WorldGenerators.WorldGenCactus;
 import me.heldplayer.HeldGeneration.generator.WorldGenerators.WorldGenClay;
 import me.heldplayer.HeldGeneration.generator.WorldGenerators.WorldGenDeadBush;
+import me.heldplayer.HeldGeneration.generator.WorldGenerators.WorldGenDesertWells;
 import me.heldplayer.HeldGeneration.generator.WorldGenerators.WorldGenFlowers;
 import me.heldplayer.HeldGeneration.generator.WorldGenerators.WorldGenLiquids;
 import me.heldplayer.HeldGeneration.generator.WorldGenerators.WorldGenMinable;
@@ -347,6 +348,17 @@ public class BiomeDecorator {
 				var4 = 64;
 				var7 = this.chunk_Z + this.randomGenerator.nextInt(16) + 8;
 				worldGenVines.generate(this.currentWorld, this.randomGenerator, var3, var4, var7);
+			}
+		}
+
+		if (assist.biome == Biome.DESERT || assist.biome == Biome.DESERT_HILLS) {
+			for (var2 = 0; var2 < 50; ++var2) {
+				if (this.randomGenerator.nextInt(1000) == 0) {
+					var3 = this.chunk_X + this.randomGenerator.nextInt(16) + 8;
+					var4 = this.chunk_Z + this.randomGenerator.nextInt(16) + 8;
+					WorldGenDesertWells worldGenDesertWells = new WorldGenDesertWells();
+					worldGenDesertWells.generate(this.currentWorld, this.randomGenerator, var3, getHeightValue(this.currentWorld, var3, var4) + 1, var4);
+				}
 			}
 		}
 	}
