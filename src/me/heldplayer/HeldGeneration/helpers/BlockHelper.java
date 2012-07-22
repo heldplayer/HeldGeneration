@@ -27,10 +27,42 @@ public class BlockHelper {
 	public static boolean isSolid(int id) {
 		switch (id) {
 		case 0:
+		case 6:
 		case 8:
 		case 9:
 		case 10:
 		case 11:
+		case 27:
+		case 28:
+		case 30:
+		case 31:
+		case 32:
+		case 37:
+		case 38:
+		case 39:
+		case 40:
+		case 50:
+		case 51:
+		case 55:
+		case 59:
+		case 65:
+		case 66:
+		case 69:
+		case 75:
+		case 76:
+		case 77:
+		case 78:
+		case 83:
+		case 93:
+		case 94:
+		case 104:
+		case 105:
+		case 106:
+		case 111:
+		case 115:
+		case 127:
+		case 131:
+		case 132:
 			return false;
 		}
 		return true;
