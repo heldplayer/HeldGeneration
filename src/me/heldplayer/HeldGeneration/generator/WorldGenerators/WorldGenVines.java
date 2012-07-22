@@ -10,20 +10,20 @@ import me.heldplayer.HeldGeneration.helpers.Mat;
 import org.bukkit.World;
 
 public class WorldGenVines extends WorldGenerator {
-	public boolean generate(World par1World, Random par2Random, int par3, int par4, int par5) {
-		int var6 = par3;
+	public boolean generate(World world, Random rand, int x, int y, int z) {
+		int countX = x;
 
-		for (int var7 = par5; par4 < 128; ++par4) {
-			if (par1World.getBlockTypeIdAt(par3, par4, par5) == 0) {
-				for (int var8 = 2; var8 <= 5; ++var8) {
-					if (BlockHelper.canPlcaeVineOnSide(par1World.getBlockAt(par3, par4, par5), var8)) {
-						par1World.getBlockAt(par3, par4, par5).setTypeIdAndData(Mat.Vine.id, (byte) (1 << Direction.vineGrowth[Facing.faceToSide[var8]]), false);
+		for (int countZ = z; y < 128; ++y) {
+			if (world.getBlockTypeIdAt(x, y, z) == 0) {
+				for (int face = 2; face <= 5; ++face) {
+					if (BlockHelper.canPlcaeVineOnSide(world.getBlockAt(x, y, z), face)) {
+						setBlockAndMetadata(world, x, y, z, Mat.Vine.id, 1 << Direction.vineGrowth[Facing.faceToSide[face]]);
 						break;
 					}
 				}
 			} else {
-				par3 = var6 + par2Random.nextInt(4) - par2Random.nextInt(4);
-				par5 = var7 + par2Random.nextInt(4) - par2Random.nextInt(4);
+				x = countX + rand.nextInt(4) - rand.nextInt(4);
+				z = countZ + rand.nextInt(4) - rand.nextInt(4);
 			}
 		}
 

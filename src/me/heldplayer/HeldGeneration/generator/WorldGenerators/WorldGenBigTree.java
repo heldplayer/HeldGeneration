@@ -2,6 +2,7 @@ package me.heldplayer.HeldGeneration.generator.WorldGenerators;
 
 import java.util.Random;
 
+import me.heldplayer.HeldGeneration.helpers.Mat;
 import me.heldplayer.HeldGeneration.helpers.MathHelper;
 
 import org.bukkit.World;
@@ -318,13 +319,13 @@ public class WorldGenBigTree extends WorldGenerator {
 	 * (in blocks) before a non-air, non-leaf block is encountered and/or the
 	 * end is encountered.
 	 */
-	int checkBlockLine(int[] par1ArrayOfInteger, int[] par2ArrayOfInteger) {
+	int checkBlockLine(int[] bottomPos, int[] topPos) {
 		int[] var3 = new int[] { 0, 0, 0 };
 		byte var4 = 0;
 		byte var5;
 
 		for (var5 = 0; var4 < 3; ++var4) {
-			var3[var4] = par2ArrayOfInteger[var4] - par1ArrayOfInteger[var4];
+			var3[var4] = topPos[var4] - bottomPos[var4];
 
 			if (Math.abs(var3[var4]) > Math.abs(var3[var5])) {
 				var5 = var4;
@@ -351,12 +352,12 @@ public class WorldGenBigTree extends WorldGenerator {
 			int var15;
 
 			for (var15 = var3[var5] + var8; var14 != var15; var14 += var8) {
-				var13[var5] = par1ArrayOfInteger[var5] + var14;
-				var13[var6] = MathHelper.floor_double((double) par1ArrayOfInteger[var6] + (double) var14 * var9);
-				var13[var7] = MathHelper.floor_double((double) par1ArrayOfInteger[var7] + (double) var14 * var11);
+				var13[var5] = bottomPos[var5] + var14;
+				var13[var6] = MathHelper.floor_double((double) bottomPos[var6] + (double) var14 * var9);
+				var13[var7] = MathHelper.floor_double((double) bottomPos[var7] + (double) var14 * var11);
 				int var16 = this.worldObj.getBlockTypeIdAt(var13[0], var13[1], var13[2]);
 
-				if (var16 != 0 && var16 != 18) {
+				if (var16 != 0 && var16 != Mat.Leaves.id) {
 					break;
 				}
 			}
@@ -371,14 +372,14 @@ public class WorldGenBigTree extends WorldGenerator {
 	 * limit, is valid.
 	 */
 	boolean validTreeLocation() {
-		int[] var1 = new int[] { this.basePos[0], this.basePos[1], this.basePos[2] };
-		int[] var2 = new int[] { this.basePos[0], this.basePos[1] + this.heightLimit - 1, this.basePos[2] };
-		int var3 = this.worldObj.getBlockTypeIdAt(this.basePos[0], this.basePos[1] - 1, this.basePos[2]);
+		int[] bottomlist = new int[] { this.basePos[0], this.basePos[1], this.basePos[2] };
+		int[] topList = new int[] { this.basePos[0], this.basePos[1] + this.heightLimit - 1, this.basePos[2] };
+		int groundTypeId = this.worldObj.getBlockTypeIdAt(this.basePos[0], this.basePos[1] - 1, this.basePos[2]);
 
-		if (var3 != 2 && var3 != 3) {
+		if (groundTypeId != Mat.Grass.id && groundTypeId != Mat.Dirt.id) {
 			return false;
 		} else {
-			int var4 = this.checkBlockLine(var1, var2);
+			int var4 = this.checkBlockLine(bottomlist, topList);
 
 			if (var4 == -1) {
 				return true;
@@ -394,24 +395,24 @@ public class WorldGenBigTree extends WorldGenerator {
 	/**
 	 * Rescales the generator settings, only used in WorldGenBigTree
 	 */
-	public void setScale(double par1, double par3, double par5) {
-		this.heightLimitLimit = (int) (par1 * 12.0D);
+	public void setScale(double xScale, double zScale, double yScale) {
+		this.heightLimitLimit = (int) (xScale * 12.0D);
 
-		if (par1 > 0.5D) {
+		if (xScale > 0.5D) {
 			this.leafDistanceLimit = 5;
 		}
 
-		this.scaleWidth = par3;
-		this.leafDensity = par5;
+		this.scaleWidth = zScale;
+		this.leafDensity = yScale;
 	}
 
-	public boolean generate(World par1World, Random par2Random, int par3, int par4, int par5) {
-		this.worldObj = par1World;
-		long var6 = par2Random.nextLong();
-		this.rand.setSeed(var6);
-		this.basePos[0] = par3;
-		this.basePos[1] = par4;
-		this.basePos[2] = par5;
+	public boolean generate(World world, Random rand, int x, int y, int z) {
+		this.worldObj = world;
+		long newSeed = rand.nextLong();
+		this.rand.setSeed(newSeed);
+		this.basePos[0] = x;
+		this.basePos[1] = y;
+		this.basePos[2] = z;
 
 		if (this.heightLimit == 0) {
 			this.heightLimit = 5 + this.rand.nextInt(this.heightLimitLimit);

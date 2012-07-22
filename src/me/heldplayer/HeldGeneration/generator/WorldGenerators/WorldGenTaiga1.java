@@ -8,76 +8,76 @@ import me.heldplayer.HeldGeneration.helpers.Mat;
 import org.bukkit.World;
 
 public class WorldGenTaiga1 extends WorldGenerator {
-	public boolean generate(World par1World, Random par2Random, int par3, int par4, int par5) {
-		int var6 = par2Random.nextInt(5) + 7;
-		int var7 = var6 - par2Random.nextInt(2) - 3;
-		int var8 = var6 - var7;
-		int var9 = 1 + par2Random.nextInt(var8 + 1);
-		boolean var10 = true;
+	public boolean generate(World world, Random rand, int x, int y, int z) {
+		int totalHeight = rand.nextInt(5) + 7;
+		int leavesStart = totalHeight - rand.nextInt(2) - 3;
+		int height = totalHeight - leavesStart;
+		int rad = 1 + rand.nextInt(height + 1);
+		boolean canGrow = true;
 
-		if (par4 >= 1 && par4 + var6 + 1 <= 128) {
-			int var11;
-			int var13;
-			int var14;
-			int var15;
-			int var18;
+		if (y >= 1 && y + totalHeight + 1 <= 128) {
+			int posY1typeId2;
+			int posX1posY2;
+			int posZ1posX2;
+			int typeId1relPosX2;
+			int ringRad;
 
-			for (var11 = par4; var11 <= par4 + 1 + var6 && var10; ++var11) {
-				if (var11 - par4 < var7) {
-					var18 = 0;
+			for (posY1typeId2 = y; posY1typeId2 <= y + 1 + totalHeight && canGrow; ++posY1typeId2) {
+				if (posY1typeId2 - y < leavesStart) {
+					ringRad = 0;
 				} else {
-					var18 = var9;
+					ringRad = rad;
 				}
 
-				for (var13 = par3 - var18; var13 <= par3 + var18 && var10; ++var13) {
-					for (var14 = par5 - var18; var14 <= par5 + var18 && var10; ++var14) {
-						if (var11 >= 0 && var11 < 128) {
-							var15 = par1World.getBlockTypeIdAt(var13, var11, var14);
+				for (posX1posY2 = x - ringRad; posX1posY2 <= x + ringRad && canGrow; ++posX1posY2) {
+					for (posZ1posX2 = z - ringRad; posZ1posX2 <= z + ringRad && canGrow; ++posZ1posX2) {
+						if (posY1typeId2 >= 0 && posY1typeId2 < 128) {
+							typeId1relPosX2 = world.getBlockTypeIdAt(posX1posY2, posY1typeId2, posZ1posX2);
 
-							if (var15 != 0 && var15 != Mat.Leaves.id) {
-								var10 = false;
+							if (typeId1relPosX2 != 0 && typeId1relPosX2 != Mat.Leaves.id) {
+								canGrow = false;
 							}
 						} else {
-							var10 = false;
+							canGrow = false;
 						}
 					}
 				}
 			}
 
-			if (!var10) {
+			if (!canGrow) {
 				return false;
 			} else {
-				var11 = par1World.getBlockTypeIdAt(par3, par4 - 1, par5);
+				posY1typeId2 = world.getBlockTypeIdAt(x, y - 1, z);
 
-				if ((var11 == Mat.Grass.id || var11 == Mat.Dirt.id) && par4 < 128 - var6 - 1) {
-					this.setBlock(par1World, par3, par4 - 1, par5, Mat.Dirt.id);
-					var18 = 0;
+				if ((posY1typeId2 == Mat.Grass.id || posY1typeId2 == Mat.Dirt.id) && y < 128 - totalHeight - 1) {
+					this.setBlock(world, x, y - 1, z, Mat.Dirt.id);
+					ringRad = 0;
 
-					for (var13 = par4 + var6; var13 >= par4 + var7; --var13) {
-						for (var14 = par3 - var18; var14 <= par3 + var18; ++var14) {
-							var15 = var14 - par3;
+					for (posX1posY2 = y + totalHeight; posX1posY2 >= y + leavesStart; --posX1posY2) {
+						for (posZ1posX2 = x - ringRad; posZ1posX2 <= x + ringRad; ++posZ1posX2) {
+							typeId1relPosX2 = posZ1posX2 - x;
 
-							for (int var16 = par5 - var18; var16 <= par5 + var18; ++var16) {
-								int var17 = var16 - par5;
+							for (int posZ = z - ringRad; posZ <= z + ringRad; ++posZ) {
+								int relPosZ = posZ - z;
 
-								if ((Math.abs(var15) != var18 || Math.abs(var17) != var18 || var18 <= 0) && !BlockHelper.isOpaqueCube(par1World.getBlockTypeIdAt(var14, var13, var16))) {
-									this.setBlockAndMetadata(par1World, var14, var13, var16, Mat.Leaves.id, 1);
+								if ((Math.abs(typeId1relPosX2) != ringRad || Math.abs(relPosZ) != ringRad || ringRad <= 0) && !BlockHelper.isOpaqueCube(world.getBlockTypeIdAt(posZ1posX2, posX1posY2, posZ))) {
+									this.setBlockAndMetadata(world, posZ1posX2, posX1posY2, posZ, Mat.Leaves.id, 1);
 								}
 							}
 						}
 
-						if (var18 >= 1 && var13 == par4 + var7 + 1) {
-							--var18;
-						} else if (var18 < var9) {
-							++var18;
+						if (ringRad >= 1 && posX1posY2 == y + leavesStart + 1) {
+							--ringRad;
+						} else if (ringRad < rad) {
+							++ringRad;
 						}
 					}
 
-					for (var13 = 0; var13 < var6 - 1; ++var13) {
-						var14 = par1World.getBlockTypeIdAt(par3, par4 + var13, par5);
+					for (posX1posY2 = 0; posX1posY2 < totalHeight - 1; ++posX1posY2) {
+						posZ1posX2 = world.getBlockTypeIdAt(x, y + posX1posY2, z);
 
-						if (var14 == 0 || var14 == Mat.Leaves.id) {
-							this.setBlockAndMetadata(par1World, par3, par4 + var13, par5, Mat.Log.id, 1);
+						if (posZ1posX2 == 0 || posZ1posX2 == Mat.Leaves.id) {
+							this.setBlockAndMetadata(world, x, y + posX1posY2, z, Mat.Log.id, 1);
 						}
 					}
 

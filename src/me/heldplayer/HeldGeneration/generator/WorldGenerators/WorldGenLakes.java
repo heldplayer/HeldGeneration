@@ -29,51 +29,51 @@ public class WorldGenLakes extends WorldGenerator {
 			return false;
 		} else {
 			y -= 4;
-			boolean[] var6 = new boolean[2048];
+			boolean[] lakeBlocks = new boolean[2048];
 			int var7 = rand.nextInt(4) + 4;
-			int var8;
+			int counterRelPosX;
 
-			for (var8 = 0; var8 < var7; ++var8) {
-				double var9 = rand.nextDouble() * 6.0D + 3.0D;
-				double var11 = rand.nextDouble() * 4.0D + 2.0D;
-				double var13 = rand.nextDouble() * 6.0D + 3.0D;
-				double var15 = rand.nextDouble() * (16.0D - var9 - 2.0D) + 1.0D + var9 / 2.0D;
-				double var17 = rand.nextDouble() * (8.0D - var11 - 4.0D) + 2.0D + var11 / 2.0D;
-				double var19 = rand.nextDouble() * (16.0D - var13 - 2.0D) + 1.0D + var13 / 2.0D;
+			for (counterRelPosX = 0; counterRelPosX < var7; ++counterRelPosX) {
+				double initialRandX = rand.nextDouble() * 6.0D + 3.0D;
+				double initialRandY = rand.nextDouble() * 4.0D + 2.0D;
+				double initialRandZ = rand.nextDouble() * 6.0D + 3.0D;
+				double randX = rand.nextDouble() * (16.0D - initialRandX - 2.0D) + 1.0D + initialRandX / 2.0D;
+				double randY = rand.nextDouble() * (8.0D - initialRandY - 4.0D) + 2.0D + initialRandY / 2.0D;
+				double randZ = rand.nextDouble() * (16.0D - initialRandZ - 2.0D) + 1.0D + initialRandZ / 2.0D;
 
-				for (int var21 = 1; var21 < 15; ++var21) {
-					for (int var22 = 1; var22 < 15; ++var22) {
-						for (int var23 = 1; var23 < 7; ++var23) {
-							double var24 = (var21 - var15) / (var9 / 2.0D);
-							double var26 = (var23 - var17) / (var11 / 2.0D);
-							double var28 = (var22 - var19) / (var13 / 2.0D);
-							double var30 = var24 * var24 + var26 * var26 + var28 * var28;
+				for (int relPosX = 1; relPosX < 15; ++relPosX) {
+					for (int relPosZ = 1; relPosZ < 15; ++relPosZ) {
+						for (int relPosY = 1; relPosY < 7; ++relPosY) {
+							double resultX = (relPosX - randX) / (initialRandX / 2.0D);
+							double resultY = (relPosY - randY) / (initialRandY / 2.0D);
+							double resultZ = (relPosZ - randZ) / (initialRandZ / 2.0D);
+							double resultRand = resultX * resultX + resultY * resultY + resultZ * resultZ;
 
-							if (var30 < 1.0D) {
-								var6[(var21 * 16 + var22) * 8 + var23] = true;
+							if (resultRand < 1.0D) {
+								lakeBlocks[(relPosX * 16 + relPosZ) * 8 + relPosY] = true;
 							}
 						}
 					}
 				}
 			}
 
-			int var10;
-			int var32;
-			boolean var33;
+			int relPosY;
+			int relPosZ;
+			boolean isSource;
 
-			for (var8 = 0; var8 < 16; ++var8) {
-				for (var32 = 0; var32 < 16; ++var32) {
-					for (var10 = 0; var10 < 8; ++var10) {
-						var33 = !var6[(var8 * 16 + var32) * 8 + var10] && (var8 < 15 && var6[((var8 + 1) * 16 + var32) * 8 + var10] || var8 > 0 && var6[((var8 - 1) * 16 + var32) * 8 + var10] || var32 < 15 && var6[(var8 * 16 + var32 + 1) * 8 + var10] || var32 > 0 && var6[(var8 * 16 + (var32 - 1)) * 8 + var10] || var10 < 7 && var6[(var8 * 16 + var32) * 8 + var10 + 1] || var10 > 0 && var6[(var8 * 16 + var32) * 8 + (var10 - 1)]);
+			for (counterRelPosX = 0; counterRelPosX < 16; ++counterRelPosX) {
+				for (relPosZ = 0; relPosZ < 16; ++relPosZ) {
+					for (relPosY = 0; relPosY < 8; ++relPosY) {
+						isSource = !lakeBlocks[(counterRelPosX * 16 + relPosZ) * 8 + relPosY] && (counterRelPosX < 15 && lakeBlocks[((counterRelPosX + 1) * 16 + relPosZ) * 8 + relPosY] || counterRelPosX > 0 && lakeBlocks[((counterRelPosX - 1) * 16 + relPosZ) * 8 + relPosY] || relPosZ < 15 && lakeBlocks[(counterRelPosX * 16 + relPosZ + 1) * 8 + relPosY] || relPosZ > 0 && lakeBlocks[(counterRelPosX * 16 + (relPosZ - 1)) * 8 + relPosY] || relPosY < 7 && lakeBlocks[(counterRelPosX * 16 + relPosZ) * 8 + relPosY + 1] || relPosY > 0 && lakeBlocks[(counterRelPosX * 16 + relPosZ) * 8 + (relPosY - 1)]);
 
-						if (var33) {
-							short var12 = (short) world.getBlockAt(x + var8, y + var10, z + var32).getTypeId();
+						if (isSource) {
+							short typeId = (short) world.getBlockTypeIdAt(x + counterRelPosX, y + relPosY, z + relPosZ);
 
-							if (var10 >= 4 && BlockHelper.isLiquid(var12)) {
+							if (relPosY >= 4 && BlockHelper.isLiquid(typeId)) {
 								return false;
 							}
 
-							if (var10 < 4 && !BlockHelper.isSolid(var12) && world.getBlockTypeIdAt(x + var8, y + var10, z + var32) != this.blockIndex) {
+							if (relPosY < 4 && !BlockHelper.isSolid(typeId) && world.getBlockTypeIdAt(x + counterRelPosX, y + relPosY, z + relPosZ) != this.blockIndex) {
 								return false;
 							}
 						}
@@ -81,26 +81,26 @@ public class WorldGenLakes extends WorldGenerator {
 				}
 			}
 
-			for (var8 = 0; var8 < 16; ++var8) {
-				for (var32 = 0; var32 < 16; ++var32) {
-					for (var10 = 0; var10 < 8; ++var10) {
-						if (var6[(var8 * 16 + var32) * 8 + var10]) {
-							world.getBlockAt(x + var8, y + var10, z + var32).setTypeIdAndData(var10 >= 4 ? 0 : this.blockIndex, (byte) 0, false);
+			for (counterRelPosX = 0; counterRelPosX < 16; ++counterRelPosX) {
+				for (relPosZ = 0; relPosZ < 16; ++relPosZ) {
+					for (relPosY = 0; relPosY < 8; ++relPosY) {
+						if (lakeBlocks[(counterRelPosX * 16 + relPosZ) * 8 + relPosY]) {
+							setBlock(world, x + counterRelPosX, y + relPosY, z + relPosZ, relPosY >= 4 ? 0 : this.blockIndex);
 						}
 					}
 				}
 			}
 
-			for (var8 = 0; var8 < 16; ++var8) {
-				for (var32 = 0; var32 < 16; ++var32) {
-					for (var10 = 4; var10 < 8; ++var10) {
-						if (var6[(var8 * 16 + var32) * 8 + var10] && world.getBlockTypeIdAt(x + var8, y + var10 - 1, z + var32) == 3 && world.getBlockAt(x + var8, y + var10, z + var32).getLightFromSky() > 0) {
-							Biome var35 = world.getBiome(x + var8, z + var32);
+			for (counterRelPosX = 0; counterRelPosX < 16; ++counterRelPosX) {
+				for (relPosZ = 0; relPosZ < 16; ++relPosZ) {
+					for (relPosY = 4; relPosY < 8; ++relPosY) {
+						if (lakeBlocks[(counterRelPosX * 16 + relPosZ) * 8 + relPosY] && world.getBlockTypeIdAt(x + counterRelPosX, y + relPosY - 1, z + relPosZ) == 3 && world.getBlockAt(x + counterRelPosX, y + relPosY, z + relPosZ).getLightFromSky() > 0) {
+							Biome biome = world.getBiome(x + counterRelPosX, z + relPosZ);
 
-							if (BiomeHelp.getTopBlock(var35) == 110) {
-								world.getBlockAt(x + var8, y + var10 - 1, z + var32).setTypeIdAndData(Mat.Mycelium.id, (byte) 0, false);
+							if (BiomeHelp.getTopBlock(biome) == Mat.Mycelium.id) {
+								setBlock(world, x + counterRelPosX, y + relPosY - 1, z + relPosZ, Mat.Mycelium.id);
 							} else {
-								world.getBlockAt(x + var8, y + var10 - 1, z + var32).setTypeIdAndData(Mat.Grass.id, (byte) 0, false);
+								setBlock(world, x + counterRelPosX, y + relPosY - 1, z + relPosZ, Mat.Grass.id);
 							}
 						}
 					}
@@ -108,13 +108,13 @@ public class WorldGenLakes extends WorldGenerator {
 			}
 
 			if (this.blockIndex == Mat.LavaMoving.id || this.blockIndex == Mat.LavaStill.id) {
-				for (var8 = 0; var8 < 16; ++var8) {
-					for (var32 = 0; var32 < 16; ++var32) {
-						for (var10 = 0; var10 < 8; ++var10) {
-							var33 = !var6[(var8 * 16 + var32) * 8 + var10] && (var8 < 15 && var6[((var8 + 1) * 16 + var32) * 8 + var10] || var8 > 0 && var6[((var8 - 1) * 16 + var32) * 8 + var10] || var32 < 15 && var6[(var8 * 16 + var32 + 1) * 8 + var10] || var32 > 0 && var6[(var8 * 16 + (var32 - 1)) * 8 + var10] || var10 < 7 && var6[(var8 * 16 + var32) * 8 + var10 + 1] || var10 > 0 && var6[(var8 * 16 + var32) * 8 + (var10 - 1)]);
+				for (counterRelPosX = 0; counterRelPosX < 16; ++counterRelPosX) {
+					for (relPosZ = 0; relPosZ < 16; ++relPosZ) {
+						for (relPosY = 0; relPosY < 8; ++relPosY) {
+							isSource = !lakeBlocks[(counterRelPosX * 16 + relPosZ) * 8 + relPosY] && (counterRelPosX < 15 && lakeBlocks[((counterRelPosX + 1) * 16 + relPosZ) * 8 + relPosY] || counterRelPosX > 0 && lakeBlocks[((counterRelPosX - 1) * 16 + relPosZ) * 8 + relPosY] || relPosZ < 15 && lakeBlocks[(counterRelPosX * 16 + relPosZ + 1) * 8 + relPosY] || relPosZ > 0 && lakeBlocks[(counterRelPosX * 16 + (relPosZ - 1)) * 8 + relPosY] || relPosY < 7 && lakeBlocks[(counterRelPosX * 16 + relPosZ) * 8 + relPosY + 1] || relPosY > 0 && lakeBlocks[(counterRelPosX * 16 + relPosZ) * 8 + (relPosY - 1)]);
 
-							if (var33 && (var10 < 4 || rand.nextInt(2) != 0) && BlockHelper.isSolid(world.getBlockTypeIdAt(x + var8, y + var10, z + var32))) {
-								world.getBlockAt(x + var8, y + var10, z + var32).setTypeId(Mat.Stone.id);
+							if (isSource && (relPosY < 4 || rand.nextInt(2) != 0) && BlockHelper.isSolid(world.getBlockTypeIdAt(x + counterRelPosX, y + relPosY, z + relPosZ))) {
+								setBlock(world, x + counterRelPosX, y + relPosY, z + relPosZ, Mat.Stone.id);
 							}
 						}
 					}
@@ -122,14 +122,14 @@ public class WorldGenLakes extends WorldGenerator {
 			}
 
 			if (this.blockIndex == Mat.WaterMoving.id || this.blockIndex == Mat.WaterStill.id) {
-				for (var8 = 0; var8 < 16; ++var8) {
-					for (var32 = 0; var32 < 16; ++var32) {
-						byte var34 = 4;
+				for (counterRelPosX = 0; counterRelPosX < 16; ++counterRelPosX) {
+					for (relPosZ = 0; relPosZ < 16; ++relPosZ) {
+						byte iceRelPos = 4;
 
-						Block block = world.getBlockAt(x + var8, y + var34, z + var32);
+						Block block = world.getBlockAt(x + counterRelPosX, y + iceRelPos, z + relPosZ);
 
-						if ((block.getTypeId() == 8 || block.getTypeId() == 9) && block.getTemperature() < 0.15D) {
-							block.setTypeId(Mat.Ice.id);
+						if ((block.getTypeId() == Mat.WaterMoving.id || block.getTypeId() == Mat.WaterStill.id) && block.getTemperature() < 0.15D) {
+							setBlock(world, x + counterRelPosX, y + iceRelPos, z + relPosZ, Mat.Ice.id);
 						}
 					}
 				}

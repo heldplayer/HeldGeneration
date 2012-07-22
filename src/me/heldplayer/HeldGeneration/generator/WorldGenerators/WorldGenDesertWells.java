@@ -7,69 +7,69 @@ import me.heldplayer.HeldGeneration.helpers.Mat;
 import org.bukkit.World;
 
 public class WorldGenDesertWells extends WorldGenerator {
-	public boolean generate(World par1World, Random par2Random, int par3, int par4, int par5) {
-		while (par1World.getBlockTypeIdAt(par3, par4, par5) == 0 && par4 > 2) {
-			--par4;
+	public boolean generate(World world, Random rand, int x, int y, int z) {
+		while (world.getBlockTypeIdAt(x, y, z) == 0 && y > 2) {
+			--y;
 		}
 
-		int var6 = par1World.getBlockTypeIdAt(par3, par4, par5);
+		int groundBlock = world.getBlockTypeIdAt(x, y, z);
 
-		if (var6 != Mat.Sand.id) {
+		if (groundBlock != Mat.Sand.id) {
 			return false;
 		} else {
-			int var7;
-			int var8;
+			int xyOffset;
+			int zxOffset;
 
-			for (var7 = -2; var7 <= 2; ++var7) {
-				for (var8 = -2; var8 <= 2; ++var8) {
-					if (par1World.getBlockTypeIdAt(par3 + var7, par4 - 1, par5 + var8) == 0 && par1World.getBlockTypeIdAt(par3 + var7, par4 - 2, par5 + var8) == 0) {
+			for (xyOffset = -2; xyOffset <= 2; ++xyOffset) {
+				for (zxOffset = -2; zxOffset <= 2; ++zxOffset) {
+					if (world.getBlockTypeIdAt(x + xyOffset, y - 1, z + zxOffset) == 0 && world.getBlockTypeIdAt(x + xyOffset, y - 2, z + zxOffset) == 0) {
 						return false;
 					}
 				}
 			}
 
-			for (var7 = -1; var7 <= 0; ++var7) {
-				for (var8 = -2; var8 <= 2; ++var8) {
-					for (int var9 = -2; var9 <= 2; ++var9) {
-						setBlock(par1World, par3 + var8, par4 + var7, par5 + var9, Mat.Sandstone.id);
+			for (xyOffset = -1; xyOffset <= 0; ++xyOffset) {
+				for (zxOffset = -2; zxOffset <= 2; ++zxOffset) {
+					for (int zOffset = -2; zOffset <= 2; ++zOffset) {
+						setBlock(world, x + zxOffset, y + xyOffset, z + zOffset, Mat.Sandstone.id);
 					}
 				}
 			}
 
-			setBlock(par1World, par3, par4, par5, Mat.WaterMoving.id);
-			setBlock(par1World, par3 - 1, par4, par5, Mat.WaterMoving.id);
-			setBlock(par1World, par3 + 1, par4, par5, Mat.WaterMoving.id);
-			setBlock(par1World, par3, par4, par5 - 1, Mat.WaterMoving.id);
-			setBlock(par1World, par3, par4, par5 + 1, Mat.WaterMoving.id);
+			setBlock(world, x, y, z, Mat.WaterMoving.id);
+			setBlock(world, x - 1, y, z, Mat.WaterMoving.id);
+			setBlock(world, x + 1, y, z, Mat.WaterMoving.id);
+			setBlock(world, x, y, z - 1, Mat.WaterMoving.id);
+			setBlock(world, x, y, z + 1, Mat.WaterMoving.id);
 
-			for (var7 = -2; var7 <= 2; ++var7) {
-				for (var8 = -2; var8 <= 2; ++var8) {
-					if (var7 == -2 || var7 == 2 || var8 == -2 || var8 == 2) {
-						setBlock(par1World, par3 + var7, par4 + 1, par5 + var8, Mat.Sandstone.id);
+			for (xyOffset = -2; xyOffset <= 2; ++xyOffset) {
+				for (zxOffset = -2; zxOffset <= 2; ++zxOffset) {
+					if (xyOffset == -2 || xyOffset == 2 || zxOffset == -2 || zxOffset == 2) {
+						setBlock(world, x + xyOffset, y + 1, z + zxOffset, Mat.Sandstone.id);
 					}
 				}
 			}
 
-			setBlockAndMetadata(par1World, par3 + 2, par4 + 1, par5, Mat.SingleSlab.id, 1);
-			setBlockAndMetadata(par1World, par3 - 2, par4 + 1, par5, Mat.SingleSlab.id, 1);
-			setBlockAndMetadata(par1World, par3, par4 + 1, par5 + 2, Mat.SingleSlab.id, 1);
-			setBlockAndMetadata(par1World, par3, par4 + 1, par5 - 2, Mat.SingleSlab.id, 1);
+			setBlockAndMetadata(world, x + 2, y + 1, z, Mat.SingleSlab.id, 1);
+			setBlockAndMetadata(world, x - 2, y + 1, z, Mat.SingleSlab.id, 1);
+			setBlockAndMetadata(world, x, y + 1, z + 2, Mat.SingleSlab.id, 1);
+			setBlockAndMetadata(world, x, y + 1, z - 2, Mat.SingleSlab.id, 1);
 
-			for (var7 = -1; var7 <= 1; ++var7) {
-				for (var8 = -1; var8 <= 1; ++var8) {
-					if (var7 == 0 && var8 == 0) {
-						setBlock(par1World, par3 + var7, par4 + 4, par5 + var8, Mat.Sandstone.id);
+			for (xyOffset = -1; xyOffset <= 1; ++xyOffset) {
+				for (zxOffset = -1; zxOffset <= 1; ++zxOffset) {
+					if (xyOffset == 0 && zxOffset == 0) {
+						setBlock(world, x + xyOffset, y + 4, z + zxOffset, Mat.Sandstone.id);
 					} else {
-						setBlockAndMetadata(par1World, par3 + var7, par4 + 4, par5 + var8, Mat.SingleSlab.id, 1);
+						setBlockAndMetadata(world, x + xyOffset, y + 4, z + zxOffset, Mat.SingleSlab.id, 1);
 					}
 				}
 			}
 
-			for (var7 = 1; var7 <= 3; ++var7) {
-				setBlock(par1World, par3 - 1, par4 + var7, par5 - 1, Mat.Sandstone.id);
-				setBlock(par1World, par3 - 1, par4 + var7, par5 + 1, Mat.Sandstone.id);
-				setBlock(par1World, par3 + 1, par4 + var7, par5 - 1, Mat.Sandstone.id);
-				setBlock(par1World, par3 + 1, par4 + var7, par5 + 1, Mat.Sandstone.id);
+			for (xyOffset = 1; xyOffset <= 3; ++xyOffset) {
+				setBlock(world, x - 1, y + xyOffset, z - 1, Mat.Sandstone.id);
+				setBlock(world, x - 1, y + xyOffset, z + 1, Mat.Sandstone.id);
+				setBlock(world, x + 1, y + xyOffset, z - 1, Mat.Sandstone.id);
+				setBlock(world, x + 1, y + xyOffset, z + 1, Mat.Sandstone.id);
 			}
 
 			return true;

@@ -22,20 +22,20 @@ public class WorldGenSand extends WorldGenerator {
 		if (world.getBlockTypeIdAt(x, y, z) != Mat.WaterMoving.id && world.getBlockTypeIdAt(x, y, z) != Mat.WaterStill.id) {
 			return false;
 		} else {
-			int var6 = rand.nextInt(this.radius - 2) + 2;
-			byte var7 = 2;
+			int rad = rand.nextInt(this.radius - 2) + 2;
+			byte height = 2;
 
-			for (int var8 = x - var6; var8 <= x + var6; ++var8) {
-				for (int var9 = z - var6; var9 <= z + var6; ++var9) {
-					int var10 = var8 - x;
-					int var11 = var9 - z;
+			for (int posX = x - rad; posX <= x + rad; ++posX) {
+				for (int posZ = z - rad; posZ <= z + rad; ++posZ) {
+					int relPosX = posX - x;
+					int relPosZ = posZ - z;
 
-					if (var10 * var10 + var11 * var11 <= var6 * var6) {
-						for (int var12 = y - var7; var12 <= y + var7; ++var12) {
-							int var13 = world.getBlockTypeIdAt(var8, var12, var9);
+					if (relPosX * relPosX + relPosZ * relPosZ <= rad * rad) {
+						for (int posY = y - height; posY <= y + height; ++posY) {
+							int typeId = world.getBlockTypeIdAt(posX, posY, posZ);
 
-							if (var13 == Mat.Dirt.id || var13 == Mat.Grass.id) {
-								world.getBlockAt(var8, var12, var9).setTypeIdAndData(this.sandID, (byte) 0, false);
+							if (typeId == Mat.Dirt.id || typeId == Mat.Grass.id) {
+								setBlock(world, posX, posY, posZ, this.sandID);
 							}
 						}
 					}

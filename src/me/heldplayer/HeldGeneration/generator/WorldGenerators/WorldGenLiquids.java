@@ -10,56 +10,56 @@ public class WorldGenLiquids extends WorldGenerator {
 	/** The ID of the liquid block used in this liquid generator. */
 	private int liquidBlockId;
 
-	public WorldGenLiquids(int par1) {
-		this.liquidBlockId = par1;
+	public WorldGenLiquids(int typeId) {
+		this.liquidBlockId = typeId;
 	}
 
-	public boolean generate(World par1World, Random par2Random, int par3, int par4, int par5) {
-		if (par1World.getBlockTypeIdAt(par3, par4 + 1, par5) != Mat.Stone.id) {
+	public boolean generate(World world, Random rand, int x, int y, int z) {
+		if (world.getBlockTypeIdAt(x, y + 1, z) != Mat.Stone.id) {
 			return false;
-		} else if (par1World.getBlockTypeIdAt(par3, par4 - 1, par5) != Mat.Stone.id) {
+		} else if (world.getBlockTypeIdAt(x, y - 1, z) != Mat.Stone.id) {
 			return false;
-		} else if (par1World.getBlockTypeIdAt(par3, par4, par5) != 0 && par1World.getBlockTypeIdAt(par3, par4, par5) != Mat.Stone.id) {
+		} else if (world.getBlockTypeIdAt(x, y, z) != 0 && world.getBlockTypeIdAt(x, y, z) != Mat.Stone.id) {
 			return false;
 		} else {
-			int var6 = 0;
+			int walls = 0;
 
-			if (par1World.getBlockTypeIdAt(par3 - 1, par4, par5) == Mat.Stone.id) {
-				++var6;
+			if (world.getBlockTypeIdAt(x - 1, y, z) == Mat.Stone.id) {
+				++walls;
 			}
 
-			if (par1World.getBlockTypeIdAt(par3 + 1, par4, par5) == Mat.Stone.id) {
-				++var6;
+			if (world.getBlockTypeIdAt(x + 1, y, z) == Mat.Stone.id) {
+				++walls;
 			}
 
-			if (par1World.getBlockTypeIdAt(par3, par4, par5 - 1) == Mat.Stone.id) {
-				++var6;
+			if (world.getBlockTypeIdAt(x, y, z - 1) == Mat.Stone.id) {
+				++walls;
 			}
 
-			if (par1World.getBlockTypeIdAt(par3, par4, par5 + 1) == Mat.Stone.id) {
-				++var6;
+			if (world.getBlockTypeIdAt(x, y, z + 1) == Mat.Stone.id) {
+				++walls;
 			}
 
-			int var7 = 0;
+			int spaces = 0;
 
-			if (par1World.getBlockTypeIdAt(par3 - 1, par4, par5) == 0) {
-				++var7;
+			if (world.getBlockTypeIdAt(x - 1, y, z) == 0) {
+				++spaces;
 			}
 
-			if (par1World.getBlockTypeIdAt(par3 + 1, par4, par5) == 0) {
-				++var7;
+			if (world.getBlockTypeIdAt(x + 1, y, z) == 0) {
+				++spaces;
 			}
 
-			if (par1World.getBlockTypeIdAt(par3, par4, par5 - 1) == 0) {
-				++var7;
+			if (world.getBlockTypeIdAt(x, y, z - 1) == 0) {
+				++spaces;
 			}
 
-			if (par1World.getBlockTypeIdAt(par3, par4, par5 + 1) == 0) {
-				++var7;
+			if (world.getBlockTypeIdAt(x, y, z + 1) == 0) {
+				++spaces;
 			}
 
-			if (var6 == 3 && var7 == 1) {
-				par1World.getBlockAt(par3, par4, par5).setTypeIdAndData(this.liquidBlockId, (byte) 0, true);
+			if (walls == 3 && spaces == 1) {
+				setBlock(world, x, y, z, this.liquidBlockId);
 			}
 
 			return true;

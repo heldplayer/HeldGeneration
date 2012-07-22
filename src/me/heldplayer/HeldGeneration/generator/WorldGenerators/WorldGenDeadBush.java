@@ -15,20 +15,20 @@ public class WorldGenDeadBush extends WorldGenerator {
 		this.deadBushID = typeId;
 	}
 
-	public boolean generate(World par1World, Random par2Random, int par3, int par4, int par5) {
+	public boolean generate(World world, Random rand, int x, int y, int z) {
 		int var11;
 
-		for (; ((var11 = par1World.getBlockTypeIdAt(par3, par4, par5)) == 0 || var11 == Mat.Leaves.id) && par4 > 0; --par4) {
+		for (; ((var11 = world.getBlockTypeIdAt(x, y, z)) == 0 || var11 == Mat.Leaves.id) && y > 0; --y) {
 			;
 		}
 
 		for (int var7 = 0; var7 < 4; ++var7) {
-			int var8 = par3 + par2Random.nextInt(8) - par2Random.nextInt(8);
-			int var9 = par4 + par2Random.nextInt(4) - par2Random.nextInt(4);
-			int var10 = par5 + par2Random.nextInt(8) - par2Random.nextInt(8);
+			int posX = x + rand.nextInt(8) - rand.nextInt(8);
+			int posY = y + rand.nextInt(4) - rand.nextInt(4);
+			int posZ = z + rand.nextInt(8) - rand.nextInt(8);
 
-			if (par1World.getBlockTypeIdAt(var8, var9, var10) == 0 && BlockHelper.canBlockStay(par1World.getBlockAt(var8, var9, var10), Mat.fromId(deadBushID))) {
-				par1World.getBlockAt(var8, var9, var10).setTypeIdAndData(this.deadBushID, (byte) 0, false);
+			if (world.getBlockTypeIdAt(posX, posY, posZ) == 0 && BlockHelper.canBlockStay(world.getBlockAt(posX, posY, posZ), Mat.fromId(deadBushID))) {
+				setBlock(world, posX, posY, posZ, this.deadBushID);
 			}
 		}
 

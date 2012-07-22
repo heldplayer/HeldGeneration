@@ -8,18 +8,18 @@ import me.heldplayer.HeldGeneration.helpers.Mat;
 import org.bukkit.World;
 
 public class WorldGenReed extends WorldGenerator {
-	public boolean generate(World par1World, Random par2Random, int par3, int par4, int par5) {
+	public boolean generate(World world, Random rand, int x, int y, int z) {
 		for (int var6 = 0; var6 < 20; ++var6) {
-			int var7 = par3 + par2Random.nextInt(4) - par2Random.nextInt(4);
-			int var8 = par4;
-			int var9 = par5 + par2Random.nextInt(4) - par2Random.nextInt(4);
+			int posX = x + rand.nextInt(4) - rand.nextInt(4);
+			int posY = y;
+			int posZ = z + rand.nextInt(4) - rand.nextInt(4);
 
-			if (par1World.getBlockTypeIdAt(var7, par4, var9) == 0 && (BlockHelper.isWater(par1World.getBlockTypeIdAt(var7 - 1, par4 - 1, var9)) || BlockHelper.isWater(par1World.getBlockTypeIdAt(var7 + 1, par4 - 1, var9)) || BlockHelper.isWater(par1World.getBlockTypeIdAt(var7, par4 - 1, var9 - 1)) || BlockHelper.isWater(par1World.getBlockTypeIdAt(var7, par4 - 1, var9 + 1)))) {
-				int var10 = 2 + par2Random.nextInt(par2Random.nextInt(3) + 1);
+			if (world.getBlockTypeIdAt(posX, y, posZ) == 0 && (BlockHelper.isWater(world.getBlockTypeIdAt(posX - 1, y - 1, posZ)) || BlockHelper.isWater(world.getBlockTypeIdAt(posX + 1, y - 1, posZ)) || BlockHelper.isWater(world.getBlockTypeIdAt(posX, y - 1, posZ - 1)) || BlockHelper.isWater(world.getBlockTypeIdAt(posX, y - 1, posZ + 1)))) {
+				int randHeight = 2 + rand.nextInt(rand.nextInt(3) + 1);
 
-				for (int var11 = 0; var11 < var10; ++var11) {
-					if (BlockHelper.canBlockStay(par1World.getBlockAt(var7, var8 + var11, var9), Mat.SugarCane)) {
-						par1World.getBlockAt(var7, var8 + var11, var9).setTypeIdAndData(Mat.SugarCane.id, (byte) 0, false);
+				for (int height = 0; height < randHeight; ++height) {
+					if (BlockHelper.canBlockStay(world.getBlockAt(posX, posY + height, posZ), Mat.SugarCane)) {
+						setBlock(world, posX, posY + height, posZ, Mat.SugarCane.id);
 					}
 				}
 			}

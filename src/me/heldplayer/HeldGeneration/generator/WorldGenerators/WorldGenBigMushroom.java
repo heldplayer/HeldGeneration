@@ -11,155 +11,155 @@ public class WorldGenBigMushroom extends WorldGenerator {
 	/** The mushroom type. 0 for brown, 1 for red. */
 	private int mushroomType = -1;
 
-	public WorldGenBigMushroom(int par1) {
+	public WorldGenBigMushroom(int mushroomType) {
 		super(true);
-		this.mushroomType = par1;
+		this.mushroomType = mushroomType;
 	}
 
 	public WorldGenBigMushroom() {
 		super(false);
 	}
 
-	public boolean generate(World par1World, Random par2Random, int par3, int par4, int par5) {
-		int var6 = par2Random.nextInt(2);
+	public boolean generate(World world, Random rand, int x, int y, int z) {
+		int type = rand.nextInt(2);
 
 		if (this.mushroomType >= 0) {
-			var6 = this.mushroomType;
+			type = this.mushroomType;
 		}
 
-		int var7 = par2Random.nextInt(3) + 4;
-		boolean var8 = true;
+		int height = rand.nextInt(3) + 4;
+		boolean canGrow = true;
 
-		if (par4 >= 1 && par4 + var7 + 1 < 256) {
-			int var9;
-			int var11;
-			int var12;
-			int var13;
+		if (y >= 1 && y + height + 1 < 256) {
+			int posY1typeId2;
+			int posX1posY2;
+			int posZ1rad;
+			int typeId1posX2;
 
-			for (var9 = par4; var9 <= par4 + 1 + var7; ++var9) {
+			for (posY1typeId2 = y; posY1typeId2 <= y + 1 + height; ++posY1typeId2) {
 				byte var10 = 3;
 
-				if (var9 == par4) {
+				if (posY1typeId2 == y) {
 					var10 = 0;
 				}
 
-				for (var11 = par3 - var10; var11 <= par3 + var10 && var8; ++var11) {
-					for (var12 = par5 - var10; var12 <= par5 + var10 && var8; ++var12) {
-						if (var9 >= 0 && var9 < 256) {
-							var13 = par1World.getBlockTypeIdAt(var11, var9, var12);
+				for (posX1posY2 = x - var10; posX1posY2 <= x + var10 && canGrow; ++posX1posY2) {
+					for (posZ1rad = z - var10; posZ1rad <= z + var10 && canGrow; ++posZ1rad) {
+						if (posY1typeId2 >= 0 && posY1typeId2 < 256) {
+							typeId1posX2 = world.getBlockTypeIdAt(posX1posY2, posY1typeId2, posZ1rad);
 
-							if (var13 != 0 && var13 != Mat.Leaves.id) {
-								var8 = false;
+							if (typeId1posX2 != 0 && typeId1posX2 != Mat.Leaves.id) {
+								canGrow = false;
 							}
 						} else {
-							var8 = false;
+							canGrow = false;
 						}
 					}
 				}
 			}
 
-			if (!var8) {
+			if (!canGrow) {
 				return false;
 			} else {
-				var9 = par1World.getBlockTypeIdAt(par3, par4 - 1, par5);
+				posY1typeId2 = world.getBlockTypeIdAt(x, y - 1, z);
 
-				if (var9 != Mat.Dirt.id && var9 != Mat.Grass.id && var9 != Mat.Mycelium.id) {
+				if (posY1typeId2 != Mat.Dirt.id && posY1typeId2 != Mat.Grass.id && posY1typeId2 != Mat.Mycelium.id) {
 					return false;
-				} else if (BlockHelper.canBlockStay(par1World.getBlockAt(par3, par4, par5), Mat.BrownMushroom)) {
+				} else if (BlockHelper.canBlockStay(world.getBlockAt(x, y, z), Mat.BrownMushroom)) {
 					return false;
 				} else {
-					this.setBlockAndMetadata(par1World, par3, par4 - 1, par5, Mat.Dirt.id, 0);
-					int var16 = par4 + var7;
+					this.setBlockAndMetadata(world, x, y - 1, z, Mat.Dirt.id, 0);
+					int startY = y + height;
 
-					if (var6 == 1) {
-						var16 = par4 + var7 - 3;
+					if (type == 1) {
+						startY = y + height - 3;
 					}
 
-					for (var11 = var16; var11 <= par4 + var7; ++var11) {
-						var12 = 1;
+					for (posX1posY2 = startY; posX1posY2 <= y + height; ++posX1posY2) {
+						posZ1rad = 1;
 
-						if (var11 < par4 + var7) {
-							++var12;
+						if (posX1posY2 < y + height) {
+							++posZ1rad;
 						}
 
-						if (var6 == 0) {
-							var12 = 3;
+						if (type == 0) {
+							posZ1rad = 3;
 						}
 
-						for (var13 = par3 - var12; var13 <= par3 + var12; ++var13) {
-							for (int var14 = par5 - var12; var14 <= par5 + var12; ++var14) {
-								int var15 = 5;
+						for (typeId1posX2 = x - posZ1rad; typeId1posX2 <= x + posZ1rad; ++typeId1posX2) {
+							for (int posZ = z - posZ1rad; posZ <= z + posZ1rad; ++posZ) {
+								int data = 5;
 
-								if (var13 == par3 - var12) {
-									--var15;
+								if (typeId1posX2 == x - posZ1rad) {
+									--data;
 								}
 
-								if (var13 == par3 + var12) {
-									++var15;
+								if (typeId1posX2 == x + posZ1rad) {
+									++data;
 								}
 
-								if (var14 == par5 - var12) {
-									var15 -= 3;
+								if (posZ == z - posZ1rad) {
+									data -= 3;
 								}
 
-								if (var14 == par5 + var12) {
-									var15 += 3;
+								if (posZ == z + posZ1rad) {
+									data += 3;
 								}
 
-								if (var6 == 0 || var11 < par4 + var7) {
-									if ((var13 == par3 - var12 || var13 == par3 + var12) && (var14 == par5 - var12 || var14 == par5 + var12)) {
+								if (type == 0 || posX1posY2 < y + height) {
+									if ((typeId1posX2 == x - posZ1rad || typeId1posX2 == x + posZ1rad) && (posZ == z - posZ1rad || posZ == z + posZ1rad)) {
 										continue;
 									}
 
-									if (var13 == par3 - (var12 - 1) && var14 == par5 - var12) {
-										var15 = 1;
+									if (typeId1posX2 == x - (posZ1rad - 1) && posZ == z - posZ1rad) {
+										data = 1;
 									}
 
-									if (var13 == par3 - var12 && var14 == par5 - (var12 - 1)) {
-										var15 = 1;
+									if (typeId1posX2 == x - posZ1rad && posZ == z - (posZ1rad - 1)) {
+										data = 1;
 									}
 
-									if (var13 == par3 + (var12 - 1) && var14 == par5 - var12) {
-										var15 = 3;
+									if (typeId1posX2 == x + (posZ1rad - 1) && posZ == z - posZ1rad) {
+										data = 3;
 									}
 
-									if (var13 == par3 + var12 && var14 == par5 - (var12 - 1)) {
-										var15 = 3;
+									if (typeId1posX2 == x + posZ1rad && posZ == z - (posZ1rad - 1)) {
+										data = 3;
 									}
 
-									if (var13 == par3 - (var12 - 1) && var14 == par5 + var12) {
-										var15 = 7;
+									if (typeId1posX2 == x - (posZ1rad - 1) && posZ == z + posZ1rad) {
+										data = 7;
 									}
 
-									if (var13 == par3 - var12 && var14 == par5 + (var12 - 1)) {
-										var15 = 7;
+									if (typeId1posX2 == x - posZ1rad && posZ == z + (posZ1rad - 1)) {
+										data = 7;
 									}
 
-									if (var13 == par3 + (var12 - 1) && var14 == par5 + var12) {
-										var15 = 9;
+									if (typeId1posX2 == x + (posZ1rad - 1) && posZ == z + posZ1rad) {
+										data = 9;
 									}
 
-									if (var13 == par3 + var12 && var14 == par5 + (var12 - 1)) {
-										var15 = 9;
+									if (typeId1posX2 == x + posZ1rad && posZ == z + (posZ1rad - 1)) {
+										data = 9;
 									}
 								}
 
-								if (var15 == 5 && var11 < par4 + var7) {
-									var15 = 0;
+								if (data == 5 && posX1posY2 < y + height) {
+									data = 0;
 								}
 
-								if ((var15 != 0 || par4 >= par4 + var7 - 1) && !BlockHelper.isOpaqueCube(par1World.getBlockTypeIdAt(var13, var11, var14))) {
-									this.setBlockAndMetadata(par1World, var13, var11, var14, Mat.GiantMushroomBrown.id + var6, var15);
+								if ((data != 0 || y >= y + height - 1) && !BlockHelper.isOpaqueCube(world.getBlockTypeIdAt(typeId1posX2, posX1posY2, posZ))) {
+									this.setBlockAndMetadata(world, typeId1posX2, posX1posY2, posZ, Mat.GiantMushroomBrown.id + type, data);
 								}
 							}
 						}
 					}
 
-					for (var11 = 0; var11 < var7; ++var11) {
-						var12 = par1World.getBlockTypeIdAt(par3, par4 + var11, par5);
+					for (posX1posY2 = 0; posX1posY2 < height; ++posX1posY2) {
+						posZ1rad = world.getBlockTypeIdAt(x, y + posX1posY2, z);
 
-						if (!BlockHelper.isOpaqueCube(var12)) {
-							this.setBlockAndMetadata(par1World, par3, par4 + var11, par5, Mat.BrownMushroom.id + var6, 10);
+						if (!BlockHelper.isOpaqueCube(posZ1rad)) {
+							this.setBlockAndMetadata(world, x, y + posX1posY2, z, Mat.BrownMushroom.id + type, 10);
 						}
 					}
 

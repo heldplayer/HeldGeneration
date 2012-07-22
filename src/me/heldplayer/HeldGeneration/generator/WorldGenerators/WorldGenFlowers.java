@@ -16,13 +16,13 @@ public class WorldGenFlowers extends WorldGenerator {
 	}
 
 	public boolean generate(World world, Random rand, int x, int y, int z) {
-		for (int var6 = 0; var6 < 64; ++var6) {
-			int var7 = x + rand.nextInt(8) - rand.nextInt(8);
-			int var8 = y + rand.nextInt(4) - rand.nextInt(4);
-			int var9 = z + rand.nextInt(8) - rand.nextInt(8);
+		for (int attempts = 0; attempts < 64; ++attempts) {
+			int posX = x + rand.nextInt(8) - rand.nextInt(8);
+			int posY = y + rand.nextInt(4) - rand.nextInt(4);
+			int posZ = z + rand.nextInt(8) - rand.nextInt(8);
 
-			if (world.getBlockTypeIdAt(var7, var8, var9) == 0 && BlockHelper.canBlockStay(world.getBlockAt(var7, var8, var9), Mat.fromId(plantBlockId))) {
-				world.getBlockAt(var7, var8, var9).setTypeIdAndData(this.plantBlockId, (byte) 0, false);
+			if (world.getBlockTypeIdAt(posX, posY, posZ) == 0 && BlockHelper.canBlockStay(world.getBlockAt(posX, posY, posZ), Mat.fromId(plantBlockId))) {
+				setBlock(world, posX, posY, posZ, this.plantBlockId);
 			}
 		}
 

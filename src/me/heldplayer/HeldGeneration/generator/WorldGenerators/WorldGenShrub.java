@@ -8,39 +8,39 @@ import me.heldplayer.HeldGeneration.helpers.Mat;
 import org.bukkit.World;
 
 public class WorldGenShrub extends WorldGenerator {
-	private int field_48197_a;
-	private int field_48196_b;
+	private int leavesData;
+	private int logData;
 
-	public WorldGenShrub(int par1, int par2) {
-		this.field_48196_b = par1;
-		this.field_48197_a = par2;
+	public WorldGenShrub(int logData, int leavesData) {
+		this.logData = logData;
+		this.leavesData = leavesData;
 	}
 
-	public boolean generate(World par1World, Random par2Random, int par3, int par4, int par5) {
-		int var15;
+	public boolean generate(World world, Random rand, int x, int y, int z) {
+		int typeId1;
 
-		for (; ((var15 = par1World.getBlockTypeIdAt(par3, par4, par5)) == 0 || var15 == Mat.Leaves.id) && par4 > 0; --par4) {
+		for (; ((typeId1 = world.getBlockTypeIdAt(x, y, z)) == 0 || typeId1 == Mat.Leaves.id) && y > 0; --y) {
 			;
 		}
 
-		int var7 = par1World.getBlockTypeIdAt(par3, par4, par5);
+		int typeId2 = world.getBlockTypeIdAt(x, y, z);
 
-		if (var7 == Mat.Dirt.id || var7 == Mat.Grass.id) {
-			++par4;
-			this.setBlockAndMetadata(par1World, par3, par4, par5, Mat.Log.id, this.field_48196_b);
+		if (typeId2 == Mat.Dirt.id || typeId2 == Mat.Grass.id) {
+			++y;
+			this.setBlockAndMetadata(world, x, y, z, Mat.Log.id, this.logData);
 
-			for (int var8 = par4; var8 <= par4 + 2; ++var8) {
-				int var9 = var8 - par4;
-				int var10 = 2 - var9;
+			for (int posY = y; posY <= y + 2; ++posY) {
+				int relPosY = posY - y;
+				int relRelPosY = 2 - relPosY;
 
-				for (int var11 = par3 - var10; var11 <= par3 + var10; ++var11) {
-					int var12 = var11 - par3;
+				for (int relPosX = x - relRelPosY; relPosX <= x + relRelPosY; ++relPosX) {
+					int relRelPosX = relPosX - x;
 
-					for (int var13 = par5 - var10; var13 <= par5 + var10; ++var13) {
-						int var14 = var13 - par5;
+					for (int relPosZ = z - relRelPosY; relPosZ <= z + relRelPosY; ++relPosZ) {
+						int relRelPosZ = relPosZ - z;
 
-						if ((Math.abs(var12) != var10 || Math.abs(var14) != var10 || par2Random.nextInt(2) != 0) && !BlockHelper.isOpaqueCube(par1World.getBlockTypeIdAt(var11, var8, var13))) {
-							this.setBlockAndMetadata(par1World, var11, var8, var13, Mat.Leaves.id, this.field_48197_a);
+						if ((Math.abs(relRelPosX) != relRelPosY || Math.abs(relRelPosZ) != relRelPosY || rand.nextInt(2) != 0) && !BlockHelper.isOpaqueCube(world.getBlockTypeIdAt(relPosX, posY, relPosZ))) {
+							this.setBlockAndMetadata(world, relPosX, posY, relPosZ, Mat.Leaves.id, this.leavesData);
 						}
 					}
 				}

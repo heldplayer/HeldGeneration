@@ -14,27 +14,27 @@ public class WorldGenDungeons extends WorldGenerator {
 	@Override
 	public boolean generate(World world, Random rand, int x, int y, int z) {
 		byte var6 = 3;
-		int var7 = rand.nextInt(2) + 2;
-		int var8 = rand.nextInt(2) + 2;
+		int xRad = rand.nextInt(2) + 2;
+		int zRad = rand.nextInt(2) + 2;
 		int var9 = 0;
-		int var10;
-		int var11;
-		int var12;
+		int posX1;
+		int posY1chestCount;
+		int posZ1X2;
 
-		for (var10 = x - var7 - 1; var10 <= x + var7 + 1; ++var10) {
-			for (var11 = y - 1; var11 <= y + var6 + 1; ++var11) {
-				for (var12 = z - var8 - 1; var12 <= z + var8 + 1; ++var12) {
-					int var13 = world.getBlockTypeIdAt(var10, var11, var12);
+		for (posX1 = x - xRad - 1; posX1 <= x + xRad + 1; ++posX1) {
+			for (posY1chestCount = y - 1; posY1chestCount <= y + var6 + 1; ++posY1chestCount) {
+				for (posZ1X2 = z - zRad - 1; posZ1X2 <= z + zRad + 1; ++posZ1X2) {
+					int typeId = world.getBlockTypeIdAt(posX1, posY1chestCount, posZ1X2);
 
-					if (var11 == y - 1 && !BlockHelper.isSolid(var13)) {
+					if (posY1chestCount == y - 1 && !BlockHelper.isSolid(typeId)) {
 						return false;
 					}
 
-					if (var11 == y + var6 + 1 && !BlockHelper.isSolid(var13)) {
+					if (posY1chestCount == y + var6 + 1 && !BlockHelper.isSolid(typeId)) {
 						return false;
 					}
 
-					if ((var10 == x - var7 - 1 || var10 == x + var7 + 1 || var12 == z - var8 - 1 || var12 == z + var8 + 1) && var11 == y && world.getBlockTypeIdAt(var10, var11, var12) == 0 && world.getBlockTypeIdAt(var10, var11 + 1, var12) == 0) {
+					if ((posX1 == x - xRad - 1 || posX1 == x + xRad + 1 || posZ1X2 == z - zRad - 1 || posZ1X2 == z + zRad + 1) && posY1chestCount == y && world.getBlockTypeIdAt(posX1, posY1chestCount, posZ1X2) == 0 && world.getBlockTypeIdAt(posX1, posY1chestCount + 1, posZ1X2) == 0) {
 						++var9;
 					}
 				}
@@ -42,60 +42,60 @@ public class WorldGenDungeons extends WorldGenerator {
 		}
 
 		if (var9 >= 1 && var9 <= 5) {
-			for (var10 = x - var7 - 1; var10 <= x + var7 + 1; ++var10) {
-				for (var11 = y + var6; var11 >= y - 1; --var11) {
-					for (var12 = z - var8 - 1; var12 <= z + var8 + 1; ++var12) {
-						if (var10 != x - var7 - 1 && var11 != y - 1 && var12 != z - var8 - 1 && var10 != x + var7 + 1 && var11 != y + var6 + 1 && var12 != z + var8 + 1) {
-							world.getBlockAt(var10, var11, var12).setTypeId(0);
-						} else if (var11 >= 0 && !BlockHelper.isSolid(world.getBlockTypeIdAt(var10, var11 - 1, var12))) {
-							world.getBlockAt(var10, var11, var12).setTypeId(0);
-						} else if (BlockHelper.isSolid(world.getBlockTypeIdAt(var10, var11, var12))) {
-							if (var11 == y - 1 && rand.nextInt(4) != 0) {
-								world.getBlockAt(var10, var11, var12).setTypeId(Mat.MossyCobblestone.id);
+			for (posX1 = x - xRad - 1; posX1 <= x + xRad + 1; ++posX1) {
+				for (posY1chestCount = y + var6; posY1chestCount >= y - 1; --posY1chestCount) {
+					for (posZ1X2 = z - zRad - 1; posZ1X2 <= z + zRad + 1; ++posZ1X2) {
+						if (posX1 != x - xRad - 1 && posY1chestCount != y - 1 && posZ1X2 != z - zRad - 1 && posX1 != x + xRad + 1 && posY1chestCount != y + var6 + 1 && posZ1X2 != z + zRad + 1) {
+							world.getBlockAt(posX1, posY1chestCount, posZ1X2).setTypeId(0);
+						} else if (posY1chestCount >= 0 && !BlockHelper.isSolid(world.getBlockTypeIdAt(posX1, posY1chestCount - 1, posZ1X2))) {
+							world.getBlockAt(posX1, posY1chestCount, posZ1X2).setTypeId(0);
+						} else if (BlockHelper.isSolid(world.getBlockTypeIdAt(posX1, posY1chestCount, posZ1X2))) {
+							if (posY1chestCount == y - 1 && rand.nextInt(4) != 0) {
+								world.getBlockAt(posX1, posY1chestCount, posZ1X2).setTypeId(Mat.MossyCobblestone.id);
 							} else {
-								world.getBlockAt(var10, var11, var12).setTypeId(Mat.Cobblestone.id);
+								world.getBlockAt(posX1, posY1chestCount, posZ1X2).setTypeId(Mat.Cobblestone.id);
 							}
 						}
 					}
 				}
 			}
 
-			var10 = 0;
+			posX1 = 0;
 
-			while (var10 < 2) {
-				var11 = 0;
+			while (posX1 < 2) {
+				posY1chestCount = 0;
 
 				while (true) {
-					if (var11 < 3) {
+					if (posY1chestCount < 3) {
 						label210: {
-							var12 = x + rand.nextInt(var7 * 2 + 1) - var7;
-							int var14 = z + rand.nextInt(var8 * 2 + 1) - var8;
+							posZ1X2 = x + rand.nextInt(xRad * 2 + 1) - xRad;
+							int posZ2 = z + rand.nextInt(zRad * 2 + 1) - zRad;
 
-							if (world.getBlockTypeIdAt(var12, y, var14) == 0) {
-								int var15 = 0;
+							if (world.getBlockTypeIdAt(posZ1X2, y, posZ2) == 0) {
+								int walls = 0;
 
-								if (BlockHelper.isSolid(world.getBlockTypeIdAt(var12 - 1, y, var14))) {
-									++var15;
+								if (BlockHelper.isSolid(world.getBlockTypeIdAt(posZ1X2 - 1, y, posZ2))) {
+									++walls;
 								}
 
-								if (BlockHelper.isSolid(world.getBlockTypeIdAt(var12 + 1, y, var14))) {
-									++var15;
+								if (BlockHelper.isSolid(world.getBlockTypeIdAt(posZ1X2 + 1, y, posZ2))) {
+									++walls;
 								}
 
-								if (BlockHelper.isSolid(world.getBlockTypeIdAt(var12, y, var14 - 1))) {
-									++var15;
+								if (BlockHelper.isSolid(world.getBlockTypeIdAt(posZ1X2, y, posZ2 - 1))) {
+									++walls;
 								}
 
-								if (BlockHelper.isSolid(world.getBlockTypeIdAt(var12, y, var14 + 1))) {
-									++var15;
+								if (BlockHelper.isSolid(world.getBlockTypeIdAt(posZ1X2, y, posZ2 + 1))) {
+									++walls;
 								}
 
-								if (var15 == 1) {
-									world.getBlockAt(var12, y, var14).setTypeId(Mat.Chest.id);
-									Chest lootChest = (Chest) world.getBlockAt(var12, y, var14).getState();
+								if (walls == 1) {
+									world.getBlockAt(posZ1X2, y, posZ2).setTypeId(Mat.Chest.id);
+									Chest lootChest = (Chest) world.getBlockAt(posZ1X2, y, posZ2).getState();
 
 									if (lootChest != null) {
-										for (int var17 = 0; var17 < 8; ++var17) {
+										for (int lootLimit = 0; lootLimit < 8; ++lootLimit) {
 											ItemStack loot = pickCheckLootItem(rand);
 
 											if (loot != null) {
@@ -108,12 +108,12 @@ public class WorldGenDungeons extends WorldGenerator {
 								}
 							}
 
-							++var11;
+							++posY1chestCount;
 							continue;
 						}
 					}
 
-					++var10;
+					++posX1;
 					break;
 				}
 			}
