@@ -36,12 +36,7 @@ public class Profiler {
 		if (!(currentSection instanceof RootSection)) {
 			currentSection = currentSection.parent;
 
-			if (currentSection.firstRun || currentSection.averageNanos == 0L) {
-				currentSection.firstRun = false;
-				currentSection.averageNanos = System.nanoTime() - currentSection.startNanos;
-			} else {
-				currentSection.averageNanos = (currentSection.averageNanos + (System.nanoTime() - currentSection.startNanos)) / 2;
-			}
+			currentSection.totalNanos = +System.nanoTime() - currentSection.startNanos;
 		}
 	}
 
@@ -79,20 +74,27 @@ public class Profiler {
 	}
 
 	private static void writeSection(Section section, FileOutputStream stream, String prefix) throws IOException {
-		StringBuilder builder = new StringBuilder();
+		if (!(section instanceof RootSection)) {
+			StringBuilder builder = new StringBuilder();
 
-		builder.append(prefix).append(".").append(section.name).append(": ");
+			builder.append(prefix).append(".").append(section.name).append(": ");
 
-		builder.append(section.averageNanos).append(" nanos, ");
+			builder.append(section.totalNanos / section.calls).append(" nanos, ");
 
-		builder.append(section.calls).append(" calls");
+			builder.append(section.calls).append(" calls");
 
-		builder.append(System.getProperty("line.separator"));
+			builder.append(System.getProperty("line.separator"));
 
-		stream.write(builder.toString().getBytes());
+			stream.write(builder.toString().getBytes());
 
-		for (Section subSection : section.childSections.values()) {
-			writeSection(subSection, stream, prefix + "." + section.name);
+			for (Section subSection : section.childSections.values()) {
+				writeSection(subSection, stream, prefix + "." + section.name);
+			}
+		} else {
+			for (Section subSection : section.childSections.values()) {
+				writeSection(subSection, stream, prefix + section.name);
+			}
 		}
+
 	}
 }

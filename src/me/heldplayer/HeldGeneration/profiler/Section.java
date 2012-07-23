@@ -8,8 +8,7 @@ public class Section {
 	public Section parent;
 	public Map<String, Section> childSections;
 	public long startNanos = 0L;
-	public long averageNanos = 0L;
-	public boolean firstRun = true;
+	public long totalNanos = 0L;
 	public int calls = 0;
 
 	protected Section(String name) {
