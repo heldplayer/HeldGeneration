@@ -10,6 +10,7 @@ import me.heldplayer.HeldGeneration.helpers.BiomeHelp;
 import me.heldplayer.HeldGeneration.helpers.BiomeHelper;
 import me.heldplayer.HeldGeneration.helpers.Mat;
 import me.heldplayer.HeldGeneration.helpers.MathHelper;
+import me.heldplayer.HeldGeneration.profiler.Profiler;
 
 import org.bukkit.World;
 import org.bukkit.block.Biome;
@@ -93,16 +94,27 @@ public class ChunkProviderGenerate {
 
 	public byte[] generate(World world, Random random, int cx, int cz, BiomeGrid biomes) {
 		if (this.rand == null) {
+			Profiler.startSection("setup");
+
 			this.rand = new Random(world.getSeed());
 			this.seed = world.getSeed();
 			setupNoiseGens();
+
+			Profiler.endSection();
 		}
 
 		this.rand = new Random(world.getSeed());
 
+		Profiler.startSection("arrayAllocate");
+
 		byte[] chunkBlocks = new byte[65536];
 
+		Profiler.endStartSection("generateTerrain");
+
 		generateTerrain(cx, cz, chunkBlocks);
+
+		Profiler.endStartSection("biomes");
+
 		this.biomesForGeneration = this.helper.loadBlockGeneratorData(this.biomesForGeneration, cx * 16, cz * 16, 16, 16);
 
 		for (int x = 0; x < 16; x++) {
@@ -111,16 +123,28 @@ public class ChunkProviderGenerate {
 			}
 		}
 
+		Profiler.startSection("replaceBlocks");
+
 		replaceBlocksForBiome(cx, cz, chunkBlocks, this.biomesForGeneration);
 
+		Profiler.endSection();
+		Profiler.endStartSection("caves");
+
 		this.caveGenerator.generate(world, cx, cz, chunkBlocks, provider);
+
+		Profiler.endStartSection("ravines");
+
 		this.ravineGenerator.generate(world, cx, cz, chunkBlocks, provider);
+
+		Profiler.endStartSection("structures");
 
 		if (world.canGenerateStructures()) {
 			//mineshaftGenerator.generate(world, cx, cz, chunkBlocks, provider);
 			//this.villageGenerator.generate(world, cx, cz, chunkBlocks, provider);
 			//strongholdGenerator.generate(world, cx, cz, chunkBlocks, provider);
 		}
+
+		Profiler.endSection();
 
 		return chunkBlocks;
 	}

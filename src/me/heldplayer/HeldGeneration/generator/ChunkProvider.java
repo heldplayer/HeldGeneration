@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 import me.heldplayer.HeldGeneration.generator.Populators.ChunkPopulator;
+import me.heldplayer.HeldGeneration.profiler.Profiler;
 
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -17,25 +18,44 @@ public class ChunkProvider extends ChunkGenerator {
 
 	@Override
 	public boolean canSpawn(World world, int x, int z) {
+		Profiler.startSection("provider");
+		Profiler.startSection("canSpawn");
+
 		Block highest = world.getBlockAt(x, world.getHighestBlockYAt(x, z), z);
 
-		return highest.getType() != Material.AIR && highest.getType() != Material.WATER && highest.getType() != Material.LAVA;
+		boolean result = highest.getType() != Material.AIR && highest.getType() != Material.WATER && highest.getType() != Material.LAVA;
+
+		Profiler.endSection();
+		Profiler.endSection();
+
+		return result;
 	}
 
 	@Override
 	public List<BlockPopulator> getDefaultPopulators(World world) {
+		Profiler.startSection("provider");
+		Profiler.startSection("getDefaultPopulators");
+
 		List<BlockPopulator> populators = new ArrayList<BlockPopulator>();
 
 		populators.add(new ChunkPopulator(this));
+
+		Profiler.endSection();
+		Profiler.endSection();
 
 		return populators;
 	}
 
 	@Override
 	public byte[][] generateBlockSections(World world, Random random, int cx, int cz, BiomeGrid biomes) {
+		Profiler.startSection(world.getName());
+		Profiler.startSection("generate");
+
 		byte[] chunkBlocks = generator.generate(world, random, cx, cz, biomes);
 
 		byte[][] result = new byte[16][4096];
+
+		Profiler.startSection("arrayConvert");
 
 		for (int x = 0; x < 16; x++) {
 			for (int z = 0; z < 16; z++) {
@@ -44,6 +64,11 @@ public class ChunkProvider extends ChunkGenerator {
 				}
 			}
 		}
+
+		Profiler.endSection();
+
+		Profiler.endSection();
+		Profiler.endSection();
 
 		return result;
 	}

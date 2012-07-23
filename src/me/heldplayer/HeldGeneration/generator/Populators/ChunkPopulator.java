@@ -8,6 +8,7 @@ import me.heldplayer.HeldGeneration.generator.WorldGenerators.WorldGenLakes;
 import me.heldplayer.HeldGeneration.helpers.Mat;
 import me.heldplayer.HeldGeneration.helpers.PopulatorAssist;
 import me.heldplayer.HeldGeneration.helpers.SpawnerAnimals;
+import me.heldplayer.HeldGeneration.profiler.Profiler;
 
 import org.bukkit.Chunk;
 import org.bukkit.World;
@@ -24,6 +25,11 @@ public class ChunkPopulator extends BlockPopulator {
 
 	@Override
 	public void populate(World world, Random uselessRand, Chunk chunk) {
+		Profiler.startSection(world.getName());
+		Profiler.startSection("populate");
+
+		Profiler.startSection("setup");
+
 		int cx = chunk.getX();
 		int cz = chunk.getZ();
 		int blockX = cx * 16;
@@ -40,12 +46,16 @@ public class ChunkPopulator extends BlockPopulator {
 
 		boolean hasVillage = false;
 
+		Profiler.endStartSection("structures");
+
 		if (world.canGenerateStructures()) {
 			// Mineshaft gen
 			//if (hasVillage = this.provider.generator.villageGenerator.generateStructuresInChunk(world, rand, cx, cx, this.provider))
 			//hasVillage = true;//System.out.println("Generated village " + cx + " " + cz);
 			// Stronghold gen
 		}
+
+		Profiler.endStartSection("waterLake");
 
 		int lakeX;
 		int lakeY;
@@ -58,6 +68,8 @@ public class ChunkPopulator extends BlockPopulator {
 			(new WorldGenLakes(Mat.WaterStill.id)).generate(world, rand, lakeX, lakeY, lakeZ);
 		}
 
+		Profiler.endStartSection("lavaLake");
+
 		if (!hasVillage && rand.nextInt(8) == 0) {
 			lakeX = blockX + rand.nextInt(16 + 8);
 			lakeY = rand.nextInt(120);
@@ -68,6 +80,8 @@ public class ChunkPopulator extends BlockPopulator {
 			}
 		}
 
+		Profiler.endStartSection("dungeon");
+
 		for (lakeX = 0; lakeX < 8; ++lakeX) {
 			lakeY = blockX + rand.nextInt(16) + 8;
 			lakeZ = rand.nextInt(128);
@@ -77,8 +91,16 @@ public class ChunkPopulator extends BlockPopulator {
 
 		}
 
+		Profiler.endStartSection("biome");
+
 		PopulatorAssist.decorator.decorate(world, rand, blockX, blockZ, assist);
+
+		Profiler.endStartSection("animals");
+
 		SpawnerAnimals.performWorldGenSpawning(world, biome, blockX, blockZ, 16, 16, rand, assist);
+
+		Profiler.endStartSection("frost");
+
 		blockX += 8;
 		blockZ += 8;
 
@@ -100,7 +122,12 @@ public class ChunkPopulator extends BlockPopulator {
 			}
 		}
 
+		Profiler.endSection();
+
 		assist.setRandomSeed(null);
+
+		Profiler.endSection();
+		Profiler.endSection();
 	}
 
 }
