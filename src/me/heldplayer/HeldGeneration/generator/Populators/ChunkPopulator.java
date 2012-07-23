@@ -7,6 +7,7 @@ import me.heldplayer.HeldGeneration.generator.WorldGenerators.WorldGenDungeons;
 import me.heldplayer.HeldGeneration.generator.WorldGenerators.WorldGenLakes;
 import me.heldplayer.HeldGeneration.helpers.Mat;
 import me.heldplayer.HeldGeneration.helpers.PopulatorAssist;
+import me.heldplayer.HeldGeneration.helpers.SpawnerAnimals;
 
 import org.bukkit.Chunk;
 import org.bukkit.World;
@@ -35,6 +36,7 @@ public class ChunkPopulator extends BlockPopulator {
 
 		Biome biome = world.getBiome(blockX + 16, blockZ + 16);
 		PopulatorAssist assist = PopulatorAssist.getAssist(biome);
+		assist.setRandomSeed(rand);
 
 		boolean hasVillage = false;
 
@@ -76,7 +78,7 @@ public class ChunkPopulator extends BlockPopulator {
 		}
 
 		PopulatorAssist.decorator.decorate(world, rand, blockX, blockZ, assist);
-		// Spawn animals according to biome
+		SpawnerAnimals.performWorldGenSpawning(world, biome, blockX, blockZ, 16, 16, rand, assist);
 		blockX += 8;
 		blockZ += 8;
 
@@ -97,6 +99,8 @@ public class ChunkPopulator extends BlockPopulator {
 				}
 			}
 		}
+
+		assist.setRandomSeed(null);
 	}
 
 }

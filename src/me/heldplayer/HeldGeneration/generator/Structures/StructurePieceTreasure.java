@@ -1,5 +1,7 @@
 package me.heldplayer.HeldGeneration.generator.Structures;
 
+import me.heldplayer.HeldGeneration.helpers.WeightedRandomChoice;
+
 public class StructurePieceTreasure extends WeightedRandomChoice {
 	/** The ID for this treasure item */
 	public int itemID;

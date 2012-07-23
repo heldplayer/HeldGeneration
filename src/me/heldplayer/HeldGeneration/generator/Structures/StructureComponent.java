@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 import me.heldplayer.HeldGeneration.helpers.BlockHelper;
+import me.heldplayer.HeldGeneration.helpers.WeightedRandom;
 
 import org.bukkit.Location;
 import org.bukkit.Material;

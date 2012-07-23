@@ -161,6 +161,10 @@ public class BlockHelper {
 		return true;
 	}
 
+	public static boolean isNormalCube(int mat) {
+		return isOpaqueCube(mat) && true; // TODO: add method to check if block renders as regular cube
+	}
+
 	public static boolean canBlockStay(Block block, Mat mat) {
 		Block groundBlock = null;
 		switch (mat) {
