@@ -1,4 +1,4 @@
-package me.heldplayer.HeldGeneration.generator.Structures;
+package me.heldplayer.HeldGeneration.helpers;
 
 public class WeightedRandomChoice {
 	/**
@@ -7,7 +7,7 @@ public class WeightedRandomChoice {
 	 */
 	protected int itemWeight;
 
-	public WeightedRandomChoice(int par1) {
-		this.itemWeight = par1;
+	public WeightedRandomChoice(int weight) {
+		this.itemWeight = weight;
 	}
 }
