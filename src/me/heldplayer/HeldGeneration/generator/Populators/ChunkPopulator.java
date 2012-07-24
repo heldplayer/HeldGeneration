@@ -5,6 +5,7 @@ import java.util.Random;
 import me.heldplayer.HeldGeneration.generator.ChunkProvider;
 import me.heldplayer.HeldGeneration.generator.WorldGenerators.WorldGenDungeons;
 import me.heldplayer.HeldGeneration.generator.WorldGenerators.WorldGenLakes;
+import me.heldplayer.HeldGeneration.helpers.BlockHelper;
 import me.heldplayer.HeldGeneration.helpers.Mat;
 import me.heldplayer.HeldGeneration.helpers.PopulatorAssist;
 import me.heldplayer.HeldGeneration.helpers.SpawnerAnimals;
@@ -13,7 +14,7 @@ import me.heldplayer.HeldGeneration.profiler.Profiler;
 import org.bukkit.Chunk;
 import org.bukkit.World;
 import org.bukkit.block.Biome;
-import org.bukkit.block.Block;
+import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.generator.BlockPopulator;
 
 public class ChunkPopulator extends BlockPopulator {
@@ -43,6 +44,8 @@ public class ChunkPopulator extends BlockPopulator {
 		Biome biome = world.getBiome(blockX + 16, blockZ + 16);
 		PopulatorAssist assist = PopulatorAssist.getAssist(biome);
 		assist.setRandomSeed(rand);
+
+		net.minecraft.server.World nWorld = ((CraftWorld) world).getHandle();
 
 		boolean hasVillage = false;
 
@@ -106,18 +109,19 @@ public class ChunkPopulator extends BlockPopulator {
 
 		for (lakeX = 0; lakeX < 16; ++lakeX) {
 			for (lakeY = 0; lakeY < 16; ++lakeY) {
+				// XXX: requires craftbukkit.jar
 				int highestY = world.getHighestBlockYAt(lakeX + blockX, lakeY + blockZ);
-				Block iceBlock = world.getBlockAt(lakeX + blockX, highestY - 1, lakeY + blockZ);
 
-				if ((iceBlock.getTypeId() == Mat.WaterMoving.id || iceBlock.getTypeId() == Mat.WaterStill.id) && iceBlock.getData() == 0 && iceBlock.getTemperature() < 0.15F) {
-					iceBlock.setTypeId(Mat.Ice.id);
+				boolean isWater = BlockHelper.isWater(world.getBlockTypeIdAt(lakeX + blockX, highestY - 1, lakeY + blockZ));
+				boolean isSource = nWorld.getData(lakeX + blockX, highestY - 1, lakeY + blockZ) == 0;
+
+				if (isWater && isSource && world.getTemperature(lakeX + blockX, lakeY + blockZ) < 0.15F) {
+					nWorld.setRawTypeId(lakeX + blockX, highestY - 1, lakeY + blockZ, Mat.Ice.id);
 					continue;
 				}
 
-				Block snowBlock = world.getBlockAt(lakeX + blockX, highestY, lakeY + blockZ);
-
-				if (snowBlock.getTypeId() == 0 && snowBlock.getTemperature() < 0.15F) {
-					snowBlock.setTypeId(Mat.Snow.id);
+				if (world.getBlockTypeIdAt(lakeX + blockX, highestY - 1, lakeY + blockZ) == 0 && world.getTemperature(lakeX + blockX, lakeY + blockZ) < 0.15F) {
+					nWorld.setRawTypeId(lakeX + blockX, highestY - 1, lakeY + blockZ, Mat.Snow.id);
 				}
 			}
 		}
