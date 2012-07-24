@@ -34,9 +34,9 @@ public class Profiler {
 
 	public static void endSection() {
 		if (!(currentSection instanceof RootSection)) {
-			currentSection = currentSection.parent;
+			currentSection.totalNanos += System.nanoTime() - currentSection.startNanos;
 
-			currentSection.totalNanos = +System.nanoTime() - currentSection.startNanos;
+			currentSection = currentSection.parent;
 		}
 	}
 
@@ -77,11 +77,15 @@ public class Profiler {
 		if (!(section instanceof RootSection)) {
 			StringBuilder builder = new StringBuilder();
 
-			builder.append(prefix).append(".").append(section.name).append(": ");
+			builder.append(prefix).append(".").append(section.name);
 
-			builder.append(section.totalNanos / section.calls).append(" nanos, ");
+			builder.append(System.getProperty("line.separator"));
 
-			builder.append(section.calls).append(" calls");
+			builder.append("  ").append(section.totalNanos / section.calls).append(" nanos");
+
+			builder.append(System.getProperty("line.separator"));
+
+			builder.append("  ").append(section.calls).append(" calls");
 
 			builder.append(System.getProperty("line.separator"));
 
