@@ -20,6 +20,7 @@ import me.heldplayer.HeldGeneration.generator.WorldGenerators.WorldGenerator;
 import me.heldplayer.HeldGeneration.helpers.BlockHelper;
 import me.heldplayer.HeldGeneration.helpers.Mat;
 import me.heldplayer.HeldGeneration.helpers.PopulatorAssist;
+import me.heldplayer.HeldGeneration.profiler.Profiler;
 
 import org.bukkit.World;
 import org.bukkit.block.Biome;
@@ -172,7 +173,12 @@ public class BiomeDecorator {
 	}
 
 	protected void decorate(PopulatorAssist assist) {
+		Profiler.startSection("ores");
+
 		this.generateOres();
+
+		Profiler.endStartSection("sandGen");
+
 		int var1;
 		int var2;
 		int var3;
@@ -183,17 +189,23 @@ public class BiomeDecorator {
 			this.sandGen.generate(this.currentWorld, this.randomGenerator, var2, getHighestNonBlockingY(currentWorld, var2, var3), var3);
 		}
 
+		Profiler.endStartSection("clayGen");
+
 		for (var1 = 0; var1 < assist.clayPerChunk; ++var1) {
 			var2 = this.chunk_X + this.randomGenerator.nextInt(16) + 8;
 			var3 = this.chunk_Z + this.randomGenerator.nextInt(16) + 8;
 			this.clayGen.generate(this.currentWorld, this.randomGenerator, var2, getHighestNonBlockingY(currentWorld, var2, var3), var3);
 		}
 
+		Profiler.endStartSection("sandGen2");
+
 		for (var1 = 0; var1 < assist.sandPerChunk; ++var1) {
 			var2 = this.chunk_X + this.randomGenerator.nextInt(16) + 8;
 			var3 = this.chunk_Z + this.randomGenerator.nextInt(16) + 8;
 			this.sandGen.generate(this.currentWorld, this.randomGenerator, var2, getHighestNonBlockingY(currentWorld, var2, var3), var3);
 		}
+
+		Profiler.endStartSection("treeGen");
 
 		var1 = assist.treesPerChunk;
 
@@ -211,27 +223,38 @@ public class BiomeDecorator {
 			var5.generate(this.currentWorld, this.randomGenerator, var3, getHeightValue(currentWorld, var3, var4), var4);
 		}
 
+		Profiler.endStartSection("bigMushroomGen");
+
 		for (var2 = 0; var2 < assist.bigMushroomsPerChunk; ++var2) {
 			var3 = this.chunk_X + this.randomGenerator.nextInt(16) + 8;
 			var4 = this.chunk_Z + this.randomGenerator.nextInt(16) + 8;
 			this.bigMushroomGen.generate(this.currentWorld, this.randomGenerator, var3, getHeightValue(currentWorld, var3, var4), var4);
 		}
 
+		Profiler.endStartSection("flowerGen");
+
 		int var7;
 
 		for (var2 = 0; var2 < assist.flowersPerChunk; ++var2) {
+			Profiler.startSection("yellow");
 			var3 = this.chunk_X + this.randomGenerator.nextInt(16) + 8;
 			var4 = this.randomGenerator.nextInt(128);
 			var7 = this.chunk_Z + this.randomGenerator.nextInt(16) + 8;
 			this.plantYellowGen.generate(this.currentWorld, this.randomGenerator, var3, var4, var7);
 
 			if (this.randomGenerator.nextInt(4) == 0) {
+				Profiler.endStartSection("red");
+
 				var3 = this.chunk_X + this.randomGenerator.nextInt(16) + 8;
 				var4 = this.randomGenerator.nextInt(128);
 				var7 = this.chunk_Z + this.randomGenerator.nextInt(16) + 8;
 				this.plantRedGen.generate(this.currentWorld, this.randomGenerator, var3, var4, var7);
 			}
+
+			Profiler.endSection();
 		}
+
+		Profiler.endStartSection("grassGen");
 
 		for (var2 = 0; var2 < assist.grassPerChunk; ++var2) {
 			var3 = this.chunk_X + this.randomGenerator.nextInt(16) + 8;
@@ -248,12 +271,16 @@ public class BiomeDecorator {
 			var6.generate(this.currentWorld, this.randomGenerator, var3, var4, var7);
 		}
 
+		Profiler.endStartSection("deadBushGen");
+
 		for (var2 = 0; var2 < assist.deadBushPerChunk; ++var2) {
 			var3 = this.chunk_X + this.randomGenerator.nextInt(16) + 8;
 			var4 = this.randomGenerator.nextInt(128);
 			var7 = this.chunk_Z + this.randomGenerator.nextInt(16) + 8;
 			(new WorldGenDeadBush(Mat.DeadShrub.id)).generate(this.currentWorld, this.randomGenerator, var3, var4, var7);
 		}
+
+		Profiler.endStartSection("waterLilyGen");
 
 		for (var2 = 0; var2 < assist.waterlilyPerChunk; ++var2) {
 			var3 = this.chunk_X + this.randomGenerator.nextInt(16) + 8;
@@ -266,7 +293,11 @@ public class BiomeDecorator {
 			this.waterlilyGen.generate(this.currentWorld, this.randomGenerator, var3, var7, var4);
 		}
 
+		Profiler.endStartSection("mushroomGenBiome");
+
 		for (var2 = 0; var2 < assist.mushroomsPerChunk; ++var2) {
+			Profiler.startSection("brown");
+
 			if (this.randomGenerator.nextInt(4) == 0) {
 				var3 = this.chunk_X + this.randomGenerator.nextInt(16) + 8;
 				var4 = this.chunk_Z + this.randomGenerator.nextInt(16) + 8;
@@ -274,13 +305,20 @@ public class BiomeDecorator {
 				this.mushroomBrownGen.generate(this.currentWorld, this.randomGenerator, var3, var7, var4);
 			}
 
+			Profiler.endStartSection("red");
+
 			if (this.randomGenerator.nextInt(8) == 0) {
 				var3 = this.chunk_X + this.randomGenerator.nextInt(16) + 8;
 				var4 = this.chunk_Z + this.randomGenerator.nextInt(16) + 8;
 				var7 = this.randomGenerator.nextInt(128);
 				this.mushroomRedGen.generate(this.currentWorld, this.randomGenerator, var3, var7, var4);
 			}
+
+			Profiler.endSection();
 		}
+
+		Profiler.endStartSection("mushrommGenCaves");
+		Profiler.startSection("brown");
 
 		if (this.randomGenerator.nextInt(4) == 0) {
 			var2 = this.chunk_X + this.randomGenerator.nextInt(16) + 8;
@@ -289,12 +327,17 @@ public class BiomeDecorator {
 			this.mushroomBrownGen.generate(this.currentWorld, this.randomGenerator, var2, var3, var4);
 		}
 
+		Profiler.endStartSection("red");
+
 		if (this.randomGenerator.nextInt(8) == 0) {
 			var2 = this.chunk_X + this.randomGenerator.nextInt(16) + 8;
 			var3 = this.randomGenerator.nextInt(128);
 			var4 = this.chunk_Z + this.randomGenerator.nextInt(16) + 8;
 			this.mushroomRedGen.generate(this.currentWorld, this.randomGenerator, var2, var3, var4);
 		}
+
+		Profiler.endSection();
+		Profiler.endStartSection("reedGen1");
 
 		for (var2 = 0; var2 < assist.reedsPerChunk; ++var2) {
 			var3 = this.chunk_X + this.randomGenerator.nextInt(16) + 8;
@@ -303,12 +346,16 @@ public class BiomeDecorator {
 			this.reedGen.generate(this.currentWorld, this.randomGenerator, var3, var7, var4);
 		}
 
+		Profiler.endStartSection("reedGen2");
+
 		for (var2 = 0; var2 < 10; ++var2) {
 			var3 = this.chunk_X + this.randomGenerator.nextInt(16) + 8;
 			var4 = this.randomGenerator.nextInt(128);
 			var7 = this.chunk_Z + this.randomGenerator.nextInt(16) + 8;
 			this.reedGen.generate(this.currentWorld, this.randomGenerator, var3, var4, var7);
 		}
+
+		Profiler.endStartSection("pumpkinGen");
 
 		if (this.randomGenerator.nextInt(32) == 0) {
 			var2 = this.chunk_X + this.randomGenerator.nextInt(16) + 8;
@@ -317,6 +364,8 @@ public class BiomeDecorator {
 			(new WorldGenPumpkin()).generate(this.currentWorld, this.randomGenerator, var2, var3, var4);
 		}
 
+		Profiler.endStartSection("cactusGen");
+
 		for (var2 = 0; var2 < assist.cactiPerChunk; ++var2) {
 			var3 = this.chunk_X + this.randomGenerator.nextInt(16) + 8;
 			var4 = this.randomGenerator.nextInt(128);
@@ -324,7 +373,11 @@ public class BiomeDecorator {
 			this.cactusGen.generate(this.currentWorld, this.randomGenerator, var3, var4, var7);
 		}
 
+		Profiler.endStartSection("sourceGen");
+
 		if (assist.generateLakes) {
+			Profiler.startSection("water");
+
 			for (var2 = 0; var2 < 50; ++var2) {
 				var3 = this.chunk_X + this.randomGenerator.nextInt(16) + 8;
 				var4 = this.randomGenerator.nextInt(this.randomGenerator.nextInt(120) + 8);
@@ -332,13 +385,19 @@ public class BiomeDecorator {
 				(new WorldGenLiquids(Mat.WaterMoving.id)).generate(this.currentWorld, this.randomGenerator, var3, var4, var7);
 			}
 
+			Profiler.endStartSection("lava");
+
 			for (var2 = 0; var2 < 20; ++var2) {
 				var3 = this.chunk_X + this.randomGenerator.nextInt(16) + 8;
 				var4 = this.randomGenerator.nextInt(this.randomGenerator.nextInt(this.randomGenerator.nextInt(112) + 8) + 8);
 				var7 = this.chunk_Z + this.randomGenerator.nextInt(16) + 8;
 				(new WorldGenLiquids(Mat.LavaMoving.id)).generate(this.currentWorld, this.randomGenerator, var3, var4, var7);
 			}
+
+			Profiler.endSection();
 		}
+
+		Profiler.endStartSection("vineGen");
 
 		if (assist.biome == Biome.JUNGLE || assist.biome == Biome.JUNGLE_HILLS) {
 			WorldGenVines worldGenVines = new WorldGenVines();
@@ -351,6 +410,8 @@ public class BiomeDecorator {
 			}
 		}
 
+		Profiler.endStartSection("desertWellGen");
+
 		if (assist.biome == Biome.DESERT || assist.biome == Biome.DESERT_HILLS) {
 			for (var2 = 0; var2 < 50; ++var2) {
 				if (this.randomGenerator.nextInt(1000) == 0) {
@@ -361,6 +422,8 @@ public class BiomeDecorator {
 				}
 			}
 		}
+
+		Profiler.endSection();
 	}
 
 	/**
@@ -391,13 +454,22 @@ public class BiomeDecorator {
 	 * Generates ores in the current chunk
 	 */
 	protected void generateOres() {
+		Profiler.startSection("dirt");
 		this.genStandardOre1(20, this.dirtGen, 0, 128);
+		Profiler.endStartSection("gravel");
 		this.genStandardOre1(10, this.gravelGen, 0, 128);
+		Profiler.endStartSection("coal");
 		this.genStandardOre1(20, this.coalGen, 0, 128);
+		Profiler.endStartSection("iron");
 		this.genStandardOre1(20, this.ironGen, 0, 64);
+		Profiler.endStartSection("gold");
 		this.genStandardOre1(2, this.goldGen, 0, 32);
+		Profiler.endStartSection("redstone");
 		this.genStandardOre1(8, this.redstoneGen, 0, 16);
+		Profiler.endStartSection("diamond");
 		this.genStandardOre1(1, this.diamondGen, 0, 16);
+		Profiler.endStartSection("lapis");
 		this.genStandardOre2(1, this.lapisGen, 16, 16);
+		Profiler.endSection();
 	}
 }

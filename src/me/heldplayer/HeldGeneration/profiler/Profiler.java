@@ -77,22 +77,18 @@ public class Profiler {
 		if (!(section instanceof RootSection)) {
 			StringBuilder builder = new StringBuilder();
 
-			builder.append(prefix).append(".").append(section.name);
+			builder.append(prefix).append(".").append(section.name).append(": ");
 
-			builder.append(System.getProperty("line.separator"));
+			builder.append(section.totalNanos / section.calls).append(" nanos, ");
 
-			builder.append("  ").append(section.totalNanos / section.calls).append(" nanos");
-
-			builder.append(System.getProperty("line.separator"));
-
-			builder.append("  ").append(section.calls).append(" calls");
+			builder.append(section.calls).append(" calls");
 
 			builder.append(System.getProperty("line.separator"));
 
 			stream.write(builder.toString().getBytes());
 
 			for (Section subSection : section.childSections.values()) {
-				writeSection(subSection, stream, prefix + "." + section.name);
+				writeSection(subSection, stream, " " + prefix + "." + section.name);
 			}
 		} else {
 			for (Section subSection : section.childSections.values()) {

@@ -2,7 +2,10 @@ package me.heldplayer.HeldGeneration.generator.WorldGenerators;
 
 import java.util.Random;
 
+import me.heldplayer.HeldGeneration.profiler.Profiler;
+
 import org.bukkit.World;
+import org.bukkit.craftbukkit.CraftWorld;
 
 public abstract class WorldGenerator {
 	/**
@@ -40,10 +43,18 @@ public abstract class WorldGenerator {
 	 * Sets the block in the world, notifying neighbors if enabled.
 	 */
 	protected void setBlockAndMetadata(World world, int x, int y, int z, int typeId, int data) {
+		Profiler.startSection("setBlock");
+
+		net.minecraft.server.World nWorld = ((CraftWorld) world).getHandle();
+
 		if (this.doBlockNotify) {
-			world.getBlockAt(x, y, z).setTypeIdAndData(typeId, (byte) data, true);
+			// XXX: requires craftbukkit.jar
+			nWorld.setTypeIdAndData(x, y, z, typeId, data);
+			//world.getBlockAt(x, y, z).setTypeIdAndData(typeId, (byte) data, true);
 		} else {
-			world.getBlockAt(x, y, z).setTypeIdAndData(typeId, (byte) data, false);
+			nWorld.setRawTypeIdAndData(x, y, z, typeId, data);
+			//world.getBlockAt(x, y, z).setTypeIdAndData(typeId, (byte) data, false);
 		}
+		Profiler.endSection();
 	}
 }
