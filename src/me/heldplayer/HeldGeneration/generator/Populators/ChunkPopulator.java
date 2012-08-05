@@ -46,15 +46,13 @@ public class ChunkPopulator extends BlockPopulator {
 
 		net.minecraft.server.World nWorld = ((CraftWorld) world).getHandle();
 
-		boolean hasVillage = false;
-
 		Profiler.endStartSection("waterLake");
 
 		int lakeX;
 		int lakeY;
 		int lakeZ;
 
-		if (!hasVillage && rand.nextInt(4) == 0) {
+		if (rand.nextInt(4) == 0) {
 			lakeX = blockX + rand.nextInt(16 + 8);
 			lakeY = rand.nextInt(128);
 			lakeZ = blockZ + rand.nextInt(16) + 8;
@@ -64,6 +62,10 @@ public class ChunkPopulator extends BlockPopulator {
 		Profiler.endStartSection("biome");
 
 		PopulatorAssist.decorator.decorate(world, rand, blockX, blockZ, assist);
+
+		Profiler.endStartSection("animals");
+
+		SpawnerAnimals.performWorldGenSpawning(world, biome, blockX, blockZ, 16, 16, rand, assist);
 
 		Profiler.endStartSection("frost");
 
