@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import me.heldplayer.HeldGeneration.generator.Populators.ChunkPopulator;
 import me.heldplayer.HeldGeneration.profiler.Profiler;
 
 import org.bukkit.Material;
@@ -51,27 +50,12 @@ public class ChunkProvider extends ChunkGenerator {
 		Profiler.startSection(world.getName());
 		Profiler.startSection("generate");
 
-		//byte[] chunkBlocks = generator.generate(world, random, cx, cz, biomes);
+		byte[][] result = generator.generate(world, random, cx, cz, biomes);
 
-		//byte[][] result = new byte[16][4096];
+		Profiler.endSection();
+		Profiler.endSection();
 
-		//Profiler.startSection("arrayConvert");
-
-		//for (int x = 0; x < 16; x++) {
-			//for (int z = 0; z < 16; z++) {
-				//for (int y = 0; y < 128; y++) {
-					//result[y >> 4][((y & 0xF) << 8) | (z << 4) | x] = chunkBlocks[(x * 16 + z) * 128 + y];
-				//}
-			//}
-		//}
-
-		//Profiler.endSection();
-
-		//Profiler.endSection();
-		//Profiler.endSection();
-
-		//return result;
-		return generator.generate(world, random, cx, cz, biomes);
+		return result;
 	}
 
 }

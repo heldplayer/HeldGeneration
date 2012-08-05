@@ -2,9 +2,6 @@ package me.heldplayer.HeldGeneration.generator;
 
 import java.util.Random;
 
-import me.heldplayer.HeldGeneration.generator.MapGenerators.MapGenBase;
-import me.heldplayer.HeldGeneration.generator.MapGenerators.MapGenCaves;
-import me.heldplayer.HeldGeneration.generator.MapGenerators.MapGenRavine;
 import me.heldplayer.HeldGeneration.helpers.BiomeHelp;
 import me.heldplayer.HeldGeneration.helpers.BiomeHelper;
 import me.heldplayer.HeldGeneration.helpers.Mat;
@@ -65,11 +62,7 @@ public class ChunkProviderGenerate {
 	public BiomeHelper helper = new BiomeHelper();
 	private long seed;
 
-	private MapGenBase caveGenerator = new MapGenCaves();
-
-	/** Holds ravine generator */
-	private MapGenBase ravineGenerator = new MapGenRavine();
-
+	@SuppressWarnings("unused")
 	private ChunkProvider provider;
 
 	public ChunkProviderGenerate(ChunkProvider provider) {
@@ -341,7 +334,7 @@ public class ChunkProviderGenerate {
 
 				// result[y >> 4][((y & 0xF) << 8) | (z << 4) | x] = chunkBlocks[(x * 16 + z) * 128 + y];
 				for (int posY = 127; posY >= 0; --posY) {
-					int index = (posX * 16 + posZ) * 128 + posY;
+					//int index = (posX * 16 + posZ) * 128 + posY;
 
 					if (posY <= 0 + this.rand.nextInt(5)) {
 						//chunkBlocks[index] = (byte) Mat.Bedrock.id;
