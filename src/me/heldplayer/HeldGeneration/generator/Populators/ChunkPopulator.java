@@ -3,7 +3,6 @@ package me.heldplayer.HeldGeneration.generator.Populators;
 import java.util.Random;
 
 import me.heldplayer.HeldGeneration.generator.ChunkProvider;
-import me.heldplayer.HeldGeneration.generator.WorldGenerators.WorldGenDungeons;
 import me.heldplayer.HeldGeneration.generator.WorldGenerators.WorldGenLakes;
 import me.heldplayer.HeldGeneration.helpers.BlockHelper;
 import me.heldplayer.HeldGeneration.helpers.Mat;
@@ -62,36 +61,9 @@ public class ChunkPopulator extends BlockPopulator {
 			(new WorldGenLakes(Mat.WaterStill.id)).generate(world, rand, lakeX, lakeY, lakeZ);
 		}
 
-		Profiler.endStartSection("lavaLake");
-
-		if (!hasVillage && rand.nextInt(8) == 0) {
-			lakeX = blockX + rand.nextInt(16 + 8);
-			lakeY = rand.nextInt(120);
-			lakeZ = blockZ + rand.nextInt(16) + 8;
-
-			if (lakeY < 63 || rand.nextInt(10) == 0) {
-				(new WorldGenLakes(Mat.LavaStill.id)).generate(world, rand, lakeX, lakeY, lakeZ);
-			}
-		}
-
-		Profiler.endStartSection("dungeon");
-
-		for (lakeX = 0; lakeX < 8; ++lakeX) {
-			lakeY = blockX + rand.nextInt(16) + 8;
-			lakeZ = rand.nextInt(128);
-			int dungeonZ = blockZ + rand.nextInt(16) + 8;
-
-			(new WorldGenDungeons()).generate(world, rand, lakeY, lakeZ, dungeonZ);
-
-		}
-
 		Profiler.endStartSection("biome");
 
 		PopulatorAssist.decorator.decorate(world, rand, blockX, blockZ, assist);
-
-		Profiler.endStartSection("animals");
-
-		SpawnerAnimals.performWorldGenSpawning(world, biome, blockX, blockZ, 16, 16, rand, assist);
 
 		Profiler.endStartSection("frost");
 
