@@ -1,4 +1,4 @@
-package me.heldplayer.HeldGeneration.generator.Structures;
+package me.heldplayer.HeldGeneration.helpers;
 
 import java.util.Random;
 

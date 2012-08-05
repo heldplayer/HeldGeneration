@@ -25,7 +25,7 @@ public class SpawnerAnimals {
 	public static void performWorldGenSpawning(World world, Biome biome, int startX, int startZ, int sizeX, int sizeZ, Random rand, PopulatorAssist assist) {
 		List<SpawnListEntry> spawnableCreatures = assist.spawnableCreatures;
 
-		if (!spawnableCreatures.isEmpty()) {
+		if (!spawnableCreatures.isEmpty() && assist.getRandomSeed() != null) {
 			while (rand.nextFloat() < assist.spawningChance) {
 				SpawnListEntry entry = (SpawnListEntry) WeightedRandom.getRandomItem(assist.getRandomSeed(), spawnableCreatures);
 				int amount = entry.minGroupCount + rand.nextInt(1 + entry.maxGroupCount - entry.minGroupCount);

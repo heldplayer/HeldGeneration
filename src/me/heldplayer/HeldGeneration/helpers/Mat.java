@@ -43,7 +43,7 @@ public enum Mat {
 	Torch(50),
 	// Empty space
 	MobSpawner(52),
-	// Empty space
+	WoodenStair(53),
 	Chest(54),
 	// Empty space
 	DiamondOre(56),
@@ -81,8 +81,12 @@ public enum Mat {
 	// Empty space
 	Vine(106),
 	// Empty space
+	BrickStairs(108),
+	StoneBrickStairs(109),
 	Mycelium(110),
 	WaterLily(111),
+	// Empty space
+	NetherBrickStairs(114),
 	// Empty space
 	EndPortalFrame(120);
 

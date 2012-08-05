@@ -5,7 +5,6 @@ import java.util.Random;
 import me.heldplayer.HeldGeneration.generator.MapGenerators.MapGenBase;
 import me.heldplayer.HeldGeneration.generator.MapGenerators.MapGenCaves;
 import me.heldplayer.HeldGeneration.generator.MapGenerators.MapGenRavine;
-import me.heldplayer.HeldGeneration.generator.MapGenerators.MapGenVillage;
 import me.heldplayer.HeldGeneration.helpers.BiomeHelp;
 import me.heldplayer.HeldGeneration.helpers.BiomeHelper;
 import me.heldplayer.HeldGeneration.helpers.Mat;
@@ -63,16 +62,13 @@ public class ChunkProviderGenerate {
 	float[] field_35388_l;
 	int[][] field_914_i = new int[32][32];
 
-	public BiomeHelper helper;
+	public BiomeHelper helper = new BiomeHelper();
 	private long seed;
 
 	private MapGenBase caveGenerator = new MapGenCaves();
 
 	/** Holds ravine generator */
 	private MapGenBase ravineGenerator = new MapGenRavine();
-
-	/** Holds Village Generator */
-	public MapGenVillage villageGenerator = new MapGenVillage(0, this.helper = new BiomeHelper());
 
 	private ChunkProvider provider;
 
@@ -137,12 +133,6 @@ public class ChunkProviderGenerate {
 		this.ravineGenerator.generate(world, cx, cz, chunkBlocks, provider);
 
 		Profiler.endStartSection("structures");
-
-		if (world.canGenerateStructures()) {
-			//mineshaftGenerator.generate(world, cx, cz, chunkBlocks, provider);
-			//this.villageGenerator.generate(world, cx, cz, chunkBlocks, provider);
-			//strongholdGenerator.generate(world, cx, cz, chunkBlocks, provider);
-		}
 
 		Profiler.endSection();
 

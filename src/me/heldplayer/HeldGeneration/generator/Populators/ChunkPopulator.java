@@ -49,15 +49,6 @@ public class ChunkPopulator extends BlockPopulator {
 
 		boolean hasVillage = false;
 
-		Profiler.endStartSection("structures");
-
-		if (world.canGenerateStructures()) {
-			// Mineshaft gen
-			//if (hasVillage = this.provider.generator.villageGenerator.generateStructuresInChunk(world, rand, cx, cx, this.provider))
-			//hasVillage = true;//System.out.println("Generated village " + cx + " " + cz);
-			// Stronghold gen
-		}
-
 		Profiler.endStartSection("waterLake");
 
 		int lakeX;
