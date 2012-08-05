@@ -124,16 +124,6 @@ public class ChunkProviderGenerate {
 		replaceBlocksForBiome(cx, cz, chunkBlocks, this.biomesForGeneration);
 
 		Profiler.endSection();
-		Profiler.endStartSection("caves");
-
-		this.caveGenerator.generate(world, cx, cz, chunkBlocks, provider);
-
-		Profiler.endStartSection("ravines");
-
-		this.ravineGenerator.generate(world, cx, cz, chunkBlocks, provider);
-
-		Profiler.endStartSection("structures");
-
 		Profiler.endSection();
 
 		return chunkBlocks;
