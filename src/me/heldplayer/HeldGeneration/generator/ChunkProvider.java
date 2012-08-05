@@ -38,7 +38,7 @@ public class ChunkProvider extends ChunkGenerator {
 
 		List<BlockPopulator> populators = new ArrayList<BlockPopulator>();
 
-		populators.add(new ChunkPopulator(this));
+		//populators.add(new ChunkPopulator(this));
 
 		Profiler.endSection();
 		Profiler.endSection();

@@ -130,51 +130,54 @@ public class ChunkProviderGenerate {
 	}
 
 	private void generateTerrain(int cx, int cz, byte[][] chunkBytes) {
-		byte var4 = 4;
-		byte var5 = 16;
+		byte varOf4 = 4;
+		byte chunkSections = 16;
 		byte seaLevel = 63;
-		int var7 = var4 + 1;
-		byte var8 = 17;
-		int var9 = var4 + 1;
-		this.biomesForGeneration = this.helper.getBiomesForGeneration(this.biomesForGeneration, cx * 4 - 2, cz * 4 - 2, var7 + 5, var9 + 5);
-		this.noiseArray = initializeNoiseField(this.noiseArray, cx * var4, 0, cz * var4, var7, var8, var9);
+		int varOf5No1 = varOf4 + 1;
+		byte varOf17 = 17;
+		int varOf5No2 = varOf4 + 1;
+		this.biomesForGeneration = this.helper.getBiomesForGeneration(this.biomesForGeneration, cx * 4 - 2, cz * 4 - 2, varOf5No1 + 5, varOf5No2 + 5);
+		this.noiseArray = initializeNoiseField(this.noiseArray, cx * varOf4, 0, cz * varOf4, varOf5No1, varOf17, varOf5No2);
 
-		for (int var10 = 0; var10 < var4; ++var10) {
-			for (int var11 = 0; var11 < var4; ++var11) {
-				for (int var12 = 0; var12 < var5; ++var12) {
+		for (int sectionPosX = 0; sectionPosX < varOf4; ++sectionPosX) {
+			for (int sectionPosZ = 0; sectionPosZ < varOf4; ++sectionPosZ) {
+				for (int sectionPosY = 0; sectionPosY < chunkSections; ++sectionPosY) {
 					double modifier1 = 0.125D;
-					double noiseVal1 = this.noiseArray[((var10 + 0) * var9 + var11 + 0) * var8 + var12 + 0];
-					double noiseVal2 = this.noiseArray[((var10 + 0) * var9 + var11 + 1) * var8 + var12 + 0];
-					double noiseVal3 = this.noiseArray[((var10 + 1) * var9 + var11 + 0) * var8 + var12 + 0];
-					double noiseVal4 = this.noiseArray[((var10 + 1) * var9 + var11 + 1) * var8 + var12 + 0];
-					double noiseVal1Increment = (this.noiseArray[((var10 + 0) * var9 + var11 + 0) * var8 + var12 + 1] - noiseVal1) * modifier1;
-					double noiseVal2Increment = (this.noiseArray[((var10 + 0) * var9 + var11 + 1) * var8 + var12 + 1] - noiseVal2) * modifier1;
-					double noiseVal3Increment = (this.noiseArray[((var10 + 1) * var9 + var11 + 0) * var8 + var12 + 1] - noiseVal3) * modifier1;
-					double noiseVal4Increment = (this.noiseArray[((var10 + 1) * var9 + var11 + 1) * var8 + var12 + 1] - noiseVal4) * modifier1;
+					double noiseVal1 = this.noiseArray[((sectionPosX + 0) * varOf5No2 + sectionPosZ + 0) * varOf17 + sectionPosY + 0];
+					double noiseVal2 = this.noiseArray[((sectionPosX + 0) * varOf5No2 + sectionPosZ + 1) * varOf17 + sectionPosY + 0];
+					double noiseVal3 = this.noiseArray[((sectionPosX + 1) * varOf5No2 + sectionPosZ + 0) * varOf17 + sectionPosY + 0];
+					double noiseVal4 = this.noiseArray[((sectionPosX + 1) * varOf5No2 + sectionPosZ + 1) * varOf17 + sectionPosY + 0];
+					double noiseVal1Increment = (this.noiseArray[((sectionPosX + 0) * varOf5No2 + sectionPosZ + 0) * varOf17 + sectionPosY + 1] - noiseVal1) * modifier1;
+					double noiseVal2Increment = (this.noiseArray[((sectionPosX + 0) * varOf5No2 + sectionPosZ + 1) * varOf17 + sectionPosY + 1] - noiseVal2) * modifier1;
+					double noiseVal3Increment = (this.noiseArray[((sectionPosX + 1) * varOf5No2 + sectionPosZ + 0) * varOf17 + sectionPosY + 1] - noiseVal3) * modifier1;
+					double noiseVal4Increment = (this.noiseArray[((sectionPosX + 1) * varOf5No2 + sectionPosZ + 1) * varOf17 + sectionPosY + 1] - noiseVal4) * modifier1;
 
-					for (int var31 = 0; var31 < 8; ++var31) {
+					for (int relPosY = 0; relPosY < 8; ++relPosY) {
 						double modifier2 = 0.25D;
 						double noiseVal1Clone = noiseVal1;
 						double noiseVal2Clone = noiseVal2;
 						double noiseVal1Increment2 = (noiseVal3 - noiseVal1) * modifier2;
 						double noiseVal2Increment2 = (noiseVal4 - noiseVal2) * modifier2;
 
-						for (int var42 = 0; var42 < 4; ++var42) {
-							int index = var42 + var10 * 4 << 11 | 0 + var11 * 4 << 7 | var12 * 8 + var31;
-							short worldHeight = 128;
-							index -= worldHeight;
+						for (int relPosX = 0; relPosX < 4; ++relPosX) {
+							//int index = relPosX + chuckPosX * 4 << 11 | 0 + chuckPosZ * 4 << 7 | chuckPosY * 8 + relPosY;
+							//short worldHeight = 128;
+							//index -= worldHeight;
 							double modifier3 = 0.25D;
-							double var49 = (noiseVal2Clone - noiseVal1Clone) * modifier3;
-							double var47 = noiseVal1Clone - var49;
+							double noiseValClone2 = (noiseVal2Clone - noiseVal1Clone) * modifier3;
+							double var47 = noiseVal1Clone - noiseValClone2;
 
-							for (int var51 = 0; var51 < 4; ++var51) {
-								if ((var47 += var49) > 0.0D) {
-									// result[y >> 4][((y & 0xF) << 8) | (z << 4) | x] = chunkBlocks[(x * 16 + z) * 128 + y];
-									chunkBytes[index += worldHeight] = (byte) Mat.Stone.id;
-								} else if (var12 * 8 + var31 < seaLevel) {
-									chunkBytes[index += worldHeight] = (byte) Mat.WaterStill.id;
+							// result[y >> 4][((y & 0xF) << 8) | (z << 4) | x] = chunkBlocks[(x * 16 + z) * 128 + y];
+							for (int relPosZ = 0; relPosZ < 4; ++relPosZ) {
+								if ((var47 += noiseValClone2) > 0.0D) {
+									chunkBytes[(sectionPosY >> 1)][(((relPosY + sectionPosY * 8) & 0xF) << 8) | ((relPosZ + sectionPosZ * 4) << 4) | (relPosX + sectionPosX * 4)] = (byte) Mat.Stone.id;
+									//chunkBytes[index += worldHeight] = (byte) Mat.Stone.id;
+								} else if (sectionPosY * 8 + relPosY < seaLevel) {
+									//chunkBytes[index += worldHeight] = (byte) Mat.WaterStill.id;
+									chunkBytes[(sectionPosY >> 1)][(((relPosY + sectionPosY * 8) & 0xF) << 8) | ((relPosZ + sectionPosZ * 4) << 4) | (relPosX + sectionPosX * 4)] = (byte) Mat.WaterStill.id;
 								} else {
-									chunkBytes[index += worldHeight] = 0;
+									//chunkBytes[index += worldHeight] = 0;
+									chunkBytes[(sectionPosY >> 1)][(((relPosY + sectionPosY * 8) & 0xF) << 8) | ((relPosZ + sectionPosZ * 4) << 4) | (relPosX + sectionPosX * 4)] = 0;
 								}
 							}
 
@@ -327,22 +330,24 @@ public class ChunkProviderGenerate {
 		double var6 = 0.03125D;
 		this.stoneNoise = this.noiseGen4.generateNoiseOctaves(this.stoneNoise, cx * 16, cz * 16, 0, 16, 16, 1, var6 * 2.0D, var6 * 2.0D, var6 * 2.0D);
 
-		for (int var8 = 0; var8 < 16; ++var8) {
-			for (int var9 = 0; var9 < 16; ++var9) {
-				Biome biome = biomes[var9 + var8 * 16];
+		for (int posZ = 0; posZ < 16; ++posZ) {
+			for (int posX = 0; posX < 16; ++posX) {
+				Biome biome = biomes[posX + posZ * 16];
 				float temperature = BiomeHelp.getTemperature(biome);
-				int var12 = (int) (this.stoneNoise[var8 + var9 * 16] / 3.0D + 3.0D + this.rand.nextDouble() * 0.25D);
+				int var12 = (int) (this.stoneNoise[posZ + posX * 16] / 3.0D + 3.0D + this.rand.nextDouble() * 0.25D);
 				int var13 = -1;
 				byte topBlock = (byte) BiomeHelp.getTopBlock(biome);
 				byte fillerBlock = (byte) BiomeHelp.getFillerBlock(biome);
 
-				for (int var16 = 127; var16 >= 0; --var16) {
-					int var17 = (var9 * 16 + var8) * 128 + var16;
+				// result[y >> 4][((y & 0xF) << 8) | (z << 4) | x] = chunkBlocks[(x * 16 + z) * 128 + y];
+				for (int posY = 127; posY >= 0; --posY) {
+					int index = (posX * 16 + posZ) * 128 + posY;
 
-					if (var16 <= 0 + this.rand.nextInt(5)) {
-						chunkBlocks[var17] = (byte) Mat.Bedrock.id;
+					if (posY <= 0 + this.rand.nextInt(5)) {
+						//chunkBlocks[index] = (byte) Mat.Bedrock.id;
+						chunkBlocks[posY >> 4][((posY & 0xF) << 8) | (posZ << 4) | posX] = (byte) Mat.Stone.id;
 					} else {
-						byte var18 = chunkBlocks[var17];
+						byte var18 = chunkBlocks[posY >> 4][((posY & 0xF) << 8) | (posZ << 4) | posX];
 
 						if (var18 == 0) {
 							var13 = -1;
@@ -351,12 +356,12 @@ public class ChunkProviderGenerate {
 								if (var12 <= 0) {
 									topBlock = 0;
 									fillerBlock = (byte) 1;
-								} else if (var16 >= var5 - 4 && var16 <= var5 + 1) {
+								} else if (posY >= var5 - 4 && posY <= var5 + 1) {
 									topBlock = (byte) BiomeHelp.getTopBlock(biome);
 									fillerBlock = (byte) BiomeHelp.getFillerBlock(biome);
 								}
 
-								if (var16 < var5 && topBlock == 0) {
+								if (posY < var5 && topBlock == 0) {
 									if (temperature < 0.15F) {
 										topBlock = (byte) Mat.Snow.id;
 									} else {
@@ -366,14 +371,14 @@ public class ChunkProviderGenerate {
 
 								var13 = var12;
 
-								if (var16 >= var5 - 1) {
-									chunkBlocks[var17] = topBlock;
+								if (posY >= var5 - 1) {
+									chunkBlocks[posY >> 4][((posY & 0xF) << 8) | (posZ << 4) | posX] = topBlock;
 								} else {
-									chunkBlocks[var17] = fillerBlock;
+									chunkBlocks[posY >> 4][((posY & 0xF) << 8) | (posZ << 4) | posX] = fillerBlock;
 								}
 							} else if (var13 > 0) {
 								--var13;
-								chunkBlocks[var17] = fillerBlock;
+								chunkBlocks[posY >> 4][((posY & 0xF) << 8) | (posZ << 4) | posX] = fillerBlock;
 
 								if (var13 == 0 && fillerBlock == Mat.Sand.id) {
 									var13 = this.rand.nextInt(4);
