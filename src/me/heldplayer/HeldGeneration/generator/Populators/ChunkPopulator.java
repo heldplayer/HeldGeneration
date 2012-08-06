@@ -2,6 +2,7 @@ package me.heldplayer.HeldGeneration.generator.Populators;
 
 import java.util.Random;
 
+import me.heldplayer.HeldGeneration.HeldGeneration;
 import me.heldplayer.HeldGeneration.generator.ChunkProvider;
 import me.heldplayer.HeldGeneration.generator.WorldGenerators.WorldGenLakes;
 import me.heldplayer.HeldGeneration.helpers.BlockHelper;
@@ -72,23 +73,47 @@ public class ChunkPopulator extends BlockPopulator {
 		blockX += 8;
 		blockZ += 8;
 
-		for (lakeX = 0; lakeX < 16; ++lakeX) {
-			for (lakeY = 0; lakeY < 16; ++lakeY) {
-				// XXX: requires craftbukkit.jar
-				int highestY = world.getHighestBlockYAt(lakeX + blockX, lakeY + blockZ);
+		if (HeldGeneration.instance.temperature == null) {
+			for (lakeX = 0; lakeX < 16; ++lakeX) {
+				for (lakeY = 0; lakeY < 16; ++lakeY) {
+					// XXX: requires craftbukkit.jar
+					int highestY = world.getHighestBlockYAt(lakeX + blockX, lakeY + blockZ);
 
-				boolean isWater = BlockHelper.isWater(world.getBlockTypeIdAt(lakeX + blockX, highestY - 1, lakeY + blockZ));
-				boolean isSource = nWorld.getData(lakeX + blockX, highestY - 1, lakeY + blockZ) == 0;
+					boolean isWater = BlockHelper.isWater(world.getBlockTypeIdAt(lakeX + blockX, highestY - 1, lakeY + blockZ));
+					boolean isSource = nWorld.getData(lakeX + blockX, highestY - 1, lakeY + blockZ) == 0;
 
-				if (isWater && isSource && world.getTemperature(lakeX + blockX, lakeY + blockZ) < 0.15F) {
-					nWorld.setRawTypeId(lakeX + blockX, highestY - 1, lakeY + blockZ, Mat.Ice.id);
-					nWorld.notify(lakeX + blockX, highestY - 1, lakeY + blockZ);
-					continue;
+					if (isWater && isSource && world.getTemperature(lakeX + blockX, lakeY + blockZ) < 0.15F) {
+						nWorld.setRawTypeId(lakeX + blockX, highestY - 1, lakeY + blockZ, Mat.Ice.id);
+						nWorld.notify(lakeX + blockX, highestY - 1, lakeY + blockZ);
+						continue;
+					}
+
+					if (BlockHelper.isSolid(world.getBlockTypeIdAt(lakeX + blockX, highestY - 1, lakeY + blockZ)) && world.getTemperature(lakeX + blockX, lakeY + blockZ) < 0.15F) {
+						nWorld.setRawTypeId(lakeX + blockX, highestY, lakeY + blockZ, Mat.Snow.id);
+						nWorld.notify(lakeX + blockX, highestY, lakeY + blockZ);
+					}
 				}
+			}
+		} else {
+			for (lakeX = 0; lakeX < 16; ++lakeX) {
+				for (lakeY = 0; lakeY < 16; ++lakeY) {
+					// XXX: requires craftbukkit.jar
+					byte temp = HeldGeneration.instance.getTemperature(lakeX + blockX, lakeY + blockZ);
+					int highestY = world.getHighestBlockYAt(lakeX + blockX, lakeY + blockZ);
 
-				if (world.getBlockTypeIdAt(lakeX + blockX, highestY - 1, lakeY + blockZ) == 0 && world.getTemperature(lakeX + blockX, lakeY + blockZ) < 0.15F) {
-					nWorld.setRawTypeId(lakeX + blockX, highestY - 1, lakeY + blockZ, Mat.Snow.id);
-					nWorld.notify(lakeX + blockX, highestY - 1, lakeY + blockZ);
+					boolean isWater = BlockHelper.isWater(world.getBlockTypeIdAt(lakeX + blockX, highestY - 1, lakeY + blockZ));
+					boolean isSource = nWorld.getData(lakeX + blockX, highestY - 1, lakeY + blockZ) == 0;
+
+					if (isWater && isSource && temp < 38) {
+						nWorld.setRawTypeId(lakeX + blockX, highestY - 1, lakeY + blockZ, Mat.Ice.id);
+						nWorld.notify(lakeX + blockX, highestY - 1, lakeY + blockZ);
+						continue;
+					}
+
+					if (BlockHelper.isSolid(world.getBlockTypeIdAt(lakeX + blockX, highestY - 1, lakeY + blockZ)) && temp < 38) {
+						nWorld.setRawTypeId(lakeX + blockX, highestY, lakeY + blockZ, Mat.Snow.id);
+						nWorld.notify(lakeX + blockX, highestY, lakeY + blockZ);
+					}
 				}
 			}
 		}

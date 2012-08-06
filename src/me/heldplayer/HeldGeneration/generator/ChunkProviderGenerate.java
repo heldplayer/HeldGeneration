@@ -2,6 +2,7 @@ package me.heldplayer.HeldGeneration.generator;
 
 import java.util.Random;
 
+import me.heldplayer.HeldGeneration.HeldGeneration;
 import me.heldplayer.HeldGeneration.helpers.BiomeHelp;
 import me.heldplayer.HeldGeneration.helpers.BiomeHelper;
 import me.heldplayer.HeldGeneration.helpers.Mat;
@@ -130,58 +131,77 @@ public class ChunkProviderGenerate {
 		byte chunkHalfSections2 = (byte) (chunkHalfSections + 1);
 		int varOf5No2 = varOf4 + 1;
 		this.biomesForGeneration = this.helper.getBiomesForGeneration(this.biomesForGeneration, cx * 4 - 2, cz * 4 - 2, varOf5No1 + 5, varOf5No2 + 5);
-		this.noiseArray = initializeNoiseField(this.noiseArray, cx * varOf4, 0, cz * varOf4, varOf5No1, chunkHalfSections2, varOf5No2);
 
-		for (int sectionPosX = 0; sectionPosX < varOf4; ++sectionPosX) {
-			for (int sectionPosZ = 0; sectionPosZ < varOf4; ++sectionPosZ) {
-				for (int sectionPosY = 0; sectionPosY < chunkHalfSections; ++sectionPosY) {
-					double modifier1 = 0.125D;
-					double noiseVal1 = this.noiseArray[((sectionPosX + 0) * varOf5No2 + sectionPosZ + 0) * chunkHalfSections2 + sectionPosY + 0];
-					double noiseVal2 = this.noiseArray[((sectionPosX + 0) * varOf5No2 + sectionPosZ + 1) * chunkHalfSections2 + sectionPosY + 0];
-					double noiseVal3 = this.noiseArray[((sectionPosX + 1) * varOf5No2 + sectionPosZ + 0) * chunkHalfSections2 + sectionPosY + 0];
-					double noiseVal4 = this.noiseArray[((sectionPosX + 1) * varOf5No2 + sectionPosZ + 1) * chunkHalfSections2 + sectionPosY + 0];
-					double noiseVal1Increment = (this.noiseArray[((sectionPosX + 0) * varOf5No2 + sectionPosZ + 0) * chunkHalfSections2 + sectionPosY + 1] - noiseVal1) * modifier1;
-					double noiseVal2Increment = (this.noiseArray[((sectionPosX + 0) * varOf5No2 + sectionPosZ + 1) * chunkHalfSections2 + sectionPosY + 1] - noiseVal2) * modifier1;
-					double noiseVal3Increment = (this.noiseArray[((sectionPosX + 1) * varOf5No2 + sectionPosZ + 0) * chunkHalfSections2 + sectionPosY + 1] - noiseVal3) * modifier1;
-					double noiseVal4Increment = (this.noiseArray[((sectionPosX + 1) * varOf5No2 + sectionPosZ + 1) * chunkHalfSections2 + sectionPosY + 1] - noiseVal4) * modifier1;
+		if (HeldGeneration.instance.heightMap == null) {
+			this.noiseArray = initializeNoiseField(this.noiseArray, cx * varOf4, 0, cz * varOf4, varOf5No1, chunkHalfSections2, varOf5No2);
 
-					for (int relPosY = 0; relPosY < 8; ++relPosY) {
-						double modifier2 = 0.25D;
-						double noiseVal1Clone = noiseVal1;
-						double noiseVal2Clone = noiseVal2;
-						double noiseVal1Increment2 = (noiseVal3 - noiseVal1) * modifier2;
-						double noiseVal2Increment2 = (noiseVal4 - noiseVal2) * modifier2;
+			for (int sectionPosX = 0; sectionPosX < varOf4; ++sectionPosX) {
+				for (int sectionPosZ = 0; sectionPosZ < varOf4; ++sectionPosZ) {
+					for (int sectionPosY = 0; sectionPosY < chunkHalfSections; ++sectionPosY) {
+						double modifier1 = 0.125D;
+						double noiseVal1 = this.noiseArray[((sectionPosX + 0) * varOf5No2 + sectionPosZ + 0) * chunkHalfSections2 + sectionPosY + 0];
+						double noiseVal2 = this.noiseArray[((sectionPosX + 0) * varOf5No2 + sectionPosZ + 1) * chunkHalfSections2 + sectionPosY + 0];
+						double noiseVal3 = this.noiseArray[((sectionPosX + 1) * varOf5No2 + sectionPosZ + 0) * chunkHalfSections2 + sectionPosY + 0];
+						double noiseVal4 = this.noiseArray[((sectionPosX + 1) * varOf5No2 + sectionPosZ + 1) * chunkHalfSections2 + sectionPosY + 0];
+						double noiseVal1Increment = (this.noiseArray[((sectionPosX + 0) * varOf5No2 + sectionPosZ + 0) * chunkHalfSections2 + sectionPosY + 1] - noiseVal1) * modifier1;
+						double noiseVal2Increment = (this.noiseArray[((sectionPosX + 0) * varOf5No2 + sectionPosZ + 1) * chunkHalfSections2 + sectionPosY + 1] - noiseVal2) * modifier1;
+						double noiseVal3Increment = (this.noiseArray[((sectionPosX + 1) * varOf5No2 + sectionPosZ + 0) * chunkHalfSections2 + sectionPosY + 1] - noiseVal3) * modifier1;
+						double noiseVal4Increment = (this.noiseArray[((sectionPosX + 1) * varOf5No2 + sectionPosZ + 1) * chunkHalfSections2 + sectionPosY + 1] - noiseVal4) * modifier1;
 
-						for (int relPosX = 0; relPosX < 4; ++relPosX) {
-							//int index = relPosX + chuckPosX * 4 << 11 | 0 + chuckPosZ * 4 << 7 | chuckPosY * 8 + relPosY;
-							//short worldHeight = 128;
-							//index -= worldHeight;
-							double modifier3 = 0.25D;
-							double noiseValClone2 = (noiseVal2Clone - noiseVal1Clone) * modifier3;
-							double var47 = noiseVal1Clone - noiseValClone2;
+						for (int relPosY = 0; relPosY < 8; ++relPosY) {
+							double modifier2 = 0.25D;
+							double noiseVal1Clone = noiseVal1;
+							double noiseVal2Clone = noiseVal2;
+							double noiseVal1Increment2 = (noiseVal3 - noiseVal1) * modifier2;
+							double noiseVal2Increment2 = (noiseVal4 - noiseVal2) * modifier2;
 
-							// result[y >> 4][((y & 0xF) << 8) | (z << 4) | x] = chunkBlocks[(x * 16 + z) * 128 + y];
-							for (int relPosZ = 0; relPosZ < 4; ++relPosZ) {
-								if ((var47 += noiseValClone2) > 0.0D) {
-									chunkBytes[(sectionPosY >> 1)][(((relPosY + sectionPosY * 8) & 0xF) << 8) | ((relPosZ + sectionPosZ * 4) << 4) | (relPosX + sectionPosX * 4)] = (byte) Mat.Stone.id;
-									//chunkBytes[index += worldHeight] = (byte) Mat.Stone.id;
-								} else if (sectionPosY * 8 + relPosY < seaLevel) {
-									//chunkBytes[index += worldHeight] = (byte) Mat.WaterStill.id;
-									chunkBytes[(sectionPosY >> 1)][(((relPosY + sectionPosY * 8) & 0xF) << 8) | ((relPosZ + sectionPosZ * 4) << 4) | (relPosX + sectionPosX * 4)] = (byte) Mat.WaterStill.id;
-								} else {
-									//chunkBytes[index += worldHeight] = 0;
-									chunkBytes[(sectionPosY >> 1)][(((relPosY + sectionPosY * 8) & 0xF) << 8) | ((relPosZ + sectionPosZ * 4) << 4) | (relPosX + sectionPosX * 4)] = 0;
+							for (int relPosX = 0; relPosX < 4; ++relPosX) {
+								//int index = relPosX + chuckPosX * 4 << 11 | 0 + chuckPosZ * 4 << 7 | chuckPosY * 8 + relPosY;
+								//short worldHeight = 128;
+								//index -= worldHeight;
+								double modifier3 = 0.25D;
+								double noiseValClone2 = (noiseVal2Clone - noiseVal1Clone) * modifier3;
+								double var47 = noiseVal1Clone - noiseValClone2;
+
+								// result[y >> 4][((y & 0xF) << 8) | (z << 4) | x] = chunkBlocks[(x * 16 + z) * 128 + y];
+								for (int relPosZ = 0; relPosZ < 4; ++relPosZ) {
+									if ((var47 += noiseValClone2) > 0.0D) {
+										chunkBytes[(sectionPosY >> 1)][(((relPosY + sectionPosY * 8) & 0xF) << 8) | ((relPosZ + sectionPosZ * 4) << 4) | (relPosX + sectionPosX * 4)] = (byte) Mat.Stone.id;
+										//chunkBytes[index += worldHeight] = (byte) Mat.Stone.id;
+									} else if (sectionPosY * 8 + relPosY < seaLevel) {
+										//chunkBytes[index += worldHeight] = (byte) Mat.WaterStill.id;
+										chunkBytes[(sectionPosY >> 1)][(((relPosY + sectionPosY * 8) & 0xF) << 8) | ((relPosZ + sectionPosZ * 4) << 4) | (relPosX + sectionPosX * 4)] = (byte) Mat.WaterStill.id;
+									} else {
+										//chunkBytes[index += worldHeight] = 0;
+										chunkBytes[(sectionPosY >> 1)][(((relPosY + sectionPosY * 8) & 0xF) << 8) | ((relPosZ + sectionPosZ * 4) << 4) | (relPosX + sectionPosX * 4)] = 0;
+									}
 								}
+
+								noiseVal1Clone += noiseVal1Increment2;
+								noiseVal2Clone += noiseVal2Increment2;
 							}
 
-							noiseVal1Clone += noiseVal1Increment2;
-							noiseVal2Clone += noiseVal2Increment2;
+							noiseVal1 += noiseVal1Increment;
+							noiseVal2 += noiseVal2Increment;
+							noiseVal3 += noiseVal3Increment;
+							noiseVal4 += noiseVal4Increment;
 						}
+					}
+				}
+			}
+		} else {
+			for (int x = 0; x < 16; x++) {
+				for (int z = 0; z < 16; z++) {
+					for (int y = 0; y < 256; y++) {
+						byte height = HeldGeneration.instance.getHeight(cx * 16 + x, cz * 16 + z);
 
-						noiseVal1 += noiseVal1Increment;
-						noiseVal2 += noiseVal2Increment;
-						noiseVal3 += noiseVal3Increment;
-						noiseVal4 += noiseVal4Increment;
+						if (y <= height) {
+							chunkBytes[y >> 4][((y & 0xF) << 8) | (z << 4) | x] = (byte) Mat.Stone.id;
+						} else if (y <= seaLevel) {
+							chunkBytes[y >> 4][((y & 0xF) << 8) | (z << 4) | x] = (byte) Mat.WaterStill.id;
+						} else {
+							chunkBytes[y >> 4][((y & 0xF) << 8) | (z << 4) | x] = (byte) 0;
+						}
 					}
 				}
 			}

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import me.heldplayer.HeldGeneration.generator.Populators.ChunkPopulator;
 import me.heldplayer.HeldGeneration.profiler.Profiler;
 
 import org.bukkit.Material;
@@ -37,7 +38,7 @@ public class ChunkProvider extends ChunkGenerator {
 
 		List<BlockPopulator> populators = new ArrayList<BlockPopulator>();
 
-		//populators.add(new ChunkPopulator(this));
+		populators.add(new ChunkPopulator(this));
 
 		Profiler.endSection();
 		Profiler.endSection();

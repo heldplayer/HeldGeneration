@@ -71,7 +71,7 @@ public enum Mat {
 	// Empty space
 	Fence(85),
 	// Empty space
-	Pumpkin(89),
+	Pumpkin(86),
 	// Empty space
 	SilverfishBlock(97),
 	StoneBrick(98),

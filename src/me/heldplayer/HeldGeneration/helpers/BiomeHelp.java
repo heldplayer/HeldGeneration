@@ -157,4 +157,14 @@ public class BiomeHelp {
 
 		return 0x000000;
 	}
+
+	public static BiomeHelp getFromColor(int color) {
+		for (BiomeHelp help : values) {
+			if (help.color == color) {
+				return help;
+			}
+		}
+
+		return BiomeHelp.PLAINS;
+	}
 }

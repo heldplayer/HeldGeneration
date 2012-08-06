@@ -2,6 +2,7 @@ package me.heldplayer.HeldGeneration.helpers;
 
 import java.util.List;
 
+import me.heldplayer.HeldGeneration.HeldGeneration;
 import me.heldplayer.HeldGeneration.GenLayers.GenLayer;
 import me.heldplayer.HeldGeneration.GenLayers.IntCache;
 
@@ -36,6 +37,14 @@ public final class BiomeHelper {
 			biomes[i] = BiomeHelp.getBiome(ints[i]);
 		}
 
+		if (HeldGeneration.instance.biomes != null) {
+			for (int relX = 0; relX + x < x + width; relX++) {
+				for (int relZ = 0; relZ + z < z + depth; relZ++) {
+					biomes[relX + relZ * width] = HeldGeneration.instance.getBiome(relX + x, relZ + z);
+				}
+			}
+		}
+
 		return biomes;
 	}
 
@@ -50,6 +59,14 @@ public final class BiomeHelper {
 
 		for (int i = 0; i < width * depth; ++i) {
 			biomes[i] = BiomeHelp.getBiome(ints[i]);
+		}
+
+		if (HeldGeneration.instance.biomes != null) {
+			for (int relX = 0; relX + x < x + width; relX++) {
+				for (int relZ = 0; relZ + z < z + depth; relZ++) {
+					biomes[relX + relZ * width] = HeldGeneration.instance.getBiome(relX + x, relZ + z);
+				}
+			}
 		}
 
 		return biomes;
