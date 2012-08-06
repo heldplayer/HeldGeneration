@@ -124,26 +124,26 @@ public class ChunkProviderGenerate {
 
 	private void generateTerrain(int cx, int cz, byte[][] chunkBytes) {
 		byte varOf4 = 4;
-		byte chunkSections = 16;
+		byte chunkHalfSections = 16;
 		byte seaLevel = 63;
 		int varOf5No1 = varOf4 + 1;
-		byte varOf17 = 17;
+		byte chunkHalfSections2 = (byte) (chunkHalfSections + 1);
 		int varOf5No2 = varOf4 + 1;
 		this.biomesForGeneration = this.helper.getBiomesForGeneration(this.biomesForGeneration, cx * 4 - 2, cz * 4 - 2, varOf5No1 + 5, varOf5No2 + 5);
-		this.noiseArray = initializeNoiseField(this.noiseArray, cx * varOf4, 0, cz * varOf4, varOf5No1, varOf17, varOf5No2);
+		this.noiseArray = initializeNoiseField(this.noiseArray, cx * varOf4, 0, cz * varOf4, varOf5No1, chunkHalfSections2, varOf5No2);
 
 		for (int sectionPosX = 0; sectionPosX < varOf4; ++sectionPosX) {
 			for (int sectionPosZ = 0; sectionPosZ < varOf4; ++sectionPosZ) {
-				for (int sectionPosY = 0; sectionPosY < chunkSections; ++sectionPosY) {
+				for (int sectionPosY = 0; sectionPosY < chunkHalfSections; ++sectionPosY) {
 					double modifier1 = 0.125D;
-					double noiseVal1 = this.noiseArray[((sectionPosX + 0) * varOf5No2 + sectionPosZ + 0) * varOf17 + sectionPosY + 0];
-					double noiseVal2 = this.noiseArray[((sectionPosX + 0) * varOf5No2 + sectionPosZ + 1) * varOf17 + sectionPosY + 0];
-					double noiseVal3 = this.noiseArray[((sectionPosX + 1) * varOf5No2 + sectionPosZ + 0) * varOf17 + sectionPosY + 0];
-					double noiseVal4 = this.noiseArray[((sectionPosX + 1) * varOf5No2 + sectionPosZ + 1) * varOf17 + sectionPosY + 0];
-					double noiseVal1Increment = (this.noiseArray[((sectionPosX + 0) * varOf5No2 + sectionPosZ + 0) * varOf17 + sectionPosY + 1] - noiseVal1) * modifier1;
-					double noiseVal2Increment = (this.noiseArray[((sectionPosX + 0) * varOf5No2 + sectionPosZ + 1) * varOf17 + sectionPosY + 1] - noiseVal2) * modifier1;
-					double noiseVal3Increment = (this.noiseArray[((sectionPosX + 1) * varOf5No2 + sectionPosZ + 0) * varOf17 + sectionPosY + 1] - noiseVal3) * modifier1;
-					double noiseVal4Increment = (this.noiseArray[((sectionPosX + 1) * varOf5No2 + sectionPosZ + 1) * varOf17 + sectionPosY + 1] - noiseVal4) * modifier1;
+					double noiseVal1 = this.noiseArray[((sectionPosX + 0) * varOf5No2 + sectionPosZ + 0) * chunkHalfSections2 + sectionPosY + 0];
+					double noiseVal2 = this.noiseArray[((sectionPosX + 0) * varOf5No2 + sectionPosZ + 1) * chunkHalfSections2 + sectionPosY + 0];
+					double noiseVal3 = this.noiseArray[((sectionPosX + 1) * varOf5No2 + sectionPosZ + 0) * chunkHalfSections2 + sectionPosY + 0];
+					double noiseVal4 = this.noiseArray[((sectionPosX + 1) * varOf5No2 + sectionPosZ + 1) * chunkHalfSections2 + sectionPosY + 0];
+					double noiseVal1Increment = (this.noiseArray[((sectionPosX + 0) * varOf5No2 + sectionPosZ + 0) * chunkHalfSections2 + sectionPosY + 1] - noiseVal1) * modifier1;
+					double noiseVal2Increment = (this.noiseArray[((sectionPosX + 0) * varOf5No2 + sectionPosZ + 1) * chunkHalfSections2 + sectionPosY + 1] - noiseVal2) * modifier1;
+					double noiseVal3Increment = (this.noiseArray[((sectionPosX + 1) * varOf5No2 + sectionPosZ + 0) * chunkHalfSections2 + sectionPosY + 1] - noiseVal3) * modifier1;
+					double noiseVal4Increment = (this.noiseArray[((sectionPosX + 1) * varOf5No2 + sectionPosZ + 1) * chunkHalfSections2 + sectionPosY + 1] - noiseVal4) * modifier1;
 
 					for (int relPosY = 0; relPosY < 8; ++relPosY) {
 						double modifier2 = 0.25D;
