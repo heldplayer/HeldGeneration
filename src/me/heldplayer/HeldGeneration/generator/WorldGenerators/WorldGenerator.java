@@ -53,6 +53,7 @@ public abstract class WorldGenerator {
 			//world.getBlockAt(x, y, z).setTypeIdAndData(typeId, (byte) data, true);
 		} else {
 			nWorld.setRawTypeIdAndData(x, y, z, typeId, data);
+			nWorld.notify(x, y, z);
 			//world.getBlockAt(x, y, z).setTypeIdAndData(typeId, (byte) data, false);
 		}
 		Profiler.endSection();

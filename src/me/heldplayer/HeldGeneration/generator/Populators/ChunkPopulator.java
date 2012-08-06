@@ -82,11 +82,13 @@ public class ChunkPopulator extends BlockPopulator {
 
 				if (isWater && isSource && world.getTemperature(lakeX + blockX, lakeY + blockZ) < 0.15F) {
 					nWorld.setRawTypeId(lakeX + blockX, highestY - 1, lakeY + blockZ, Mat.Ice.id);
+					nWorld.notify(lakeX + blockX, highestY - 1, lakeY + blockZ);
 					continue;
 				}
 
 				if (world.getBlockTypeIdAt(lakeX + blockX, highestY - 1, lakeY + blockZ) == 0 && world.getTemperature(lakeX + blockX, lakeY + blockZ) < 0.15F) {
 					nWorld.setRawTypeId(lakeX + blockX, highestY - 1, lakeY + blockZ, Mat.Snow.id);
+					nWorld.notify(lakeX + blockX, highestY - 1, lakeY + blockZ);
 				}
 			}
 		}
