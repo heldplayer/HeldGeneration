@@ -126,7 +126,7 @@ public class ChunkProviderGenerate {
 	private void generateTerrain(int cx, int cz, byte[][] chunkBytes) {
 		byte varOf4 = 4;
 		byte chunkHalfSections = 16;
-		byte seaLevel = 63;
+		byte seaLevel = 30;
 		int varOf5No1 = varOf4 + 1;
 		byte chunkHalfSections2 = (byte) (chunkHalfSections + 1);
 		int varOf5No2 = varOf4 + 1;
