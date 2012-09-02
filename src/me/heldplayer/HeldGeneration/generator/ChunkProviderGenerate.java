@@ -339,7 +339,7 @@ public class ChunkProviderGenerate {
 	 * Replaces the stone that was placed in with blocks that match the biome
 	 */
 	public void replaceBlocksForBiome(int cx, int cz, byte[][] chunkBlocks, Biome[] biomes) {
-		byte var5 = 63;
+		byte seaLevel = 30;
 		double var6 = 0.03125D;
 		this.stoneNoise = this.noiseGen4.generateNoiseOctaves(this.stoneNoise, cx * 16, cz * 16, 0, 16, 16, 1, var6 * 2.0D, var6 * 2.0D, var6 * 2.0D);
 
@@ -369,12 +369,12 @@ public class ChunkProviderGenerate {
 								if (var12 <= 0) {
 									topBlock = 0;
 									fillerBlock = (byte) 1;
-								} else if (posY >= var5 - 4 && posY <= var5 + 1) {
+								} else if (posY >= seaLevel - 4 && posY <= seaLevel + 1) {
 									topBlock = (byte) BiomeHelp.getTopBlock(biome);
 									fillerBlock = (byte) BiomeHelp.getFillerBlock(biome);
 								}
 
-								if (posY < var5 && topBlock == 0) {
+								if (posY < seaLevel && topBlock == 0) {
 									if (temperature < 0.15F) {
 										topBlock = (byte) Mat.Snow.id;
 									} else {
@@ -384,7 +384,7 @@ public class ChunkProviderGenerate {
 
 								var13 = var12;
 
-								if (posY >= var5 - 1) {
+								if (posY >= seaLevel - 1) {
 									chunkBlocks[posY >> 4][((posY & 0xF) << 8) | (posZ << 4) | posX] = topBlock;
 								} else {
 									chunkBlocks[posY >> 4][((posY & 0xF) << 8) | (posZ << 4) | posX] = fillerBlock;
