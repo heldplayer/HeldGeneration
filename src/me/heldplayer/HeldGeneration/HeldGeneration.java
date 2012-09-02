@@ -56,6 +56,9 @@ public class HeldGeneration extends JavaPlugin {
 
 		this.pdf = getDescription();
 
+		Profiler.startSection("maps");
+		Profiler.startSection("biomes");
+
 		File biomes = new File(this.getDataFolder(), "biomes.png");
 
 		if (biomes.exists()) {
@@ -81,6 +84,8 @@ public class HeldGeneration extends JavaPlugin {
 				e.printStackTrace();
 			}
 		}
+
+		Profiler.endStartSection("height-biomes");
 
 		File maps = new File(this.getDataFolder(), "maps.png");
 
@@ -114,6 +119,9 @@ public class HeldGeneration extends JavaPlugin {
 				}
 			}
 		}
+
+		Profiler.endSection();
+		Profiler.endSection();
 
 		getLogger().info(this.pdf.getFullName() + " is now enabled!");
 
