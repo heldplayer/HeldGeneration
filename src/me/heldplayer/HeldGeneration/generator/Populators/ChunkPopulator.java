@@ -1,3 +1,4 @@
+
 package me.heldplayer.HeldGeneration.generator.Populators;
 
 import java.util.Random;
@@ -18,112 +19,113 @@ import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.generator.BlockPopulator;
 
 public class ChunkPopulator extends BlockPopulator {
-	private ChunkProvider provider;
+    private ChunkProvider provider;
 
-	public ChunkPopulator(ChunkProvider provider) {
-		this.provider = provider;
-	}
+    public ChunkPopulator(ChunkProvider provider) {
+        this.provider = provider;
+    }
 
-	@Override
-	public void populate(World world, Random uselessRand, Chunk chunk) {
-		Profiler.startSection(world.getName());
-		Profiler.startSection("populate");
+    @Override
+    public void populate(World world, Random uselessRand, Chunk chunk) {
+        Profiler.startSection(world.getName());
+        Profiler.startSection("populate");
 
-		Profiler.startSection("setup");
+        Profiler.startSection("setup");
 
-		int cx = chunk.getX();
-		int cz = chunk.getZ();
-		int blockX = cx * 16;
-		int blockZ = cz * 16;
+        int cx = chunk.getX();
+        int cz = chunk.getZ();
+        int blockX = cx * 16;
+        int blockZ = cz * 16;
 
-		Random rand = new Random(world.getSeed());
-		long randX = rand.nextLong() / 2L * 2L + 1L;
-		long randZ = rand.nextLong() / 2L * 2L + 1L;
-		rand.setSeed(cx * randX + cz * randZ ^ world.getSeed());
+        Random rand = new Random(world.getSeed());
+        long randX = rand.nextLong() / 2L * 2L + 1L;
+        long randZ = rand.nextLong() / 2L * 2L + 1L;
+        rand.setSeed(cx * randX + cz * randZ ^ world.getSeed());
 
-		Biome biome = world.getBiome(blockX + 16, blockZ + 16);
-		PopulatorAssist assist = PopulatorAssist.getAssist(biome);
-		assist.setRandomSeed(rand);
+        Biome biome = world.getBiome(blockX + 16, blockZ + 16);
+        PopulatorAssist assist = PopulatorAssist.getAssist(biome);
+        assist.setRandomSeed(rand);
 
-		net.minecraft.server.World nWorld = ((CraftWorld) world).getHandle();
+        net.minecraft.server.World nWorld = ((CraftWorld) world).getHandle();
 
-		Profiler.endStartSection("waterLake");
+        Profiler.endStartSection("waterLake");
 
-		int lakeX;
-		int lakeY;
-		int lakeZ;
+        int lakeX;
+        int lakeY;
+        int lakeZ;
 
-		if (rand.nextInt(4) == 0) {
-			lakeX = blockX + rand.nextInt(16 + 8);
-			lakeY = rand.nextInt(128);
-			lakeZ = blockZ + rand.nextInt(16) + 8;
-			(new WorldGenLakes(Mat.WaterStill.id)).generate(world, rand, lakeX, lakeY, lakeZ);
-		}
+        if (rand.nextInt(4) == 0) {
+            lakeX = blockX + rand.nextInt(16 + 8);
+            lakeY = rand.nextInt(128);
+            lakeZ = blockZ + rand.nextInt(16) + 8;
+            (new WorldGenLakes(Mat.WaterStill.id)).generate(world, rand, lakeX, lakeY, lakeZ);
+        }
 
-		Profiler.endStartSection("biome");
+        Profiler.endStartSection("biome");
 
-		PopulatorAssist.decorator.decorate(world, rand, blockX, blockZ, assist);
+        PopulatorAssist.decorator.decorate(world, rand, blockX, blockZ, assist);
 
-		Profiler.endStartSection("animals");
+        Profiler.endStartSection("animals");
 
-		SpawnerAnimals.performWorldGenSpawning(world, biome, blockX, blockZ, 16, 16, rand, assist);
+        SpawnerAnimals.performWorldGenSpawning(world, biome, blockX, blockZ, 16, 16, rand, assist);
 
-		Profiler.endStartSection("frost");
+        Profiler.endStartSection("frost");
 
-		blockX += 8;
-		blockZ += 8;
+        blockX += 8;
+        blockZ += 8;
 
-		if (HeldGeneration.instance.temperature == null) {
-			for (lakeX = 0; lakeX < 16; ++lakeX) {
-				for (lakeY = 0; lakeY < 16; ++lakeY) {
-					// XXX: requires craftbukkit.jar
-					int highestY = world.getHighestBlockYAt(lakeX + blockX, lakeY + blockZ);
+        if (HeldGeneration.instance.temperature == null) {
+            for (lakeX = 0; lakeX < 16; ++lakeX) {
+                for (lakeY = 0; lakeY < 16; ++lakeY) {
+                    // XXX: requires craftbukkit.jar
+                    int highestY = world.getHighestBlockYAt(lakeX + blockX, lakeY + blockZ);
 
-					boolean isWater = BlockHelper.isWater(world.getBlockTypeIdAt(lakeX + blockX, highestY - 1, lakeY + blockZ));
-					boolean isSource = nWorld.getData(lakeX + blockX, highestY - 1, lakeY + blockZ) == 0;
+                    boolean isWater = BlockHelper.isWater(world.getBlockTypeIdAt(lakeX + blockX, highestY - 1, lakeY + blockZ));
+                    boolean isSource = nWorld.getData(lakeX + blockX, highestY - 1, lakeY + blockZ) == 0;
 
-					if (isWater && isSource && world.getTemperature(lakeX + blockX, lakeY + blockZ) < 0.15F) {
-						nWorld.setRawTypeId(lakeX + blockX, highestY - 1, lakeY + blockZ, Mat.Ice.id);
-						nWorld.notify(lakeX + blockX, highestY - 1, lakeY + blockZ);
-						continue;
-					}
+                    if (isWater && isSource && world.getTemperature(lakeX + blockX, lakeY + blockZ) < 0.15F) {
+                        nWorld.setRawTypeId(lakeX + blockX, highestY - 1, lakeY + blockZ, Mat.Ice.id);
+                        nWorld.notify(lakeX + blockX, highestY - 1, lakeY + blockZ);
+                        continue;
+                    }
 
-					if (BlockHelper.isSolid(world.getBlockTypeIdAt(lakeX + blockX, highestY - 1, lakeY + blockZ)) && world.getTemperature(lakeX + blockX, lakeY + blockZ) < 0.15F) {
-						nWorld.setRawTypeId(lakeX + blockX, highestY, lakeY + blockZ, Mat.Snow.id);
-						nWorld.notify(lakeX + blockX, highestY, lakeY + blockZ);
-					}
-				}
-			}
-		} else {
-			for (lakeX = 0; lakeX < 16; ++lakeX) {
-				for (lakeY = 0; lakeY < 16; ++lakeY) {
-					// XXX: requires craftbukkit.jar
-					byte temp = HeldGeneration.instance.getTemperature(lakeX + blockX, lakeY + blockZ);
-					int highestY = world.getHighestBlockYAt(lakeX + blockX, lakeY + blockZ);
+                    if (BlockHelper.isSolid(world.getBlockTypeIdAt(lakeX + blockX, highestY - 1, lakeY + blockZ)) && world.getTemperature(lakeX + blockX, lakeY + blockZ) < 0.15F) {
+                        nWorld.setRawTypeId(lakeX + blockX, highestY, lakeY + blockZ, Mat.Snow.id);
+                        nWorld.notify(lakeX + blockX, highestY, lakeY + blockZ);
+                    }
+                }
+            }
+        }
+        else {
+            for (lakeX = 0; lakeX < 16; ++lakeX) {
+                for (lakeY = 0; lakeY < 16; ++lakeY) {
+                    // XXX: requires craftbukkit.jar
+                    byte temp = HeldGeneration.instance.getTemperature(lakeX + blockX, lakeY + blockZ);
+                    int highestY = world.getHighestBlockYAt(lakeX + blockX, lakeY + blockZ);
 
-					boolean isWater = BlockHelper.isWater(world.getBlockTypeIdAt(lakeX + blockX, highestY - 1, lakeY + blockZ));
-					boolean isSource = nWorld.getData(lakeX + blockX, highestY - 1, lakeY + blockZ) == 0;
+                    boolean isWater = BlockHelper.isWater(world.getBlockTypeIdAt(lakeX + blockX, highestY - 1, lakeY + blockZ));
+                    boolean isSource = nWorld.getData(lakeX + blockX, highestY - 1, lakeY + blockZ) == 0;
 
-					if (isWater && isSource && temp < 38) {
-						nWorld.setRawTypeId(lakeX + blockX, highestY - 1, lakeY + blockZ, Mat.Ice.id);
-						nWorld.notify(lakeX + blockX, highestY - 1, lakeY + blockZ);
-						continue;
-					}
+                    if (isWater && isSource && temp < 38) {
+                        nWorld.setRawTypeId(lakeX + blockX, highestY - 1, lakeY + blockZ, Mat.Ice.id);
+                        nWorld.notify(lakeX + blockX, highestY - 1, lakeY + blockZ);
+                        continue;
+                    }
 
-					if (BlockHelper.isSolid(world.getBlockTypeIdAt(lakeX + blockX, highestY - 1, lakeY + blockZ)) && temp < 38) {
-						nWorld.setRawTypeId(lakeX + blockX, highestY, lakeY + blockZ, Mat.Snow.id);
-						nWorld.notify(lakeX + blockX, highestY, lakeY + blockZ);
-					}
-				}
-			}
-		}
+                    if (BlockHelper.isSolid(world.getBlockTypeIdAt(lakeX + blockX, highestY - 1, lakeY + blockZ)) && temp < 38) {
+                        nWorld.setRawTypeId(lakeX + blockX, highestY, lakeY + blockZ, Mat.Snow.id);
+                        nWorld.notify(lakeX + blockX, highestY, lakeY + blockZ);
+                    }
+                }
+            }
+        }
 
-		Profiler.endSection();
+        Profiler.endSection();
 
-		assist.setRandomSeed(null);
+        assist.setRandomSeed(null);
 
-		Profiler.endSection();
-		Profiler.endSection();
-	}
+        Profiler.endSection();
+        Profiler.endSection();
+    }
 
 }

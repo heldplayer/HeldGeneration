@@ -1,4 +1,4 @@
+
 package me.heldplayer.HeldGeneration.generator;
 
-public abstract class NoiseGenerator {
-}
+public abstract class NoiseGenerator {}
