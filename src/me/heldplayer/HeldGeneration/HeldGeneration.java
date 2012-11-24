@@ -1,3 +1,4 @@
+
 package me.heldplayer.HeldGeneration;
 
 import java.io.File;
@@ -10,52 +11,52 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class HeldGeneration extends JavaPlugin {
-	private PluginDescriptionFile pdf;
+    private PluginDescriptionFile pdf;
 
-	@Override
-	public void onDisable() {
-		Profiler.startSection("disable");
+    @Override
+    public void onDisable() {
+        Profiler.startSection("disable");
 
-		String disabledMessage = this.pdf.getFullName() + " is now disabled!";
+        String disabledMessage = this.pdf.getFullName() + " is now disabled!";
 
-		this.pdf = null;
+        this.pdf = null;
 
-		getLogger().info(disabledMessage);
+        getLogger().info(disabledMessage);
 
-		Profiler.endSection();
+        Profiler.endSection();
 
-		Profiler.endAll();
+        Profiler.endAll();
 
-		Profiler.saveResults(new File(this.getDataFolder(), "profiler.txt"));
-	}
+        Profiler.saveResults(new File(this.getDataFolder(), "profiler.txt"));
+    }
 
-	@Override
-	public void onEnable() {
-		Profiler.startSection("enable");
+    @Override
+    public void onEnable() {
+        Profiler.startSection("enable");
 
-		File dataFolder = this.getDataFolder();
+        File dataFolder = this.getDataFolder();
 
-		if (!dataFolder.exists()) {
-			dataFolder.mkdir();
-		}
+        if (!dataFolder.exists()) {
+            dataFolder.mkdir();
+        }
 
-		this.pdf = getDescription();
+        this.pdf = getDescription();
 
-		getLogger().info(this.pdf.getFullName() + " is now enabled!");
+        getLogger().info(this.pdf.getFullName() + " is now enabled!");
 
-		Profiler.endSection();
-	}
+        Profiler.endSection();
+    }
 
-	@Override
-	public ChunkGenerator getDefaultWorldGenerator(String worldName, String id) {
-		Profiler.startSection("provider");
-		Profiler.startSection("instantiate");
+    @Override
+    public ChunkGenerator getDefaultWorldGenerator(String worldName, String id) {
+        Profiler.startSection("provider");
+        Profiler.startSection("instantiate");
 
-		ChunkProvider provider = new ChunkProvider();
+        ChunkProvider provider = new ChunkProvider();
 
-		Profiler.endSection();
-		Profiler.endSection();
+        Profiler.endSection();
+        Profiler.endSection();
 
-		return provider;
-	}
+        return provider;
+    }
 }

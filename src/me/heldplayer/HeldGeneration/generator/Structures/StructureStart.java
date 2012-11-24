@@ -1,3 +1,4 @@
+
 package me.heldplayer.HeldGeneration.generator.Structures;
 
 import java.util.Iterator;
@@ -7,95 +8,96 @@ import java.util.Random;
 import org.bukkit.World;
 
 public abstract class StructureStart {
-	/** List of all StructureComponents that are part of this structure */
-	protected LinkedList<StructureComponent> components = new LinkedList<StructureComponent>();
-	protected StructureBoundingBox boundingBox;
+    /** List of all StructureComponents that are part of this structure */
+    protected LinkedList<StructureComponent> components = new LinkedList<StructureComponent>();
+    protected StructureBoundingBox boundingBox;
 
-	public StructureBoundingBox getBoundingBox() {
-		return this.boundingBox;
-	}
+    public StructureBoundingBox getBoundingBox() {
+        return this.boundingBox;
+    }
 
-	public LinkedList<StructureComponent> getComponents() {
-		return this.components;
-	}
+    public LinkedList<StructureComponent> getComponents() {
+        return this.components;
+    }
 
-	/**
-	 * Keeps iterating Structure Pieces and spawning them until the checks tell
-	 * it to stop
-	 */
-	public void generateStructure(World world, Random rand, StructureBoundingBox chunkBoundingBox) {
-		Iterator<StructureComponent> components = this.components.iterator();
+    /**
+     * Keeps iterating Structure Pieces and spawning them until the checks tell
+     * it to stop
+     */
+    public void generateStructure(World world, Random rand, StructureBoundingBox chunkBoundingBox) {
+        Iterator<StructureComponent> components = this.components.iterator();
 
-		while (components.hasNext()) {
-			StructureComponent component = (StructureComponent) components.next();
+        while (components.hasNext()) {
+            StructureComponent component = (StructureComponent) components.next();
 
-			if (component.getBoundingBox().intersectsWith(chunkBoundingBox) && !component.addComponentParts(world, rand, chunkBoundingBox)) {
-				components.remove();
-			}
-		}
-	}
+            if (component.getBoundingBox().intersectsWith(chunkBoundingBox) && !component.addComponentParts(world, rand, chunkBoundingBox)) {
+                components.remove();
+            }
+        }
+    }
 
-	/**
-	 * Calculates total bounding box based on components' bounding boxes and
-	 * saves it to boundingBox
-	 */
-	protected void updateBoundingBox() {
-		this.boundingBox = StructureBoundingBox.getNewBoundingBox();
-		Iterator<StructureComponent> components = this.components.iterator();
+    /**
+     * Calculates total bounding box based on components' bounding boxes and
+     * saves it to boundingBox
+     */
+    protected void updateBoundingBox() {
+        this.boundingBox = StructureBoundingBox.getNewBoundingBox();
+        Iterator<StructureComponent> components = this.components.iterator();
 
-		while (components.hasNext()) {
-			StructureComponent var2 = (StructureComponent) components.next();
-			this.boundingBox.expandTo(var2.getBoundingBox());
-		}
-	}
+        while (components.hasNext()) {
+            StructureComponent var2 = (StructureComponent) components.next();
+            this.boundingBox.expandTo(var2.getBoundingBox());
+        }
+    }
 
-	/**
-	 * offsets the structure Bounding Boxes up to a certain height, typically 63
-	 * - 10
-	 */
-	protected void markAvailableHeight(World par1World, Random par2Random, int par3) {
-		int var4 = 63 - par3;
-		int var5 = this.boundingBox.getYSize() + 1;
+    /**
+     * offsets the structure Bounding Boxes up to a certain height, typically 63
+     * - 10
+     */
+    protected void markAvailableHeight(World par1World, Random par2Random, int par3) {
+        int var4 = 63 - par3;
+        int var5 = this.boundingBox.getYSize() + 1;
 
-		if (var5 < var4) {
-			var5 += par2Random.nextInt(var4 - var5);
-		}
+        if (var5 < var4) {
+            var5 += par2Random.nextInt(var4 - var5);
+        }
 
-		int var6 = var5 - this.boundingBox.maxY;
-		this.boundingBox.offset(0, var6, 0);
-		Iterator<StructureComponent> components = this.components.iterator();
+        int var6 = var5 - this.boundingBox.maxY;
+        this.boundingBox.offset(0, var6, 0);
+        Iterator<StructureComponent> components = this.components.iterator();
 
-		while (components.hasNext()) {
-			StructureComponent var8 = (StructureComponent) components.next();
-			var8.getBoundingBox().offset(0, var6, 0);
-		}
-	}
+        while (components.hasNext()) {
+            StructureComponent var8 = (StructureComponent) components.next();
+            var8.getBoundingBox().offset(0, var6, 0);
+        }
+    }
 
-	protected void setRandomHeight(World par1World, Random par2Random, int par3, int par4) {
-		int var5 = par4 - par3 + 1 - this.boundingBox.getYSize();
-		int var10;
+    protected void setRandomHeight(World par1World, Random par2Random, int par3, int par4) {
+        int var5 = par4 - par3 + 1 - this.boundingBox.getYSize();
+        int var10;
 
-		if (var5 > 1) {
-			var10 = par3 + par2Random.nextInt(var5);
-		} else {
-			var10 = par3;
-		}
+        if (var5 > 1) {
+            var10 = par3 + par2Random.nextInt(var5);
+        }
+        else {
+            var10 = par3;
+        }
 
-		int var7 = var10 - this.boundingBox.minY;
-		this.boundingBox.offset(0, var7, 0);
-		Iterator<StructureComponent> var8 = this.components.iterator();
+        int var7 = var10 - this.boundingBox.minY;
+        this.boundingBox.offset(0, var7, 0);
+        Iterator<StructureComponent> var8 = this.components.iterator();
 
-		while (var8.hasNext()) {
-			StructureComponent var9 = (StructureComponent) var8.next();
-			var9.getBoundingBox().offset(0, var7, 0);
-		}
-	}
+        while (var8.hasNext()) {
+            StructureComponent var9 = (StructureComponent) var8.next();
+            var9.getBoundingBox().offset(0, var7, 0);
+        }
+    }
 
-	/**
-	 * currently only defined for Villages, returns true if Village has more
-	 * than 2 non-road components
-	 */
-	public boolean isSizeableStructure() {
-		return true;
-	}
+    /**
+     * currently only defined for Villages, returns true if Village has more
+     * than 2 non-road components
+     */
+    public boolean isSizeableStructure() {
+        return true;
+    }
 }

@@ -1,3 +1,4 @@
+
 package me.heldplayer.HeldGeneration.generator.Populators;
 
 import java.util.Random;
@@ -18,120 +19,120 @@ import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.generator.BlockPopulator;
 
 public class ChunkPopulator extends BlockPopulator {
-	private ChunkProvider provider;
+    private ChunkProvider provider;
 
-	public ChunkPopulator(ChunkProvider provider) {
-		this.provider = provider;
-	}
+    public ChunkPopulator(ChunkProvider provider) {
+        this.provider = provider;
+    }
 
-	@Override
-	public void populate(World world, Random uselessRand, Chunk chunk) {
-		Profiler.startSection(world.getName());
-		Profiler.startSection("populate");
+    @Override
+    public void populate(World world, Random uselessRand, Chunk chunk) {
+        Profiler.startSection(world.getName());
+        Profiler.startSection("populate");
 
-		Profiler.startSection("setup");
+        Profiler.startSection("setup");
 
-		int cx = chunk.getX();
-		int cz = chunk.getZ();
-		int blockX = cx * 16;
-		int blockZ = cz * 16;
+        int cx = chunk.getX();
+        int cz = chunk.getZ();
+        int blockX = cx * 16;
+        int blockZ = cz * 16;
 
-		Random rand = new Random(world.getSeed());
-		long randX = rand.nextLong() / 2L * 2L + 1L;
-		long randZ = rand.nextLong() / 2L * 2L + 1L;
-		rand.setSeed(cx * randX + cz * randZ ^ world.getSeed());
+        Random rand = new Random(world.getSeed());
+        long randX = rand.nextLong() / 2L * 2L + 1L;
+        long randZ = rand.nextLong() / 2L * 2L + 1L;
+        rand.setSeed(cx * randX + cz * randZ ^ world.getSeed());
 
-		Biome biome = world.getBiome(blockX + 16, blockZ + 16);
-		PopulatorAssist assist = PopulatorAssist.getAssist(biome);
-		assist.setRandomSeed(rand);
+        Biome biome = world.getBiome(blockX + 16, blockZ + 16);
+        PopulatorAssist assist = PopulatorAssist.getAssist(biome);
+        assist.setRandomSeed(rand);
 
-		net.minecraft.server.World nWorld = ((CraftWorld) world).getHandle();
+        net.minecraft.server.World nWorld = ((CraftWorld) world).getHandle();
 
-		boolean hasVillage = false;
+        boolean hasVillage = false;
 
-		Profiler.endStartSection("structures");
+        Profiler.endStartSection("structures");
 
-		if (world.canGenerateStructures()) {
-			// Mineshaft gen
-			//if (hasVillage = this.provider.generator.villageGenerator.generateStructuresInChunk(world, rand, cx, cx, this.provider))
-			//hasVillage = true;//System.out.println("Generated village " + cx + " " + cz);
-			// Stronghold gen
-		}
+        if (world.canGenerateStructures()) {
+            // Mineshaft gen
+            //if (hasVillage = this.provider.generator.villageGenerator.generateStructuresInChunk(world, rand, cx, cx, this.provider))
+            //hasVillage = true;//System.out.println("Generated village " + cx + " " + cz);
+            // Stronghold gen
+        }
 
-		Profiler.endStartSection("waterLake");
+        Profiler.endStartSection("waterLake");
 
-		int lakeX;
-		int lakeY;
-		int lakeZ;
+        int lakeX;
+        int lakeY;
+        int lakeZ;
 
-		if (!hasVillage && rand.nextInt(4) == 0) {
-			lakeX = blockX + rand.nextInt(16 + 8);
-			lakeY = rand.nextInt(128);
-			lakeZ = blockZ + rand.nextInt(16) + 8;
-			(new WorldGenLakes(Mat.WaterStill.id)).generate(world, rand, lakeX, lakeY, lakeZ);
-		}
+        if (!hasVillage && rand.nextInt(4) == 0) {
+            lakeX = blockX + rand.nextInt(16 + 8);
+            lakeY = rand.nextInt(128);
+            lakeZ = blockZ + rand.nextInt(16) + 8;
+            (new WorldGenLakes(Mat.WaterStill.id)).generate(world, rand, lakeX, lakeY, lakeZ);
+        }
 
-		Profiler.endStartSection("lavaLake");
+        Profiler.endStartSection("lavaLake");
 
-		if (!hasVillage && rand.nextInt(8) == 0) {
-			lakeX = blockX + rand.nextInt(16 + 8);
-			lakeY = rand.nextInt(120);
-			lakeZ = blockZ + rand.nextInt(16) + 8;
+        if (!hasVillage && rand.nextInt(8) == 0) {
+            lakeX = blockX + rand.nextInt(16 + 8);
+            lakeY = rand.nextInt(120);
+            lakeZ = blockZ + rand.nextInt(16) + 8;
 
-			if (lakeY < 63 || rand.nextInt(10) == 0) {
-				(new WorldGenLakes(Mat.LavaStill.id)).generate(world, rand, lakeX, lakeY, lakeZ);
-			}
-		}
+            if (lakeY < 63 || rand.nextInt(10) == 0) {
+                (new WorldGenLakes(Mat.LavaStill.id)).generate(world, rand, lakeX, lakeY, lakeZ);
+            }
+        }
 
-		Profiler.endStartSection("dungeon");
+        Profiler.endStartSection("dungeon");
 
-		for (lakeX = 0; lakeX < 8; ++lakeX) {
-			lakeY = blockX + rand.nextInt(16) + 8;
-			lakeZ = rand.nextInt(128);
-			int dungeonZ = blockZ + rand.nextInt(16) + 8;
+        for (lakeX = 0; lakeX < 8; ++lakeX) {
+            lakeY = blockX + rand.nextInt(16) + 8;
+            lakeZ = rand.nextInt(128);
+            int dungeonZ = blockZ + rand.nextInt(16) + 8;
 
-			(new WorldGenDungeons()).generate(world, rand, lakeY, lakeZ, dungeonZ);
+            (new WorldGenDungeons()).generate(world, rand, lakeY, lakeZ, dungeonZ);
 
-		}
+        }
 
-		Profiler.endStartSection("biome");
+        Profiler.endStartSection("biome");
 
-		PopulatorAssist.decorator.decorate(world, rand, blockX, blockZ, assist);
+        PopulatorAssist.decorator.decorate(world, rand, blockX, blockZ, assist);
 
-		Profiler.endStartSection("animals");
+        Profiler.endStartSection("animals");
 
-		SpawnerAnimals.performWorldGenSpawning(world, biome, blockX, blockZ, 16, 16, rand, assist);
+        SpawnerAnimals.performWorldGenSpawning(world, biome, blockX, blockZ, 16, 16, rand, assist);
 
-		Profiler.endStartSection("frost");
+        Profiler.endStartSection("frost");
 
-		blockX += 8;
-		blockZ += 8;
+        blockX += 8;
+        blockZ += 8;
 
-		for (lakeX = 0; lakeX < 16; ++lakeX) {
-			for (lakeY = 0; lakeY < 16; ++lakeY) {
-				// XXX: requires craftbukkit.jar
-				int highestY = world.getHighestBlockYAt(lakeX + blockX, lakeY + blockZ);
+        for (lakeX = 0; lakeX < 16; ++lakeX) {
+            for (lakeY = 0; lakeY < 16; ++lakeY) {
+                // XXX: requires craftbukkit.jar
+                int highestY = world.getHighestBlockYAt(lakeX + blockX, lakeY + blockZ);
 
-				boolean isWater = BlockHelper.isWater(world.getBlockTypeIdAt(lakeX + blockX, highestY - 1, lakeY + blockZ));
-				boolean isSource = nWorld.getData(lakeX + blockX, highestY - 1, lakeY + blockZ) == 0;
+                boolean isWater = BlockHelper.isWater(world.getBlockTypeIdAt(lakeX + blockX, highestY - 1, lakeY + blockZ));
+                boolean isSource = nWorld.getData(lakeX + blockX, highestY - 1, lakeY + blockZ) == 0;
 
-				if (isWater && isSource && world.getTemperature(lakeX + blockX, lakeY + blockZ) < 0.15F) {
-					nWorld.setRawTypeId(lakeX + blockX, highestY - 1, lakeY + blockZ, Mat.Ice.id);
-					continue;
-				}
+                if (isWater && isSource && world.getTemperature(lakeX + blockX, lakeY + blockZ) < 0.15F) {
+                    nWorld.setRawTypeId(lakeX + blockX, highestY - 1, lakeY + blockZ, Mat.Ice.id);
+                    continue;
+                }
 
-				if (world.getBlockTypeIdAt(lakeX + blockX, highestY - 1, lakeY + blockZ) == 0 && world.getTemperature(lakeX + blockX, lakeY + blockZ) < 0.15F) {
-					nWorld.setRawTypeId(lakeX + blockX, highestY - 1, lakeY + blockZ, Mat.Snow.id);
-				}
-			}
-		}
+                if (world.getBlockTypeIdAt(lakeX + blockX, highestY - 1, lakeY + blockZ) == 0 && world.getTemperature(lakeX + blockX, lakeY + blockZ) < 0.15F) {
+                    nWorld.setRawTypeId(lakeX + blockX, highestY - 1, lakeY + blockZ, Mat.Snow.id);
+                }
+            }
+        }
 
-		Profiler.endSection();
+        Profiler.endSection();
 
-		assist.setRandomSeed(null);
+        assist.setRandomSeed(null);
 
-		Profiler.endSection();
-		Profiler.endSection();
-	}
+        Profiler.endSection();
+        Profiler.endSection();
+    }
 
 }
