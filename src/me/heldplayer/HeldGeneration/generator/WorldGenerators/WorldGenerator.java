@@ -6,7 +6,7 @@ import java.util.Random;
 import me.heldplayer.HeldGeneration.profiler.Profiler;
 
 import org.bukkit.World;
-import org.bukkit.craftbukkit.CraftWorld;
+import org.bukkit.craftbukkit.v1_4_6.CraftWorld;
 
 public abstract class WorldGenerator {
     /**
@@ -45,7 +45,7 @@ public abstract class WorldGenerator {
     protected void setBlockAndMetadata(World world, int x, int y, int z, int typeId, int data) {
         Profiler.startSection("setBlock");
 
-        net.minecraft.server.World nWorld = ((CraftWorld) world).getHandle();
+        net.minecraft.server.v1_4_6.World nWorld = ((CraftWorld) world).getHandle();
 
         if (this.doBlockNotify) {
             // XXX: requires craftbukkit.jar

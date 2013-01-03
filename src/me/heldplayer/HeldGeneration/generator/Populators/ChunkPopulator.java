@@ -15,7 +15,7 @@ import me.heldplayer.HeldGeneration.profiler.Profiler;
 import org.bukkit.Chunk;
 import org.bukkit.World;
 import org.bukkit.block.Biome;
-import org.bukkit.craftbukkit.CraftWorld;
+import org.bukkit.craftbukkit.v1_4_6.CraftWorld;
 import org.bukkit.generator.BlockPopulator;
 
 public class ChunkPopulator extends BlockPopulator {
@@ -46,7 +46,7 @@ public class ChunkPopulator extends BlockPopulator {
         PopulatorAssist assist = PopulatorAssist.getAssist(biome);
         assist.setRandomSeed(rand);
 
-        net.minecraft.server.World nWorld = ((CraftWorld) world).getHandle();
+        net.minecraft.server.v1_4_6.World nWorld = ((CraftWorld) world).getHandle();
 
         boolean hasVillage = false;
 
